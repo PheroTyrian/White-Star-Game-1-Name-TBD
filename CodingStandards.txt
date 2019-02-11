@@ -1,1 +1,103 @@
-The code standards we agree on thursday/friday will go here
+C++ Coding Standards
+
+Function Names:
+A particular style I like is naming functions is that of camel case: “addScore”, “resetLevel”.
+But if you are use to using instead: “AddScore”, “ResetLevel”. These are fine too. 
+
+Member Variable names:
+All member variable names should have a prefix of: “m_”. Doing it this way makes it easier to recognise the difference between a local variable and a class member variable.
+
+Functions:
+Try to keep one function doing only one thing. A function can call multiple other functions but must always try to keep the length of the function down to avoid complexity. Otherwise we’ll end up with functions that are over a hundred lines long potentially containing several loops and learning/remembering the program flow could prove difficult.
+
+Const Usage:
+Always use const where necessary. Obviously you’ll be wanting to return something by ref const if appropriate but I’ve always found it easier to read a block of code where even local variables are const if allowed. Even variables that have been copied by a calling function being const - ones that do not affect the original - do provide easier reading. 
+
+File Number:
+Try to reduce the amount of files we create. If you can combine two classes/struts within one header file that are in obvious need of each other, this allows us to have a much cleaner project.
+
+Variable Naming:
+Work of the basis that you will have to justify every line of code that you write. Meaning that any variable names that you have to explain to the reviewer of their use, this means that they are not clearly named properly. 
+
+
+Memory Management: 
+Use unique_ptr where possible, if not use shared_ptr.
+
+Commenting:
+Do not write comments for the sake of writing comments. Bear in mind that the function name & the named variables should be able to describe what the code is doing. Complex code is justified in having comments so here it is fine. 
+
+Member Variable  Initialization: 
+I’ve always initialized my member variables within the constructor, as opposed to this int m_a {0}; Not sure what the best way of doing things is but i've found it provides a cleaner header file without initialization being done there. 
+
+Function Definition:
+Should always be in the .cpp file. It’ll be inlined because modern compilers know when and not when to inline bits of code. Doing this also creates a much cleaner interface because its a pain to see function definitions in the header file as it pollutes it. 
+
+Indentation/Spacing:
+I tend to write my functions like this: 
+void foo()
+{
+
+}
+Though others sometimes do:
+Void foo() {
+
+}
+
+I’d say either is fine. 
+
+
+Within the .cpp file, not wanting to see 
+
+void doDamage()
+{
+
+}
+
+//3 line spaces == bad
+
+Empty lines can be good to space things out within a function but only do to group things together. 
+void reduceHealth()
+{
+//wasted line
+//wasted line
+	M_health -= 5
+//wasted line
+playAnimation();
+}
+
+
+
+
+Singletons:
+Should always be written like this:
+static SystemManager& getInstance()
+{
+	static SystemManager instance;
+	return instance;
+}
+It is the safest option.
+
+Public/Private section of classes:
+I always write my classes like this:
+Class A
+{
+Public:
+
+Private:
+
+}
+
+Not wanting to see:
+
+Class A
+{
+Public:
+
+Private:
+
+public:
+}
+
+
+Forward Declarations:
+Make use of this as much as possible. Do not want to be adding needless header files which will slow down compile times.
