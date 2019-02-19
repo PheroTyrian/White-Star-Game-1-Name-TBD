@@ -69,9 +69,9 @@ public:
 		return tmp;
 	}
 
-	void setPosition()
+	void setPosition(std::pair<float, float> newPosition)
 	{
-
+		m_data->GetTransformComp().SetPosition(HAPISPACE::VectorF(newPosition.first, newPosition.second));
 	}
 };
 
