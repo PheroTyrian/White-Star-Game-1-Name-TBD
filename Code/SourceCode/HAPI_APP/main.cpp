@@ -28,8 +28,8 @@ using namespace HAPISPACE;
 // When this function exits the program will close down
 void HAPI_Sprites_Main()
 {
-	int width{ 1280 };
-	int height{ 800 };
+	int width{ 1600 };
+	int height{ 900 };
 
 	// We must initialise HAPI Sprites before doing anything with it
 	// This call allows us to specify the screen size and optionally the window title text and flags
