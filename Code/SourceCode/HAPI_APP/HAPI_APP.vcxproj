@@ -169,9 +169,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="Rendering.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Rendering.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
