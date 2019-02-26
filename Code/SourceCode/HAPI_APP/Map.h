@@ -1,4 +1,6 @@
 #pragma once
+#include <utility>
+#include <vector>
 
 struct entity;
 struct Tile;
@@ -22,7 +24,7 @@ public:
 	//Moves an entitys position on the map, returns false if the position is already taken
 	bool moveEntity(std::pair<int, int> originalPos, std::pair<int, int> newPos);
 
-	std::pair<int, int> getDrawOffset() { return m_drawOffset; }
+	std::pair<int, int> getDrawOffset() const { return m_drawOffset; }
 	void setDrawOffset(std::pair<int, int> newOffset) { m_drawOffset = newOffset; }
 	std::pair<float, float> getTileScreenPos();
 

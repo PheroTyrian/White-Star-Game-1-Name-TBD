@@ -65,7 +65,9 @@ public:
 
 	std::pair<int,int> getFrameDimensions()
 	{
-		std::pair<int, int> tmp{ m_data->FrameWidth,m_data->FrameHeight };
+		int x = m_data->FrameWidth();
+		int y = m_data->FrameHeight();
+		std::pair<int, int> tmp{ x, y };
 		return tmp;
 	}
 

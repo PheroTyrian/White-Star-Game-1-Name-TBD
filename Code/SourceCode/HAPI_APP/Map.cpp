@@ -21,11 +21,14 @@ void Map::drawMap()
 Tile *Map::getTile(std::pair<int, int> coordinate)
 {
 	//Bounds check
-	if (coordinate.first < m_mapDimensions.first && 
+	if (coordinate.first < m_mapDimensions.first &&
 		coordinate.second < m_mapDimensions.second &&
 		coordinate.first >= 0 &&
 		coordinate.second >= 0)
-		return &m_data[coordinate.first + coordinate.second * m_mapDimensions.first];
+	{
+		Tile *result = &m_data[coordinate.first + coordinate.second * m_mapDimensions.first];
+		return result;
+	}
 
 	HAPI_Sprites.UserMessage(
 		std::string("getTile request out of bounds: " + std::to_string(coordinate.first) + 
@@ -44,7 +47,7 @@ std::vector<Tile*> Map::getTileRadius(std::pair<int, int> coordinate, int range)
 	int reserveSize{ 0 };
 	for (int i = 1; i <= range; i++)
 	{
-		reserveSize += pow(6, i);
+		reserveSize += (int) pow(6, i);
 	}
 	tileStore.reserve((size_t)reserveSize);
 
