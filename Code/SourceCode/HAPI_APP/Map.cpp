@@ -38,7 +38,7 @@ Tile *Map::getTile(std::pair<int, int> coordinate)
 	return nullptr;
 }
 
-std::vector<Tile*> Map::getTileRadius(std::pair<int, int> coordinate, int range)
+std::vector<Tile*> Map::getTileRadius(std::pair<int, int> coord, int range)
 {
 	if (range < 1)
 		HAPI_Sprites.UserMessage("getTileRadius range less than 1", "Map error");
@@ -51,9 +51,15 @@ std::vector<Tile*> Map::getTileRadius(std::pair<int, int> coordinate, int range)
 	}
 	tileStore.reserve((size_t)reserveSize);
 
-	for (int x = std::max(0, coordinate.first - range); x <= coordinate.second + range; x++)
+	bool even{ false };
+	if (2 % coord.first == 0)
+		bool even = true;
+
+	for (int x = std::max(0, coord.first - range); 
+		x <= std::max(m_mapDimensions.first, coord.first + range); 
+		x++)
 	{
-		//ygcdfjyfxxuf
+		for (int y = std::max(0, coord.second - ))//Point I stopped at
 	}
 	return tileStore;
 }

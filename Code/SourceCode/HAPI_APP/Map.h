@@ -17,7 +17,7 @@ public:
 	//Returns a pointer to a given tile
 	Tile *getTile(std::pair<int, int> coordinate);
 	//Returns tiles in a radius around a given tile, skipping the tile itself
-	std::vector<Tile*> getTileRadius(std::pair<int, int> coordinate, int range);
+	std::vector<Tile*> getTileRadius(std::pair<int, int> coorde, int range);
 	//TODO: Returns tiles in a cone emanating from a given tile, skipping the tile itself
 	std::vector<Tile*> getTileCone(std::pair<int, int> coordinate, int range, enum eDirection);
 
