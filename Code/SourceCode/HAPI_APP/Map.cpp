@@ -29,13 +29,39 @@ Tile *Map::getTile(std::pair<int, int> coordinate)
 		Tile *result = &m_data[coordinate.first + coordinate.second * m_mapDimensions.first];
 		return result;
 	}
-
+	/*
 	HAPI_Sprites.UserMessage(
 		std::string("getTile request out of bounds: " + std::to_string(coordinate.first) + 
 			", " + std::to_string(coordinate.second) + " map dimensions are: " + 
 			std::to_string(m_mapDimensions.first) + ", " + std::to_string(m_mapDimensions.second)),
 		"Map error");
+	*/
 	return nullptr;
+}
+
+std::vector<Tile*> Map::getAdjacentTiles(std::pair<int, int> coord)
+{
+	std::vector<Tile*> result;
+	result.reserve(6);
+	if (2 % coord.first == 1)//Is an odd tile
+	{
+		result.push_back(getTile(std::pair<int, int>(coord.first, coord.second - 1)));//N
+		result.push_back(getTile(std::pair<int, int>(coord.first + 1, coord.second - 1)));//NE
+		result.push_back(getTile(std::pair<int, int>(coord.first + 1, coord.second)));//SE
+		result.push_back(getTile(std::pair<int, int>(coord.first, coord.second + 1)));//S
+		result.push_back(getTile(std::pair<int, int>(coord.first - 1, coord.second)));//SW
+		result.push_back(getTile(std::pair<int, int>(coord.first - 1, coord.second - 1)));//NW
+	}
+	else//Is even
+	{
+		result.push_back(getTile(std::pair<int, int>(coord.first, coord.second - 1)));//N
+		result.push_back(getTile(std::pair<int, int>(coord.first + 1, coord.second)));//NE
+		result.push_back(getTile(std::pair<int, int>(coord.first + 1, coord.second + 1)));//SE
+		result.push_back(getTile(std::pair<int, int>(coord.first, coord.second + 1)));//S
+		result.push_back(getTile(std::pair<int, int>(coord.first - 1, coord.second + 1)));//SW
+		result.push_back(getTile(std::pair<int, int>(coord.first - 1, coord.second)));//NW
+	}
+	return result;
 }
 
 std::vector<Tile*> Map::getTileRadius(std::pair<int, int> coord, int range)
@@ -59,7 +85,7 @@ std::vector<Tile*> Map::getTileRadius(std::pair<int, int> coord, int range)
 		x <= std::max(m_mapDimensions.first, coord.first + range); 
 		x++)
 	{
-		for (int y = std::max(0, coord.second - ))//Point I stopped at
+		//for (int y = std::max(0, coord.second - ))//Point I stopped at
 	}
 	return tileStore;
 }
@@ -71,10 +97,15 @@ std::vector<Tile*> Map::getTileCone(std::pair<int, int> coordinate, int range, e
 
 bool Map::moveEntity(std::pair<int, int> originalPos, std::pair<int, int> newPos)
 {
-	int newAddress{ newPos.first + newPos.second * m_mapDimensions.first };
-	if (m_data[newAddress].m_entityOnTile != nullptr)
+	auto tmpNew = getTile(newPos)->m_entityOnTile;
+	auto tmpOld = getTile(originalPos)->m_entityOnTile;
+
+	if (tmpNew != nullptr || tmpOld == nullptr)
 		return false;
 
+	tmpNew = tmpOld;
+	tmpOld = nullptr;
+	return true;
 }
 
 std::pair<float, float> Map::getTileScreenPos()

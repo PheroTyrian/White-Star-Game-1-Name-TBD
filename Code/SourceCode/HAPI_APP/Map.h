@@ -14,10 +14,12 @@ private:
 public:
 	void drawMap();
 
-	//Returns a pointer to a given tile
+	//Returns a pointer to a given tile, returns nullptr if there is no tile there
 	Tile *getTile(std::pair<int, int> coordinate);
-	//Returns tiles in a radius around a given tile, skipping the tile itself
-	std::vector<Tile*> getTileRadius(std::pair<int, int> coorde, int range);
+	//An n = 1 version of getTileRadius for use in pathfinding
+	std::vector<Tile*> getAdjacentTiles(std::pair<int, int> coord);
+	//TODO:Returns tiles in a radius around a given tile, skipping the tile itself
+	std::vector<Tile*> getTileRadius(std::pair<int, int> coord, int range);
 	//TODO: Returns tiles in a cone emanating from a given tile, skipping the tile itself
 	std::vector<Tile*> getTileCone(std::pair<int, int> coordinate, int range, enum eDirection);
 
