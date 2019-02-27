@@ -2,6 +2,7 @@
 #define ENTITY_H
 
 #include <HAPISprites_lib.h>
+#include <vector>
 
 enum class shipType
 {
@@ -37,7 +38,6 @@ struct weapon
 	int damage;
 	bool hasFired;
 	int range;
-	weaponType type;
 };
 
 class entity
@@ -51,7 +51,7 @@ protected:
 	direction m_direction;
 	HAPISPACE::VectorI m_tileLocation;
 	faction m_faction;
-	list<weapon> m_weapons;
+	std::vector<weapon> m_weapons;
 public:
 	entity();
 	void setAlive(bool alive);
@@ -73,3 +73,5 @@ public:
 	weapon getWeapon(int weaponNumber) const;
 
 };
+
+#endif

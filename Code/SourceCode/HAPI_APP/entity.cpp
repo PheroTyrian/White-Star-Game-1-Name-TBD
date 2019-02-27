@@ -13,7 +13,7 @@ void entity::setAlive(bool alive)
 void entity::setHealth(int health)
 {
 	m_maxHealth = health;
-	m_heath = health;
+	m_health = health;
 }
 
 int entity::getHealth() const
@@ -53,7 +53,7 @@ direction entity::getDirection() const
 
 void entity::setTileLocation(HAPISPACE::VectorI newTileLocation)
 {
-	m_tileLocation = newTileLoction;
+	m_tileLocation = newTileLocation;
 }
 
 HAPISPACE::VectorI entity::getTileLocation() const
