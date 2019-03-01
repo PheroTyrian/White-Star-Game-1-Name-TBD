@@ -1,44 +1,76 @@
-#pragma once
-
-//#include <vector>
-//#include <cassert>
-//#include <iostream>
-//#include <sstream>
-//#include <algorithm>
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// file:	Polygon.h
 //
-//#include "Vector.h"
-//#include "Rectangle.h"
-//#include "line.h"
+// summary:	Declares the polygon class
+////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma once
 
 namespace HAPISPACE {
 
-	// A polygon class, assumes last point and first point are joined
-	// Always uses float vectors
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>
+	/// A polygon class, assumes last point and first point are joined Always uses float vectors.
+	/// </summary>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	class Polygon final
 	{
 	public:
+		/// <summary>	The points. </summary>
 		std::vector<Vector<float>> points;
 
+		/// <summary>	Default constructor. </summary>
 		Polygon() noexcept = default;
 
-		// Construct from points
-		// Note: you need 3 or more points to make a poly
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Construct from points Note: you need 3 or more points to make a poly. </summary>
+		///
+		/// <param name="pIn">	The in. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Polygon(std::vector<Vector<float>> pIn) noexcept : points(std::move(pIn)) {}
 
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Stream insertion operator. </summary>
+		///
+		/// <param name="os">	[in,out] The operating system. </param>
+		/// <param name="l"> 	A Polygon to process. </param>
+		///
+		/// <returns>	The shifted result. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		friend std::ostream& operator<<(std::ostream& os, const Polygon& l);
 
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Convert this object into a string representation. </summary>
+		///
+		/// <returns>	A std::string that represents this object. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		std::string ToString() const { std::stringstream str; str << *this; return str.str(); }
 
+		/// <summary>	Clears this object to its blank/initial state. </summary>
 		void Clear() { points.clear(); }
 
-		// Adds a point to the end of the polygon
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Adds a point to the end of the polygon. </summary>
+		///
+		/// <param name="newPoint">	The new point. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void AddPoint(Vector<float> newPoint) {
 			points.emplace_back(newPoint);
 		}
 
-		// Same as num points as last line goes back to start
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Same as num points as last line goes back to start. </summary>
+		///
+		/// <returns>	The number lines. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		size_t GetNumLines() const { return points.size(); }
 
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Gets a line. </summary>
+		///
+		/// <param name="which">	The which. </param>
+		///
+		/// <returns>	The line. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Line<float> GetLine(size_t which) const
 		{
 			assert(which < GetNumLines());
@@ -50,6 +82,11 @@ namespace HAPISPACE {
 			return Line<float>(points[which], points[which + 1]);
 		}
 
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Gets the lines. </summary>
+		///
+		/// <returns>	The lines. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		std::vector<Line<float>> GetLines() const
 		{
 			std::vector<Line<float>> lines;
@@ -59,11 +96,23 @@ namespace HAPISPACE {
 			return lines;
 		}
 
-		// Creates a new polygon representing the area of intersection of this with other
-		// Note: if the returned polygon has no vertices there was no intersection
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>
+		/// Creates a new polygon representing the area of intersection of this with other Note: if the
+		/// returned polygon has no vertices there was no intersection.
+		/// </summary>
+		///
+		/// <param name="other">	The other. </param>
+		///
+		/// <returns>	The area of intersection. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Polygon GetAreaOfIntersection(const Polygon& other) const;
 
-		// What determines the centre of a polygon? This is a rough result
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	What determines the centre of a polygon? This is a rough result. </summary>
+		///
+		/// <returns>	The centre. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		VectorF GetCentre() const
 		{
 			VectorF sum{ 0,0 };
@@ -72,6 +121,11 @@ namespace HAPISPACE {
 			return (sum / points.size());
 		}
 
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Gets the bounds. </summary>
+		///
+		/// <returns>	The bounds. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		RectangleF GetBounds() const
 		{
 			if (points.empty())
@@ -90,14 +144,24 @@ namespace HAPISPACE {
 			return bounds;
 		}
 
-		// Changes all points by adding trans
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Changes all points by adding trans. </summary>
+		///
+		/// <param name="trans">	The transform. </param>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Translate(const VectorF &trans)
 		{
 			for (auto& p : points)
 				p += trans;
 		}
 
-		// Retruns translated version
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Retruns translated version. </summary>
+		///
+		/// <param name="trans">	The transform. </param>
+		///
+		/// <returns>	A Polygon. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Polygon Translated(const VectorF &trans) const
 		{
 			Polygon newPoly{ points };
@@ -105,15 +169,40 @@ namespace HAPISPACE {
 			return newPoly;
 		}
 
-		// Gets the position of the first intersection of a line and this poly
-		// Normal is from the line intersection
-		// Returns false if no intersection
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>
+		/// Gets the position of the first intersection of a line and this poly Normal is from the line
+		/// intersection Returns false if no intersection.
+		/// </summary>
+		///
+		/// <param name="line">	The line. </param>
+		/// <param name="pnt"> 	[in,out] The point. </param>
+		/// <param name="N">   	[in,out] A VectorF to process. </param>
+		///
+		/// <returns>	True if it succeeds, false if it fails. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool Intersection(const LineF& line, VectorF& pnt, VectorF& N) const;
 
+		////////////////////////////////////////////////////////////////////////////////////////////////////
+		/// <summary>	Intersection infinity. </summary>
+		///
+		/// <param name="line">	The line. </param>
+		/// <param name="pnt"> 	[in,out] The point. </param>
+		/// <param name="N">   	[in,out] A VectorF to process. </param>
+		///
+		/// <returns>	True if it succeeds, false if it fails. </returns>
+		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool IntersectionInfinity(const LineF& line, VectorF& pnt, VectorF& N) const;
 	};
 
-	// Can be used with cout to output values to output pane and log
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Can be used with cout to output values to output pane and log. </summary>
+	///
+	/// <param name="os">	[in,out] The operating system. </param>
+	/// <param name="l"> 	A Polygon to process. </param>
+	///
+	/// <returns>	The shifted result. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	inline std::ostream& operator<<(std::ostream& os, const Polygon& l)
 	{
 		for (size_t i = 0; i < l.points.size(); i++)

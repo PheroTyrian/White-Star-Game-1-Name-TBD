@@ -8,8 +8,12 @@ https://scm-intranet.tees.ac.uk/users/u0018197/HAPI/HAPI-Reference/hapi-referenc
 
 Last modified by Keith Ditchburn: August 2019
 
+Version 2.52 ON GOING
+=====================
 
-Version 2.51 ON GOING
+
+
+Version 2.51 28/01/19
 =====================
 - Changed to debug symbol generation (Zi to Z7) means symbols embedded in debug lib making it bigger
 but should get rid of the pdb warning.

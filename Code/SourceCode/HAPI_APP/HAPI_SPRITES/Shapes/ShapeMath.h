@@ -1,7 +1,9 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// file:	ShapeMath.h
+//
+// summary:	Declares the shape mathematics class. Set of math functions between shapes
+////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma once
-/*
-	Set of math functions between shapes
-*/
 
 #include "Vector.h"
 #include "Line.h"
@@ -12,6 +14,15 @@
 
 namespace HAPISPACE {
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Query if this object intersects the given r1. </summary>
+	///
+	/// <typeparam name="T">	Generic type parameter. </typeparam>
+	/// <param name="r1">	The first Rectangle&lt;T&gt; </param>
+	/// <param name="r2">	The second Rectangle&lt;T&gt; </param>
+	///
+	/// <returns>	True if it succeeds, false if it fails. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
 	bool Intersects(const Rectangle<T>& r1, const Rectangle<T>& r2) noexcept
 	{
@@ -32,7 +43,20 @@ namespace HAPISPACE {
 		return true;
 	}
 
-	// Passed 3 points, the first two are the line to test, the last is used to determine which side is 'inside'
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>
+	/// Passed 3 points, the first two are the line to test, the last is used to determine which side
+	/// is 'inside'.
+	/// </summary>
+	///
+	/// <typeparam name="T">	Generic type parameter. </typeparam>
+	/// <param name="p1">  	The first Vector&lt;T&gt; </param>
+	/// <param name="p2">  	The second Vector&lt;T&gt; </param>
+	/// <param name="p3">  	The third Vector&lt;T&gt; </param>
+	/// <param name="poly">	The polygon. </param>
+	///
+	/// <returns>	True if the test passes, false if the test fails. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>	
 	bool EdgeTest(const Vector<T>& p1, const Vector<T>& p2, const Vector<T>& p3,const Polygon &poly) 
 	{
@@ -56,7 +80,18 @@ namespace HAPISPACE {
 		return true;
 	}
 
-	// based on https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>
+	/// based on
+	/// https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon.
+	/// </summary>
+	///
+	/// <typeparam name="T">	Generic type parameter. </typeparam>
+	/// <param name="poly">	The polygon. </param>
+	/// <param name="test">	The test. </param>
+	///
+	/// <returns>	An int. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
 	inline int PointInPolygon(const Polygon &poly, const Vector<T>& test)
 	{
@@ -70,7 +105,14 @@ namespace HAPISPACE {
 		return c;
 	}
 
-	// convex polygon test
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	convex polygon test. </summary>
+	///
+	/// <param name="poly1">	The first polygon. </param>
+	/// <param name="poly2">	The second polygon. </param>
+	///
+	/// <returns>	True if it succeeds, false if it fails. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	inline bool Intersects(const Polygon &poly1, const Polygon &poly2)
 	{
 		// Find a separating line
@@ -160,6 +202,15 @@ namespace HAPISPACE {
 		return true;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Query if this object intersects the given r1. </summary>
+	///
+	/// <typeparam name="T">	Generic type parameter. </typeparam>
+	/// <param name="r1">	The first RectangleOriented&lt;T&gt; </param>
+	/// <param name="r2">	The second RectangleOriented&lt;T&gt; </param>
+	///
+	/// <returns>	True if it succeeds, false if it fails. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
 	bool Intersects(const RectangleOriented<T>& r1, const RectangleOriented<T>& r2)
 	{
@@ -167,8 +218,16 @@ namespace HAPISPACE {
 		return Intersects(Polygon(r1.GetOutline()), Polygon(r2.GetOutline()));
 	}
 
-
-	// pnt is optonal and gives the intersection point (if there is one)
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	pnt is optonal and gives the intersection point (if there is one) </summary>
+	///
+	/// <typeparam name="T">	Generic type parameter. </typeparam>
+	/// <param name="circle">	The circle. </param>
+	/// <param name="line">  	The line. </param>
+	/// <param name="pnt">   	[in,out] (Optional) If non-null, the point. </param>
+	///
+	/// <returns>	True if it succeeds, false if it fails. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
 	bool Intersects(const Circle& circle, const Line<T> line,Vector<T> *pnt=nullptr)
 	{
@@ -248,8 +307,19 @@ namespace HAPISPACE {
 		return false;
 	}
 
-	// See https://stackoverflow.com/questions/401847/circle-rectangle-collision-detection-intersection
-	// Note: could be expanded to work with any polygon not just a rect
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>
+	/// See
+	/// https://stackoverflow.com/questions/401847/circle-rectangle-collision-detection-intersection
+	/// Note: could be expanded to work with any polygon not just a rect.
+	/// </summary>
+	///
+	/// <typeparam name="T">	Generic type parameter. </typeparam>
+	/// <param name="rect">  	The rectangle. </param>
+	/// <param name="circle">	The circle. </param>
+	///
+	/// <returns>	True if it succeeds, false if it fails. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
 	bool Intersects(const RectangleOriented<T>& rect, const Circle& circle)
 	{
@@ -283,6 +353,14 @@ namespace HAPISPACE {
 		return false;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Query if this object intersects the given c1. </summary>
+	///
+	/// <param name="c1">	The first Circle. </param>
+	/// <param name="c2">	The second Circle. </param>
+	///
+	/// <returns>	True if it succeeds, false if it fails. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	inline bool Intersects(const Circle &c1,const Circle &c2)
 	{
 		//return (c1.centre.DistanceBetweenSquared(c2.centre) <= 
@@ -290,10 +368,21 @@ namespace HAPISPACE {
 		return (c1.centre.DistanceBetween(c2.centre) <= (c1.radius + c2.radius));
 	}
 
-	// Intersection of two lines
-	// http://www.ahristov.com/tutorial/geometry-games/intersection-lines.html
-	// Note: this presumes infinitly long lines 
-	// TODO: redo these infinity ones to make them rays as thats what they really are
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>
+	/// Intersection of two lines
+	/// http://www.ahristov.com/tutorial/geometry-games/intersection-lines.html Note: this presumes
+	/// infinitly long lines TODO: redo these infinity ones to make them rays as thats what they
+	/// really are.
+	/// </summary>
+	///
+	/// <typeparam name="T">	Generic type parameter. </typeparam>
+	/// <param name="line1">			  	The first line. </param>
+	/// <param name="line2">			  	The second line. </param>
+	/// <param name="intersectionVectorF">	[in,out] The intersection vector f. </param>
+	///
+	/// <returns>	True if it succeeds, false if it fails. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
 	bool IntersectsInfinity(const Line<T> &line1, const Line<T> &line2, Vector<T>& intersectionVectorF)
 	{
@@ -319,7 +408,18 @@ namespace HAPISPACE {
 		return true;
 	}
 
-	//https://stackoverflow.com/questions/563198/how-do-you-detect-where-two-line-segments-intersect
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>
+	/// https://stackoverflow.com/questions/563198/how-do-you-detect-where-two-line-segments-intersect.
+	/// </summary>
+	///
+	/// <typeparam name="T">	Generic type parameter. </typeparam>
+	/// <param name="line1">			  	The first line. </param>
+	/// <param name="line2">			  	The second line. </param>
+	/// <param name="intersectionVectorF">	[in,out] The intersection vector f. </param>
+	///
+	/// <returns>	True if it succeeds, false if it fails. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
 	bool Intersects(const Line<T> &line1, const Line<T> &line2, Vector<T>& intersectionVectorF)
 	{
@@ -355,6 +455,15 @@ namespace HAPISPACE {
 		return false; // No collision
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Transform vector. </summary>
+	///
+	/// <typeparam name="T">	Generic type parameter. </typeparam>
+	/// <param name="v">		A Vector&lt;T&gt; to process. </param>
+	/// <param name="trans">	The transform. </param>
+	///
+	/// <returns>	A Vector&lt;T&gt; </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
 	Vector<T> TransformVector(const Vector<T> v, const Transform& trans)
 	{
@@ -377,6 +486,15 @@ namespace HAPISPACE {
 		return Vector<T>(ret);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Inverse transform vector. </summary>
+	///
+	/// <typeparam name="T">	Generic type parameter. </typeparam>
+	/// <param name="v">		A Vector&lt;T&gt; to process. </param>
+	/// <param name="trans">	The transform. </param>
+	///
+	/// <returns>	A Vector&lt;T&gt; </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
 	Vector<T> InverseTransformVector(const Vector<T> v, const Transform& trans)
 	{
@@ -400,7 +518,15 @@ namespace HAPISPACE {
 		return Vector<T>(ret);
 	}
 
-	// As above for a vector of points
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	As above for a vector of points. </summary>
+	///
+	/// <typeparam name="T">	Generic type parameter. </typeparam>
+	/// <param name="pnts"> 	The pnts. </param>
+	/// <param name="trans">	The transform. </param>
+	///
+	/// <returns>	A std::vector&lt;Vector&lt;T&gt;&gt; </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
 	std::vector<Vector<T>> TransformVectors(const std::vector<Vector<T>> &pnts, const Transform& trans)
 	{
@@ -411,7 +537,15 @@ namespace HAPISPACE {
 		return ret;
 	}
 
-	// As above for a vector of points
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	As above for a vector of points. </summary>
+	///
+	/// <typeparam name="T">	Generic type parameter. </typeparam>
+	/// <param name="pnts"> 	The pnts. </param>
+	/// <param name="trans">	The transform. </param>
+	///
+	/// <returns>	A std::vector&lt;Vector&lt;T&gt;&gt; </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
 	std::vector<Vector<T>> InverseTransformVectors(const std::vector<Vector<T>> &pnts, const Transform& trans)
 	{
@@ -422,7 +556,14 @@ namespace HAPISPACE {
 		return ret;
 	}
 
-	// Retrieve a rectangle that bounds a line
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Retrieve a rectangle that bounds a line. </summary>
+	///
+	/// <typeparam name="T">	Generic type parameter. </typeparam>
+	/// <param name="line">	The line. </param>
+	///
+	/// <returns>	The bounding rectangle. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
 	Rectangle<T> GetBoundingRect(const Line<T>& line)
 	{
@@ -437,7 +578,14 @@ namespace HAPISPACE {
 		return rect;
 	}
 
-	// Retrieve a rectangle that bounds a number of line
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Retrieve a rectangle that bounds a number of line. </summary>
+	///
+	/// <typeparam name="T">	Generic type parameter. </typeparam>
+	/// <param name="line">	The line. </param>
+	///
+	/// <returns>	The bounding rectangle. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
 	Rectangle<T> GetBoundingRect(const std::vector<Line<T>>& line)
 	{
@@ -460,6 +608,15 @@ namespace HAPISPACE {
 		return rect;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Transform rectangle oriented. </summary>
+	///
+	/// <typeparam name="T">	Generic type parameter. </typeparam>
+	/// <param name="v">		A RectangleOriented&lt;T&gt; to process. </param>
+	/// <param name="trans">	The transform. </param>
+	///
+	/// <returns>	A RectangleOriented&lt;T&gt; </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
 	// Transforms oriented rectangle. Scaling & rotation is around the origin in the transform
 	RectangleOriented<T> TransformRectangleOriented(const RectangleOriented<T> v, const Transform& trans)
@@ -478,11 +635,55 @@ namespace HAPISPACE {
 		return ret;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>
+	/// Transform rectangle.
+	///  Transforms aligned rectangle. Scaling is done via centre of rectangle while rotation is
+	///  around the origin in the transform
+	/// Returns an oriented rectangle (as rotation takes away axis-aligned nature)
+	/// </summary>
+	///
+	/// <typeparam name="T">	Generic type parameter. </typeparam>
+	/// <param name="v">		A Rectangle&lt;T&gt; to process. </param>
+	/// <param name="trans">	The transform. </param>
+	///
+	/// <returns>	A RectangleOriented&lt;T&gt; </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	template <typename T>
-	// Transforms aligned rectangle. Scaling is done via centre of rectangle while rotation is around the origin in the transform
-	// Returns an oriented rectangle (as rotation takes away axis-aligned nature)
-	RectangleOriented<T> TransformRectangle(const Rectangle<T> v, const Transform& trans)
+	RectangleOrientedF TransformRectangle(const Rectangle<T> v, const Transform& trans)
 	{
-		return TransformRectangleOriented(RectangleOriented<T>(v),trans);
+		return TransformRectangleOriented(RectangleOrientedF(v),trans);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Transform circle. </summary>
+	///
+	/// <param name="c">		A Circle to process. </param>
+	/// <param name="trans">	The transform. </param>
+	///
+	/// <returns>	A Circle. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	inline Circle TransformCircle(const Circle c, const Transform& trans)
+	{
+		Circle ret{ c };
+
+		ret.Translate(-trans.origin);
+
+		// S		
+		ret.radius *= std::max(trans.scale.x, trans.scale.y);
+
+		// Also scale centre point
+		ret.centre *= trans.scale;
+		
+		// R
+		// Do need to rotate centre as if entity rotates and circle not on centre of rotation it would be wrong
+		ret.centre.Rotate(trans.rotation);
+
+		// T
+		ret.Translate(trans.position);
+
+		ret.Translate(trans.origin);
+
+		return ret;
 	}
 }

@@ -1,6 +1,9 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// file:	UITypes.h
+//
+// summary:	Types used throughout the UI and required headers
+////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma once
-
-// Types used throughout the UI and required headers
 
 #include <set>
 #include <unordered_map>
@@ -11,14 +14,18 @@
 #include <queue>
 
 #include "HAPISprites_Types.h"
+
 using namespace HAPISPACE;
 
 #include "UI\UIListener.h"
 
 namespace HAPI_UI_SPACE
 {
-	// Used for mapping input to actions
-	// Supports keys but will also support other control inputs
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>
+	/// Used for mapping input to actions Supports keys but will also support other control inputs.
+	/// </summary>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	enum class EInputMappingAction
 	{
 		eUnmapped,
@@ -50,6 +57,7 @@ namespace HAPI_UI_SPACE
 		eCopy,			// CTRL + C
 		ePaste,			// CTRL + V
 		eSelectAll,		// CTRL + A
+		eSave,			// CTRL + S
 		eHighlightStart, // SHIFT + HOME
 		eHighlightEnd, // SHIFT + END
 
@@ -59,6 +67,13 @@ namespace HAPI_UI_SPACE
 		eMouseDrag		// Cannot be altered		
 	};
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Query if 'action' is direction. </summary>
+	///
+	/// <param name="action">	The action. </param>
+	///
+	/// <returns>	True if direction, false if not. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	inline bool IsDirection(EInputMappingAction action) noexcept
 	{
 		if (action == EInputMappingAction::eNorth ||
@@ -69,6 +84,7 @@ namespace HAPI_UI_SPACE
 		return false;
 	}
 
+	/// <summary>	Values that represent input modifiers. </summary>
 	enum class EInputModifiers
 	{
 		eUnmapped,
@@ -85,6 +101,7 @@ namespace HAPI_UI_SPACE
 		eMouseScrollDown
 	};
 
+	/// <summary>	Values that represent mouse buttons. </summary>
 	enum class EMouseButton
 	{
 		eLeft,
@@ -94,6 +111,7 @@ namespace HAPI_UI_SPACE
 		eX2
 	};
 
+	/// <summary>	Values that represent gaps. </summary>
 	enum class EGap
 	{
 		eUnmapped,		// Uses 0
@@ -103,6 +121,7 @@ namespace HAPI_UI_SPACE
 		eLoose		// Uses 2 * skin object gap value
 	};
 
+	/// <summary>	Values that represent axis. </summary>
 	enum class EAxis
 	{
 		eX,
@@ -110,6 +129,7 @@ namespace HAPI_UI_SPACE
 		eBoth
 	};
 
+	/// <summary>	Values that represent alignments. </summary>
 	enum class EAlignment
 	{
 		// Aligns minimum of object to other object
@@ -122,6 +142,7 @@ namespace HAPI_UI_SPACE
 		eAlignMaxToMax
 	};
 
+	/// <summary>	Values that represent window states. </summary>
 	enum class EWindowState
 	{
 		eClosed,
@@ -135,7 +156,7 @@ namespace HAPI_UI_SPACE
 		OBJECTS
 	*/
 
-	// Object types
+	/// <summary>	Object types. </summary>
 	enum class EObjectType
 	{
 		eAdornment,
@@ -150,6 +171,13 @@ namespace HAPI_UI_SPACE
 		eShape
 	};
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Object type to string. </summary>
+	///
+	/// <param name="type">	The type. </param>
+	///
+	/// <returns>	A std::string. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	inline std::string EObjectTypeToString(EObjectType type)
 	{
 		switch (type)
@@ -180,7 +208,7 @@ namespace HAPI_UI_SPACE
 	}
 
 
-	// Objects can be in one of these three states
+	/// <summary>	Objects can be in one of these three states. </summary>
 	enum class EActionState
 	{
 		eDisabled,
@@ -189,6 +217,7 @@ namespace HAPI_UI_SPACE
 		ePressed
 	};
 
+	/// <summary>	Values that represent render priorities. </summary>
 	enum class ERenderPriority
 	{
 		eFirst,
@@ -196,10 +225,15 @@ namespace HAPI_UI_SPACE
 		eLast
 	};
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	// namespace: WindowFeatures
+	// 
 	// Cannot be class as used for bit mask
 	// so wrapped in sub namespace
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	namespace WindowFeatures
 	{
+		/// <summary>	Values that represent adornment features. </summary>
 		enum EAdornmentFeatures
 		{
 			eNormalWindow = 0,			 // Normal window style colours and text
@@ -216,7 +250,7 @@ namespace HAPI_UI_SPACE
 		};
 	}
 
-	// Currently just two but could be expanded
+	/// <summary>	Currently just two but could be expanded. </summary>
 	enum class EButtonType
 	{
 		eToggle,		// Does not stay pressed
@@ -225,19 +259,21 @@ namespace HAPI_UI_SPACE
 		eRadioTextRight // Behaviour as eRadio but text to right of button
 	};
 
+	/// <summary>	Values that represent list box types. </summary>
 	enum class EListBoxType
 	{
 		eNormal,
 		eDropDown
 	};
 
-	// Currently two types of menu
+	/// <summary>	Currently two types of menu. </summary>
 	enum class EMenuType
 	{
 		eDropDown,
 		eRightClickMenu
 	};
 
+	/// <summary>	Values that represent text types. </summary>
 	enum class ETextType
 	{
 		eStatic,	// Does nothing - just looks pretty
@@ -245,6 +281,7 @@ namespace HAPI_UI_SPACE
 		eClickable	// Can be highlighted and clicked on where by it sends a notification
 	};
 
+	/// <summary>	Values that represent text entry lambdas. </summary>
 	enum class ETextEntryLambdas
 	{
 		eEverything,
@@ -260,7 +297,7 @@ namespace HAPI_UI_SPACE
 		SKIN
 	*/
 
-	// A skin has a skin style for text and window
+	/// <summary>	A skin has a skin style for text and window. </summary>
 	enum class ESkinStyle
 	{
 		// All use alt state for pressed unless stated
@@ -281,6 +318,13 @@ namespace HAPI_UI_SPACE
 		eNumSkinStyles
 	};
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Skin style to string. </summary>
+	///
+	/// <param name="which">	The which. </param>
+	///
+	/// <returns>	A std::string. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	inline std::string SkinStyleToString(ESkinStyle which)
 	{
 		// If text changed here change SkinTextSringToStyle. Note it will break XML saves.
@@ -322,6 +366,13 @@ namespace HAPI_UI_SPACE
 		return "ERRROR: UNKNOWN SKIN STYLE";
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Skin string to style. </summary>
+	///
+	/// <param name="text">	The text. </param>
+	///
+	/// <returns>	An ESkinStyle. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	inline ESkinStyle SkinStringToStyle(const std::string& text)
 	{
 		if (text == "Normal Text")
@@ -371,6 +422,7 @@ namespace HAPI_UI_SPACE
 		return ESkinStyle::eNormalText;
 	}
 
+	/// <summary>	Values that represent skin sub styles. </summary>
 	enum class ESkinSubStyle
 	{
 		eNormal,
@@ -380,6 +432,13 @@ namespace HAPI_UI_SPACE
 		eNumSubStyles
 	};
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// <summary>	Skin sub style to string. </summary>
+	///
+	/// <param name="which">	The which. </param>
+	///
+	/// <returns>	A std::string. </returns>
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 	inline std::string SkinSubStyleToString(ESkinSubStyle which)
 	{
 		// If text changed here change SkinSubStringToStyle. Note it will break XML saves.
