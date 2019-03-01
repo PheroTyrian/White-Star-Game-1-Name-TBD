@@ -172,6 +172,7 @@
     <ClCompile Include="Rendering.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Global.h" />
     <ClInclude Include="Rendering.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
