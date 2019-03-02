@@ -15,7 +15,31 @@ struct Tile
 
 void Map::drawMap()
 {
-	//TODO: Fill this in
+	std::pair<int, int> textureDimensions = std::pair<int, int>(
+		m_data[0].m_sprite->FrameWidth(),
+		m_data[0].m_sprite->FrameHeight());
+
+	float drawScale{ 1.0 };//For future zooming and resizing
+	int access{ 0 };
+	for (int y = 0; y < m_mapDimensions.second; y++)
+	{
+		float yPosEven = (float)(0.5 + y) * textureDimensions.second;
+		float yPosOdd = (float)y * textureDimensions.second;
+		for (int x = 0; x < m_mapDimensions.first; x++)
+		{
+			float xPos = (float)x * textureDimensions.first * 3 / 4;
+			if (x % 2 == 0)//Is even
+				m_data[access].m_sprite->GetTransformComp().SetPosition(HAPISPACE::VectorF(
+					xPos * drawScale + m_drawOffset.first, 
+					yPosEven * drawScale + m_drawOffset.second));
+			else//Is Odd
+				m_data[access].m_sprite->GetTransformComp().SetPosition(HAPISPACE::VectorF(
+					xPos * drawScale + m_drawOffset.first,
+					yPosOdd * drawScale + m_drawOffset.second));
+			m_data[access].m_sprite->Render(SCREEN_SURFACE);
+			access++;
+		}
+	}
 }
 
 Tile *Map::getTile(std::pair<int, int> coordinate)
@@ -116,12 +140,12 @@ void Map::insertEntity(entity * newEntity, std::pair<int, int> coord)
 std::pair<int, int> Map::getTileScreenPos(std::pair<int, int> coord)
 {
 	std::pair<int, int> textureDimensions = std::pair<int, int>(
-		m_data[coord.first + coord.second * m_mapDimensions.first].m_sprite->FrameWidth,
-		m_data[coord.first + coord.second * m_mapDimensions.first].m_sprite->FrameHeight);
+		m_data[0].m_sprite->FrameWidth(),
+		m_data[0].m_sprite->FrameHeight());
 	
 	float drawScale = 1.0;//For future zooming and resizing
 	const int xPos = (coord.first * textureDimensions.first) * 3 / 4;
-	const int yPos = (((2 % (1 + coord.first)) + coord.second) * textureDimensions.second) / 2;
+	const int yPos = ((((1 + coord.first) % 2) + 2 * coord.second) * textureDimensions.second) / 2;
 	return std::pair<int, int>(
 		xPos * drawScale + m_drawOffset.first, 
 		yPos * drawScale + m_drawOffset.second);
