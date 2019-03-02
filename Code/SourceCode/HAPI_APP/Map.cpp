@@ -90,7 +90,7 @@ std::vector<Tile*> Map::getTileRadius(std::pair<int, int> coord, int range)
 	return tileStore;
 }
 
-std::vector<Tile*> Map::getTileCone(std::pair<int, int> coordinate, int range, eDirection)
+std::vector<Tile*> Map::getTileCone(std::pair<int, int> coord, int range, enum eDirection)
 {
 	return std::vector<Tile*>();
 }
@@ -106,6 +106,11 @@ bool Map::moveEntity(std::pair<int, int> originalPos, std::pair<int, int> newPos
 	tmpNew = tmpOld;
 	tmpOld = nullptr;
 	return true;
+}
+
+void Map::insertEntity(entity * newEntity, std::pair<int, int> coord)
+{
+	getTile(coord)->m_entityOnTile = newEntity;
 }
 
 std::pair<int, int> Map::getTileScreenPos(std::pair<int, int> coord)
