@@ -28,7 +28,7 @@ public:
 
 	std::pair<int, int> getDrawOffset() const { return m_drawOffset; }
 	void setDrawOffset(std::pair<int, int> newOffset) { m_drawOffset = newOffset; }
-	std::pair<float, float> getTileScreenPos();
+	std::pair<int, int> getTileScreenPos(std::pair<int, int> coord);
 
 	//TODO: Get constructor working. Need tiled parser or load from xml set up
 	Map();

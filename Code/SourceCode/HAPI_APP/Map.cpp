@@ -108,9 +108,18 @@ bool Map::moveEntity(std::pair<int, int> originalPos, std::pair<int, int> newPos
 	return true;
 }
 
-std::pair<float, float> Map::getTileScreenPos()
+std::pair<int, int> Map::getTileScreenPos(std::pair<int, int> coord)
 {
-	return std::pair<int, int>();
+	std::pair<int, int> textureDimensions = std::pair<int, int>(
+		m_data[coord.first + coord.second * m_mapDimensions.first].m_sprite->FrameWidth,
+		m_data[coord.first + coord.second * m_mapDimensions.first].m_sprite->FrameHeight);
+	
+	float drawScale = 1.0;//For future zooming and resizing
+	const int xPos = (coord.first * textureDimensions.first) * 3 / 4;
+	const int yPos = (((2 % (1 + coord.first)) + coord.second) * textureDimensions.second) / 2;
+	return std::pair<int, int>(
+		xPos * drawScale + m_drawOffset.first, 
+		yPos * drawScale + m_drawOffset.second);
 }
 
 Map::Map()
