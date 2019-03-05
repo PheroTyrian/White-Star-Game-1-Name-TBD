@@ -7,10 +7,15 @@
 
 struct Tile
 {
-	enum eTileType;
+	enum eTileType m_type;
 	entity* m_entityOnTile;
 	std::unique_ptr<HAPISPACE::Sprite> m_sprite;
 	const std::pair<int, int> m_tileCoordinate;
+
+	Tile(eTileType type, std::string spriteName, std::pair<int, int> coord) : m_type(type), m_tileCoordinate(coord)
+	{
+		m_sprite = HAPI_Sprites.LoadSprite(spriteName, std::string());
+	}
 };
 
 void Map::drawMap()
