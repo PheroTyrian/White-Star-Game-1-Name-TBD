@@ -168,12 +168,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="entity.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Rendering.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="UIClass.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="entity.h" />
     <ClInclude Include="Global.h" />
-    <ClInclude Include="Rendering.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="UIClass.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

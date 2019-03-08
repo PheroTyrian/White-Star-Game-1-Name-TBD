@@ -1,66 +1,33 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// file:	Circle.h
-//
-// summary:	Declares the circle class
-////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma once
+
+//#include "Vector.h"
+//#include "Rectangle.h"
 
 namespace HAPISPACE {
 
-	/// <summary>	A simple circle class. Not templated as needs to be floats. </summary>
+	// A simple circle class
+	// Not templated as needs to be floats
 	class Circle
 	{
 	public:
-		/// <summary>	The radius. </summary>
 		float radius{ 0 };
-		/// <summary>	The centre. </summary>
 		VectorF centre;
 	public:
-		/// <summary>	Default constructor. </summary>
 		Circle() noexcept = default;
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Constructor. </summary>
-		///
-		/// <param name="cent">	The cent. </param>
-		/// <param name="radi">	The radi. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Circle(VectorF cent, float radi) noexcept : centre(cent), radius(radi) {}
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Query if this object contains the given pnt. </summary>
-		///
-		/// <typeparam name="T">	Generic type parameter. </typeparam>
-		/// <param name="pnt">	The point. </param>
-		///
-		/// <returns>	True if the object is in this collection, false if not. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		template <typename T>
 		bool Contains(const Vector<T>& pnt) const
 		{
 			return (centre.DistanceBetweenSquared(pnt) <= radius * radius);
 		}
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Translates the given tran. </summary>
-		///
-		/// <typeparam name="T">	Generic type parameter. </typeparam>
-		/// <param name="tran">	The tran. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		template <typename T>
 		void Translate(const Vector<T>& tran)
 		{
 			centre += (VectorF)tran;
 		}
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Translated the given tran. </summary>
-		///
-		/// <typeparam name="T">	Generic type parameter. </typeparam>
-		/// <param name="tran">	The tran. </param>
-		///
-		/// <returns>	A Circle. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		template <typename T>
 		Circle Translated(const Vector<T>& tran) const
 		{
@@ -73,12 +40,6 @@ namespace HAPISPACE {
 			Expand to cover other circle
 			See: https://stackoverflow.com/questions/2084695/finding-the-smallest-circle-that-encompasses-other-circles
 		*/
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Encompass the given other. </summary>
-		///
-		/// <param name="other">	The other. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Encompass(const Circle& other)
 		{
 			// Given two circles, with centers[x1, y1], [x2, y2], and radii R1 and R2.What is the center of the enclosing circle ?
@@ -123,11 +84,6 @@ namespace HAPISPACE {
 			centre = (1.0f - theta) * c1 + theta * c2;
 		}
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets enclosing a bb. </summary>
-		///
-		/// <returns>	The enclosing a bb. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		RectangleF GetEnclosingAABB() const noexcept
 		{
 			return RectangleF(centre.x - radius, centre.x + radius, centre.y - radius, centre.y + radius);

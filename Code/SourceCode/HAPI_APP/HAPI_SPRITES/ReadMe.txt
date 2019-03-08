@@ -1,46 +1,12 @@
-/*! /mainpage HAPI Sprites is a 2D game API, written by Keith Ditchburn and free to use for all.
+HAPI Sprites is a 2D game API, written by Keith Ditchburn and free to use for all.
 
 To use the library link to HAPI_Sprites_Debug64.lib or HAPI_Sprites_Release64.lib. They require Visual Stuido 2017 and Windows 10.
+
+
 
 The recent version changes are in the HAPI_Sprites_Lib.h file with just the older ones listed here.
 
 Older Version History
-
- Version 0.82 - 12/02/19
- - SpriteEditor: BUG: changing the animation set was not saving
- - Massively reduced the debug library size 
- 
- Version 0.81 - 11/02/19
- - New: Added a Sprite Viewer to allow testing of sprites. Sprite Editor now has a play button to
- call it but can also be called manually via the UI e.g. UI.SpriteViewer
- - UIEditor: Fixed a bug with the position / size dialog  where some buttons were not pressable
- - UIEditor: Fixed a bug when copying a marker collider, it was getting a unique name generated
- which was not what was wanted
- - UIEditor: Removed debug text and inserted user warnings when actions cannot be carried out
- - UIEditor: Added Save As option to menu
- - Made some debug output debug mode only, removed others
- - Small optimisations and code clean up
- - Removed old map editor code for efficiency. May reinstate if I decide to make one but Tiled is
- free and does the job.
- - Some useability improvements to editors
- - BUG: Fixed an error in SizeToFitContents that included the title bar twice
- - BUG: Fixed an issue where clearing a HW render surface did not use clip area
- - Improved UI message box to be modal but still render background correctly
- - Improved error messages
- - Reduced library file sizes a bit (~8%)  
- - Switched to using Doxygen comments for automatic documentation generation
-
-Version 0.80 - 28/01/19
-- Distributable creation
-- Bug fixes and improvements to the UI code
-- Editors feature complete, limited bug checking
-- Changed to debug symbol generation (Zi to Z7) means symbols embedded in debug lib making it
- bigger (but should get rid of the pdb warning).
- - Added support for windows text clipboard and updated UI text entry controls to use it
- 	GetClipboardText
- 	SetClipboardText
-- UI is now solely accessed from HAPI_SPRITES which handles creation and rendering
-- You can now specify not to scale a UI window on load. 
 
 Version 0.70 - 7/10/18
 - Added gradient shading to the surface

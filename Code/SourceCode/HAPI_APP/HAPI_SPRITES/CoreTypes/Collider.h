@@ -1,8 +1,3 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// file:	Collider.h
-//
-// summary:	Declares the collider class
-////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma once
 
 #include "Shapes\Shapes.h"
@@ -12,7 +7,7 @@ namespace HAPISPACE {
 
 	class Surface;
 
-	/// <summary>	Information about the collision check result. </summary>
+	// Information about the collision check result
 	enum class ECollisionResult
 	{
 		eBoundingFail,
@@ -23,7 +18,7 @@ namespace HAPISPACE {
 		ePixelPerfectPass
 	};
 
-	/// <summary>	Information about the relevant test that resulted in ECollisionResult. </summary>
+	// Information about the relevant test that resulted in ECollisionResult
 	enum class ECollisionShapeType
 	{		
 		eRectRect,
@@ -32,91 +27,61 @@ namespace HAPISPACE {
 		eCircleRect, // as above but this circle with other rect
 		ePixel
 	};
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>
-	/// Determines transform, which collision checks are carried out and what data is returned.
-	/// </summary>
-	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// Determines transform, which collision checks are carried out and what data is returned
 	struct CollisionSettings
 	{
-		/// <summary>	Transforms for the two colliders involved in the collision test. </summary>
+		// Transforms for the two colliders involved in the collision test
 		Transform thisTransform;
-		/// <summary>	The other transform. </summary>
 		Transform otherTransform;
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>
-		/// When a collider has a collection of 'one of' shapes, setting this to true will test those
-		/// (after normal bounds checks)
-		/// A collision is judged to have happened if one of them collides.
-		/// </summary>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// When a collider has a collection of 'one of' shapes, setting this to true will test those (after normal bounds checks)
+		// A collision is judged to have happened if one of them collides
 		bool enableOneOfTests{ false };
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>
-		/// Returns position and normal of a collision, requires the collisionLine to be provided (if not
-		/// doing pixel perfect)
-		/// </summary>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Returns position and normal of a collision, requires the collisionLine to be provided (if not doing pixel perfect)
 		bool calculateCollisionData{ false };
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>
-		/// Does not use collider shapes but the sprite surface itself (after normal bounds checks)
-		/// </summary>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Does not use collider shapes but the sprite surface itself (after normal bounds checks)
 		bool enablePixelPerfectCollisions{ false };
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>
-		/// If checking via ColliderComponent this is filled in automatically for you Required to
-		/// calculate collision data when calculateCollisionData is true (but not when
-		/// enablePixelPerfectCollisions is true)
-		/// Should be formed from the last position and the new position of the entity.
-		/// </summary>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// If checking via ColliderComponent this is filled in automatically for you
+		// Required to calculate collision data when calculateCollisionData is true (but not when enablePixelPerfectCollisions is true)
+		// Should be formed from the last position and the new position of the entity		
 		LineF collisionLine;
 	};	
 
-	/// <summary>	Returned information about a collision test. </summary>
+	// Returned information about a collision test
 	struct CollisionInfo
 	{
-		/// <summary>	Result of the collision. </summary>
+		// Result of the collision
 		ECollisionResult result{ ECollisionResult::eBoundingFail };
 
-		/// <summary>	Type of the collision. </summary>
+		// Type of the collision
 		ECollisionShapeType type{ ECollisionShapeType::eRectRect };
 
-		/// <summary>	Name of the collider in this sprite that collided. </summary>
+		// Name of the collider in this sprite that collided
 		std::string thisColliderName;
 		
-		/// <summary>	Name of the collider in other sprite that collided. </summary>
+		// Name of the collider in other sprite that collided
 		std::string otherColliderName;
 		
 		// The following are only provided if CollisionSettings has calculateCollisionData set to true
 		// Or a pixel perfect collision is being carried out
 
-		/// <summary>	Pixel on the screen where the collision occured. </summary>
+		// Pixel on the screen where the collision occured
 		VectorI screenPos;
 
-		/// <summary>	Normal at the point of collision on 'other'. </summary>
+		// Normal at the point of collision on 'other'
 		VectorF normal;
 
-		/// <summary>	Local position relative to the frame of 'this' where collision happened. </summary>
+		// Local position relative to the frame of 'this' where collision happened
 		VectorI thisLocalPos;
 
-		/// <summary>	Local position relative to the frame of 'other' where collision happened. </summary>
+		// Local position relative to the frame of 'other' where collision happened
 		VectorI otherLocalPos;
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Helper. </summary>
-		///
-		/// <param name="type">	The type. </param>
-		///
-		/// <returns>	A std::string. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Helper
 		static std::string CollisionShapeTypeToString(ECollisionShapeType type)
 		{
 			switch (type)
@@ -138,13 +103,7 @@ namespace HAPISPACE {
 			return "ERROR: ECollisionShapeType Unknown enum";
 		}
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Helper. </summary>
-		///
-		/// <param name="result">	The result. </param>
-		///
-		/// <returns>	A std::string. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Helper
 		static std::string CollisionResultToString(ECollisionResult result)
 		{
 			switch (result)
@@ -170,7 +129,7 @@ namespace HAPISPACE {
 	};
 
 
-	/// <summary>	Supported collider shapes. </summary>
+	// Supported collider shapes
 	enum class EColliderShape
 	{
 		eRectangle,
@@ -178,7 +137,7 @@ namespace HAPISPACE {
 		// polygon. capsule... TODO
 	};	
 
-	/// <summary>	Supported collider types. </summary>
+	// Supported collider types
 	enum class EColliderType
 	{
 		eBounding,	// A bounding area collider, must be intersected for a true collision response
@@ -186,314 +145,104 @@ namespace HAPISPACE {
 		eMarker		// Used to determine screen positions for points or to detect areas hit etc. not part of collision result
 	};
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>
-	/// Colliders are all defined in local space i.e. with 0,0 top left of frame They are all shapes.
-	/// Pixel perfect colliisions are done via the component or sprite directly Base collider class.
-	/// </summary>
-	////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Colliders are all defined in local space i.e. with 0,0 top left of frame
+	// They are all shapes. Pixel perfect colliisions are done via the component or sprite directly
+	// Base collider class
 	class Collider
 	{
 	protected:
-		/// <summary>	The name. </summary>
 		std::string m_name;
-		/// <summary>	The type. </summary>
 		EColliderType m_type;
-		/// <summary>	Default constructor. </summary>
 		Collider() = default;
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Writes a base. </summary>
-		///
-		/// <param name="thisNode">	[in,out] If non-null, this node. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void WriteBase(CHapiXMLNode* thisNode) const;
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Reads a base. </summary>
-		///
-		/// <param name="thisNode">	[in,out] If non-null, this node. </param>
-		///
-		/// <returns>	True if it succeeds, false if it fails. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		bool ReadBase(CHapiXMLNode* thisNode);
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>
-		/// For debug purposes can render the collider to a surface. Cannot be called direct as needs
-		/// cache update.
-		/// </summary>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// For debug purposes can render the collider to a surface. Cannot be called direct as needs cache update.
 		friend class ColliderGroup;
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Renders this object. </summary>
-		///
-		/// <param name="renderSurface">	[in,out] The render surface. </param>
-		/// <param name="transform">		The transform. </param>
-		/// <param name="col">				The col. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual void Render(std::shared_ptr<Surface> &renderSurface, const Transform& transform, const Colour255& col) const = 0;
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Cache transform. </summary>
-		///
-		/// <param name="trans">	The transform. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual void CacheTransform(const Transform& trans) = 0;
 	public:
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Constructor. </summary>
-		///
-		/// <param name="name">	The name. </param>
-		/// <param name="type">	The type. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		Collider(std::string name, EColliderType type) noexcept : m_name(name), m_type(type) {}
-		/// <summary>	Destructor. </summary>
 		virtual ~Collider() = default;
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets the shape. </summary>
-		///
-		/// <returns>	The shape. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual EColliderShape GetShape() const = 0;		
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Writes an XML. </summary>
-		///
-		/// <param name="parentNode">	[in,out] If non-null, the parent node. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual void WriteXML(CHapiXMLNode* parentNode) const = 0;
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets the name. </summary>
-		///
-		/// <returns>	The name. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+		
 		const std::string& GetName() const { return m_name; }
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets the type. </summary>
-		///
-		/// <returns>	The type. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		EColliderType GetType() const { return m_type; }
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Prefer to do via ColliderGroup to maintain cache integrity. </summary>
-		///
-		/// <param name="newType">	Type of the new. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Prefer to do via ColliderGroup to maintain cache integrity
 		void ChangeType(EColliderType newType) { m_type = newType; }
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Change name. </summary>
-		///
-		/// <param name="newName">	Name of the new. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void ChangeName(std::string newName) { m_name = newName; }
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets local space bounding rectangle. </summary>
-		///
-		/// <returns>	The local space bounding rectangle. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		virtual RectangleI GetLocalSpaceBoundingRectangle() const = 0;
 	};
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	A rectangle collider. </summary>
-	///
-	/// <seealso cref="T:Collider"/>
-	////////////////////////////////////////////////////////////////////////////////////////////////////
+	// A rectangle collider
 	class RectangleCollider : public Collider
 	{
 	private:
-		/// <summary>	The rectangle. </summary>
 		RectangleI m_rect;
-		/// <summary>	Cached result. Transformed RectangleI gives a RectangleOrientedF. </summary>
+		// Cached result. Transformed RectangleI gives a RectangleOrientedF
 		RectangleOrientedF m_transformed;	
-		/// <summary>	Additional caching as this was taking a lot of time - monitor. </summary>
+		// Additional caching as this was taking a lot of time - monitor
 		Polygon m_tranformedAsPolygon;
 	protected:
 		// For debug purposes can render the collider to a surface. Cannot be called direct as needs cache update.
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Renders this object. </summary>
-		///
-		/// <param name="renderSurface">	[in,out] The render surface. </param>
-		/// <param name="transform">		The transform. </param>
-		/// <param name="col">				The col. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Render(std::shared_ptr<Surface> &renderSurface, const Transform& transform, const Colour255& col) const override final;
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Cache transform. </summary>
-		///
-		/// <param name="trans">	The transform. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void CacheTransform(const Transform& trans) override final;
 		
 	public:
 		// Construct from rect
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Constructor. </summary>
-		///
-		/// <param name="name">	The name. </param>
-		/// <param name="rect">	The rectangle. </param>
-		/// <param name="type">	The type. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		RectangleCollider(std::string name, RectangleI rect, EColliderType type) noexcept : m_rect(rect), Collider(name, type){}
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Construct from XML. </summary>
-		///
-		/// <param name="xml"> 	The XML. </param>
-		/// <param name="node">	[in,out] If non-null, the node. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Construct from XML
 		RectangleCollider(const CHapiXML& xml, CHapiXMLNode* node);
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets the rectangle. </summary>
-		///
-		/// <returns>	The rectangle. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		const RectangleI &GetRect() const { return m_rect; }
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Prefer to do via ColliderGroup to maintain cache integrity. </summary>
-		///
-		/// <param name="newRect">	The new rectangle. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Prefer to do via ColliderGroup to maintain cache integrity
 		void ChangeRect(RectangleI newRect) { m_rect = newRect; }
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Writes an XML. </summary>
-		///
-		/// <param name="parentNode">	[in,out] If non-null, the parent node. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void WriteXML(CHapiXMLNode* parentNode) const override final;
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets the shape. </summary>
-		///
-		/// <returns>	The shape. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		EColliderShape GetShape() const override final { return EColliderShape::eRectangle; }		
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Cached result. </summary>
-		///
-		/// <returns>	A reference to a const RectangleOrientedF. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		const RectangleOrientedF& CachedResult() const { return m_transformed; }
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Cached outline. </summary>
-		///
-		/// <returns>	A reference to a const Polygon. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		const Polygon& CachedOutline() const { return m_tranformedAsPolygon; }
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets local space bounding rectangle. </summary>
-		///
-		/// <returns>	The local space bounding rectangle. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		RectangleI GetLocalSpaceBoundingRectangle() const override final { return m_rect; }
 	};
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	/// <summary>	A circle collider. </summary>
-	///
-	/// <seealso cref="T:Collider"/>
-	////////////////////////////////////////////////////////////////////////////////////////////////////
 	class CircleCollider : public Collider
 	{
 	private:
-		/// <summary>	The circle. </summary>
 		Circle m_circle;
-		/// <summary>	Cached result. </summary>
+		// Cached result
 		Circle m_transformed;
 	protected:
 		// For debug purposes can render the collider to a surface. Cannot be called direct as needs cache update.
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Renders this object. </summary>
-		///
-		/// <param name="renderSurface">	[in,out] The render surface. </param>
-		/// <param name="transform">		The transform. </param>
-		/// <param name="col">				The col. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void Render(std::shared_ptr<Surface> &renderSurface, const Transform& transform, const Colour255& col) const override final;
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Cache transform. </summary>
-		///
-		/// <param name="trans">	The transform. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void CacheTransform(const Transform& trans) override final;
 		
 	public:
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Constructor. </summary>
-		///
-		/// <param name="name">	The name. </param>
-		/// <param name="circ">	The circ. </param>
-		/// <param name="type">	The type. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		CircleCollider(std::string name, Circle circ, EColliderType type) noexcept : m_circle(circ), Collider(name,type) {}
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Construct from XML. </summary>
-		///
-		/// <param name="xml"> 	The XML. </param>
-		/// <param name="node">	[in,out] If non-null, the node. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Construct from XML
 		CircleCollider(const CHapiXML& xml, CHapiXMLNode* node);
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets the circle. </summary>
-		///
-		/// <returns>	The circle. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		const Circle& GetCircle() const { return m_circle; }
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Prefer to do via ColliderGroup to maintain cache integrity. </summary>
-		///
-		/// <param name="newCircle">	The new circle. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+		// Prefer to do via ColliderGroup to maintain cache integrity
 		void ChangeCircle(Circle newCircle) { m_circle = newCircle; }
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Writes an XML. </summary>
-		///
-		/// <param name="parentNode">	[in,out] If non-null, the parent node. </param>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		void WriteXML(CHapiXMLNode* parentNode) const override final;
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets the shape. </summary>
-		///
-		/// <returns>	The shape. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		EColliderShape GetShape() const override final { return EColliderShape::eCircle; }
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Cached result. </summary>
-		///
-		/// <returns>	A reference to a const Circle. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
 		const Circle& CachedResult() const { return m_transformed; }
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/// <summary>	Gets local space bounding rectangle. </summary>
-		///
-		/// <returns>	The local space bounding rectangle. </returns>
-		////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 		RectangleI GetLocalSpaceBoundingRectangle() const override final { return (RectangleI)m_circle.GetEnclosingAABB(); }
 	};
 }
