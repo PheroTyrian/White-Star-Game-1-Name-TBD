@@ -20,6 +20,8 @@
 
 // To use HAPI Sprites you need to include the header
 #include <HAPISprites_Lib.h>
+#include "BattleUIClass.h"
+#include "OverworldUIClass.h"
 
 // All of the core HAPI Sprites functionality is in the HAPISPACE namespace
 using namespace HAPISPACE;
@@ -35,6 +37,13 @@ void HAPI_Sprites_Main()
 	// This call allows us to specify the screen size and optionally the window title text and flags
 	if (!HAPI_Sprites.Initialise(width, height, "HAPI Sprites Start Project"))
 		return;
+
+	/*UIWIndowTest UIWIndowTest({ width,height });//initialise spesific ui window, need to make a overworld and battle version, need to switch when in each world 
+	if (!UIWIndowTest.Initialise())
+	{
+		HAPI_Sprites.UserMessage("Could not initialise app", "Error");
+		return;
+	}*/
 
 	/*
 	Main Classes
@@ -124,11 +133,14 @@ void HAPI_Sprites_Main()
 	*/
 	while (HAPI_Sprites.Update())
 	{
+		
+
 		/*
 		We need to clear the screen prior to drawing
 		We can use the screen surface macro
 		*/
 		SCREEN_SURFACE->Clear();
+		//UIWIndowTest.Update();//Jack left this here for later
 
 		/*
 		A sprite holds position, scaling and rotation data in a transform component

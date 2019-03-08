@@ -171,13 +171,15 @@
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
-    <ClCompile Include="UIClass.cpp" />
+    <ClCompile Include="BattleUIClass.cpp" />
+    <ClCompile Include="OverworldUIClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="entity.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="Map.h" />
-    <ClInclude Include="UIClass.h" />
+    <ClInclude Include="BattleUIClass.h" />
+    <ClInclude Include="OverworldUIClass.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
