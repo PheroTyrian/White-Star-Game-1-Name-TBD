@@ -1,8 +1,13 @@
 #include "entity.h"
 
-entity::entity()
+entity::entity(std::string filename)
 {
+	m_sprite = HAPI_Sprites.MakeSprite(filename);
+}
 
+HAPISPACE::Sprite& entity::getSprite() const
+{
+	return *m_sprite;
 }
 
 void entity::setAlive(bool alive)
