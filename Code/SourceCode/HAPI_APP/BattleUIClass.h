@@ -35,7 +35,13 @@ private:
 	bool trigger = false;//used for switching
 	int frameHeight;
 	int frameWidth;
-	
+
+	bool sideBoundary = false;
+	bool floorBoundary = false;//if sides are on the left and right, what is on the top and bottom. I dont think a word exists for that. vertical, plane & floor arnt quite right.
+	//int sideBoundary;
+	VectorF pendingCameraMovement{ 0 };
+	std::pair<int, int> CameraPositionOffset;
+
 public:
 	UIWIndowTest(RectangleI screenRect) : m_screenRect(screenRect), m_rectCollider({ 0,300,0,40 }) {}
 	void OnKeyEvent(EKeyEvent keyEvent, BYTE keyCode) override final;

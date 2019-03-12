@@ -15,10 +15,30 @@ void UIWIndowTest::OnKeyEvent(EKeyEvent keyEvent, BYTE keyCode)
 
 void UIWIndowTest::OnMouseMove(const HAPI_TMouseData& mouseData)
 {
-	//moves the sprites when the mouse is on the edge of the screen
-	//only checks when mouse moves. if mouse doesnt move, it knows its still in the same spot and will keep scrolling without checking
 	mouseX = mouseData.x;
 	mouseY = mouseData.y;
+
+	//moves the sprites when the mouse is on the edge of the screen
+	//only checks when mouse moves. if mouse doesnt move, it knows its still in the same spot and will keep scrolling without checking
+	pendingCameraMovement = VectorF{ 0,0 };
+
+	if (mouseData.x < 100)
+	{
+		pendingCameraMovement = VectorF{ 1,0 };
+	}
+	else if (mouseData.x > 1180)
+	{
+		pendingCameraMovement = VectorF{ -1,0 };
+	}
+
+	if (mouseData.y < 100)
+	{
+		pendingCameraMovement = VectorF{ 0,1 };
+	}
+	else if (mouseData.y > 700)
+	{
+		pendingCameraMovement = VectorF{ 0,-1 };
+	}
 }
 
 void UIWIndowTest::HandleCollision(Sprite & sprite, Sprite & collideWith)
@@ -93,5 +113,48 @@ void UIWIndowTest::Update()
 	{
 			
 		storage[x]->Render(SCREEN_SURFACE);
+	}
+
+	if (!pendingCameraMovement.IsZero())													
+	{
+		
+		CameraPositionOffset.first += pendingCameraMovement.x;//translates the camera position
+		CameraPositionOffset.second += pendingCameraMovement.y;
+
+		if (CameraPositionOffset.first < -500)//checks for if its reached any of the 4 boundries, need to change it to a variable
+		{
+			CameraPositionOffset.first = -500;
+			sideBoundary = true;
+		}
+		else if (CameraPositionOffset.first > 500)
+		{
+			CameraPositionOffset.first = 500;
+			sideBoundary = true;
+		}
+		else
+		{
+			sideBoundary = false;
+		}
+		if (CameraPositionOffset.second < -400)
+		{
+			CameraPositionOffset.second = -400;
+			floorBoundary = true;
+		}
+		else if (CameraPositionOffset.second > 400)
+		{
+			CameraPositionOffset.second = 400;
+			floorBoundary = true;
+		}
+		else
+		{
+			floorBoundary = false;
+		}
+
+		if (!sideBoundary && !floorBoundary)
+		{
+			//m_heliSprite->GetTransformComp().Translate(pendingCameraMovement);//translates the sprites indevidually, temp solution. Will eventually just transform camera position which will be taken into account in the sprite position
+			//m_logoSprite->GetTransformComp().Translate(pendingCameraMovement);
+			//m_stickySprite->GetTransformComp().Translate(pendingCameraMovement);
+		}
 	}
 }

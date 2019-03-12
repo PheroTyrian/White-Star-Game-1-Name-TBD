@@ -11,73 +11,50 @@ OverworldUiClass::~OverworldUiClass()
 
 void OverworldUIWIndowTest::Update()
 {
-	if (!pendingCameraMovement.IsZero())													//change this to move the offset on the map.cpp
-	{
-		CameraPositionX += pendingCameraMovement.x;//translates the camera position
-		CameraPositionY += pendingCameraMovement.y;
+	//if (!pendingCameraMovement.IsZero())													//change this to move the offset on the map.cpp
+	//{
+	//	CameraPositionX += pendingCameraMovement.x;//translates the camera position
+	//	CameraPositionY += pendingCameraMovement.y;
 
-		if (CameraPositionX < -500)//checks for if its reached any of the 4 boundries
-		{
-			CameraPositionX = -500;
-			sideBoundary = true;
-		}
-		else if (CameraPositionX > 500)
-		{
-			CameraPositionX = 500;
-			sideBoundary = true;
-		}
-		else
-		{
-			sideBoundary = false;
-		}
-		if (CameraPositionY < -400)
-		{
-			CameraPositionY = -400;
-			floorBoundary = true;
-		}
-		else if (CameraPositionY > 400)
-		{
-			CameraPositionY = 400;
-			floorBoundary = true;
-		}
-		else
-		{
-			floorBoundary = false;
-		}
+	//	if (CameraPositionX < -500)//checks for if its reached any of the 4 boundries
+	//	{
+	//		CameraPositionX = -500;
+	//		sideBoundary = true;
+	//	}
+	//	else if (CameraPositionX > 500)
+	//	{
+	//		CameraPositionX = 500;
+	//		sideBoundary = true;
+	//	}
+	//	else
+	//	{
+	//		sideBoundary = false;
+	//	}
+	//	if (CameraPositionY < -400)
+	//	{
+	//		CameraPositionY = -400;
+	//		floorBoundary = true;
+	//	}
+	//	else if (CameraPositionY > 400)
+	//	{
+	//		CameraPositionY = 400;
+	//		floorBoundary = true;
+	//	}
+	//	else
+	//	{
+	//		floorBoundary = false;
+	//	}
 
-		if (!sideBoundary && !floorBoundary)
-		{
-			//m_heliSprite->GetTransformComp().Translate(pendingCameraMovement);//translates the sprites indevidually, temp solution. Will eventually just transform camera position which will be taken into account in the sprite position
-			//m_logoSprite->GetTransformComp().Translate(pendingCameraMovement);
-			//m_stickySprite->GetTransformComp().Translate(pendingCameraMovement);
-		}
-	}
+	//	if (!sideBoundary && !floorBoundary)
+	//	{
+	//		//m_heliSprite->GetTransformComp().Translate(pendingCameraMovement);//translates the sprites indevidually, temp solution. Will eventually just transform camera position which will be taken into account in the sprite position
+	//		//m_logoSprite->GetTransformComp().Translate(pendingCameraMovement);
+	//		//m_stickySprite->GetTransformComp().Translate(pendingCameraMovement);
+	//	}
+	//}
 }
 
-void OverworldUIWIndowTest::OnMouseMove(const HAPI_TMouseData& mouseData)
-{
-	//moves the sprites when the mouse is on the edge of the screen
-	//only checks when mouse moves. if mouse doesnt move, it knows its still in the same spot and will keep scrolling without checking
-	pendingCameraMovement = VectorF{ 0,0 };
 
-	if (mouseData.x < 100)
-	{
-		pendingCameraMovement = VectorF{ 1,0 };
-	}
-	else if (mouseData.x > 1180)
-	{
-		pendingCameraMovement = VectorF{ -1,0 };
-	}
-
-	if (mouseData.y < 100)
-	{
-		pendingCameraMovement = VectorF{ 0,1 };
-	}
-	else if (mouseData.y > 700)
-	{
-		pendingCameraMovement = VectorF{ 0,-1 };
-	}
-}
 
 void OverworldUIWIndowTest::OnMouseEvent(EMouseEvent mouseEvent, const HAPI_TMouseData& mouseData)
 {
