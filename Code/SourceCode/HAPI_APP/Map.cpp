@@ -1,22 +1,9 @@
 #include "Map.h"
 #include <memory>
-#include <string>
 #include <math.h>
 #include <algorithm>
 #include <HAPISprites_Lib.h>
 
-struct Tile
-{
-	enum eTileType m_type;
-	entity* m_entityOnTile;
-	std::unique_ptr<HAPISPACE::Sprite> m_sprite;
-	const std::pair<int, int> m_tileCoordinate;
-
-	Tile(eTileType type, std::string spriteName, std::pair<int, int> coord) : m_type(type), m_tileCoordinate(coord)
-	{
-		m_sprite = HAPI_Sprites.LoadSprite(spriteName, std::string());
-	}
-};
 
 void Map::drawMap()
 {
@@ -126,8 +113,8 @@ std::vector<Tile*> Map::getTileCone(std::pair<int, int> coord, int range, enum e
 
 bool Map::moveEntity(std::pair<int, int> originalPos, std::pair<int, int> newPos)
 {
-	auto tmpNew = getTile(newPos)->m_entityOnTile;
-	auto tmpOld = getTile(originalPos)->m_entityOnTile;
+	Entity* tmpNew = getTile(newPos)->m_entityOnTile;
+	Entity* tmpOld = getTile(originalPos)->m_entityOnTile;
 
 	if (tmpNew != nullptr || tmpOld == nullptr)
 		return false;
@@ -156,8 +143,19 @@ std::pair<int, int> Map::getTileScreenPos(std::pair<int, int> coord)
 		yPos * drawScale + m_drawOffset.second);
 }
 
-Map::Map()
+Map::Map(int width, int height) : 
+	m_mapDimensions(std::pair<int, int>(width, height)), m_data(), m_drawOffset(std::pair<int, int>(0, 0)), 
+	m_windDirection(0), m_windStrength(0.0)
 {
+	m_data.reserve(width * height);
+	for (int y = 0; y < height; y++)
+	{
+		for (int x = 0; x < width; x++)
+		{
+			Tile tile(0, std::string("tile1.xml"), std::string(), std::pair<int, int>(x, y));
+			m_data.push_back(tile);
+		}
+	}
 }
 
 

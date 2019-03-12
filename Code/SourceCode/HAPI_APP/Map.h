@@ -1,9 +1,25 @@
 #pragma once
 #include <utility>
 #include <vector>
+#include <string>
 
 struct entity;
-struct Tile;
+
+struct Tile
+{
+	enum eTileType m_type;
+	entity* m_entityOnTile;
+	std::unique_ptr<HAPISPACE::Sprite> m_sprite;
+	const std::pair<int, int> m_tileCoordinate;
+
+	Tile(eTileType type, std::string spriteName, std::string directory, std::pair<int, int> coord) :
+		m_type(type), m_tileCoordinate(coord)
+	{
+		//HAPI's Sprite constructor takes two strings: the name of the file to load (append .xml) 
+		//and the path to that file relative to the program
+		m_sprite = HAPI_Sprites.LoadSprite(spriteName, directory);
+	}
+};
 
 class Map
 {
@@ -34,7 +50,7 @@ public:
 	std::pair<int, int> getTileScreenPos(std::pair<int, int> coord);
 
 	//TODO: Get constructor working. Need tiled parser or load from xml set up
-	Map();
+	Map(int width, int height);
 	~Map();
 };
 
