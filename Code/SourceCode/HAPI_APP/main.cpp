@@ -35,15 +35,15 @@ void HAPI_Sprites_Main()
 
 	// We must initialise HAPI Sprites before doing anything with it
 	// This call allows us to specify the screen size and optionally the window title text and flags
-	if (!HAPI_Sprites.Initialise(width, height, "HAPI Sprites Start Project"))
+	if (!HAPI_Sprites.Initialise(width, height, "HAPI Sprites Start Project", eHSEnableUI))
 		return;
 
-	/*UIWIndowTest UIWIndowTest({ width,height });//initialise spesific ui window, need to make a overworld and battle version, need to switch when in each world 
+	UIWIndowTest UIWIndowTest({ width,height });//initialise spesific ui window, need to make a overworld and battle version, need to switch when in each world 
 	if (!UIWIndowTest.Initialise())
 	{
 		HAPI_Sprites.UserMessage("Could not initialise app", "Error");
 		return;
-	}*/
+	}
 
 	/*
 	Main Classes
