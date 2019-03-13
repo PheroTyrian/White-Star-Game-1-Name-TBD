@@ -10,14 +10,12 @@ class battleSystem
 {
 private:
 	//std::vector<std::pair<entity*, tile*>> m_entities; // need tile class
-	bool running;
-	void initialize();
-	void update();
-	void render();
-
+	std::vector<entity> entities;
 public:
 	battleSystem();
-	void run();
+	bool initualize();
+	bool update();
+	bool render();
 };
 
 #endif

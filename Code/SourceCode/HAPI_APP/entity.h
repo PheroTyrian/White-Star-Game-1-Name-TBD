@@ -56,6 +56,7 @@ protected:
 	std::vector<weapon> m_weapons;
 public:
 	entity(std::string filename);
+	bool render();
 	HAPISPACE::Sprite& getSprite() const;
 	void setAlive(bool alive);
 	void setHealth(int health);

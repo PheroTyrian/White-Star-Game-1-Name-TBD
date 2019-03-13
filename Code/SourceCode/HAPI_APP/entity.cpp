@@ -5,6 +5,12 @@ entity::entity(std::string filename)
 	m_sprite = HAPI_Sprites.MakeSprite(filename);
 }
 
+bool entity::render()
+{
+	m_sprite->Render(SCREEN_SURFACE);
+	return true;
+}
+
 HAPISPACE::Sprite& entity::getSprite() const
 {
 	return *m_sprite;

@@ -1,4 +1,5 @@
 #include "BattleUIClass.h"
+#include "BattleSystem.h"
 //needs splitting out really into function wrapper
 
 BattleUIClass::BattleUIClass()
@@ -54,7 +55,7 @@ void UIWIndowTest::OnMouseEvent(EMouseEvent mouseEvent, const HAPI_TMouseData& m
 
 bool UIWIndowTest::Initialise()
 {	
-	for (int i = 0; i < 16; i++)
+	/*for (int i = 0; i < 16; i++)
 	{
 		storage.push_back(HAPI_Sprites.LoadSprite("Data\\hexTiles.xml"));// populating the storage 
 		storage[i]->GetColliderComp().EnablePixelPerfectCollisions(true);
@@ -76,14 +77,15 @@ bool UIWIndowTest::Initialise()
 		{
 			storage[i]->GetTransformComp().SetPosition({ (float)frameWidth * (i - storage.size()/2), 200 });
 		}
-	}
+	}*/
+
 	return true;
 }
 
 void UIWIndowTest::Update()
 {
 	//HAPI_Sprites.SetShowCursor(false);
-	storage[storage.size() - 1]->GetTransformComp().SetPosition({ (float)mouseX - 5,(float)mouseY - 5 });//this is the mouse cursor
+	/*storage[storage.size() - 1]->GetTransformComp().SetPosition({ (float)mouseX - 5,(float)mouseY - 5 });//this is the mouse cursor
 	for (int x = 0; x < storage.size(); x++)
 	{
 		HandleCollision(*storage[storage.size()-1], *storage[x]);
@@ -93,5 +95,5 @@ void UIWIndowTest::Update()
 	{
 			
 		storage[x]->Render(SCREEN_SURFACE);
-	}
+	}*/
 }

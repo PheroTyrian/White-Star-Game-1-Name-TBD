@@ -17,6 +17,9 @@ class UIWIndowTest :public IHapiSpritesInputListener, public IHapiSpritesUIListe
 {
 private:
 
+	//battle system object
+	battleSystem* battlesystem{ nullptr };
+
 	enum tileState
 	{
 		notSelected = 0, 
