@@ -3,6 +3,9 @@
 using namespace HAPISPACE;
 #include <HAPISprites_UI.h>
 using namespace HAPI_UI_SPACE;
+#include <memory>
+
+class battleSystem;
 
 class BattleUIClass
 {
@@ -18,7 +21,8 @@ class UIWIndowTest :public IHapiSpritesInputListener, public IHapiSpritesUIListe
 private:
 
 	//battle system object
-	battleSystem* battlesystem{ nullptr };
+	std::shared_ptr<battleSystem> battlesystem{nullptr};
+	//battleSystem *battleSystem{ nullptr };
 
 	enum tileState
 	{

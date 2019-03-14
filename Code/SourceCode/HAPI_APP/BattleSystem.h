@@ -4,7 +4,7 @@
 #include<HAPISprites_lib.h>
 #include<vector>
 #include"entity.h"
-#include "Rendering.h"
+
 
 class battleSystem
 {
@@ -16,6 +16,7 @@ public:
 	bool initualize();
 	bool update();
 	bool render();
+	~battleSystem();
 };
 
 #endif
