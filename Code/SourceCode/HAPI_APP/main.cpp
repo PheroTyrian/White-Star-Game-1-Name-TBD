@@ -84,6 +84,7 @@ void HAPI_Sprites_Main()
 	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\helicopter.png", 4);
 
 
+
 	/*
 	Example of creating a Sprite from an XML file
 
@@ -157,6 +158,5 @@ void HAPI_Sprites_Main()
 		*/
 		sprite->Render(SCREEN_SURFACE);
 		sprite2->Render(SCREEN_SURFACE);
-
 	}
 }

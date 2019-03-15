@@ -8,50 +8,24 @@ OverworldUiClass::~OverworldUiClass()
 {
 }
 
+void OverworldUIWIndowTest::Initialise()
+{
+	EnemyTerritoryHexSheet->GetTransformComp().SetPosition({ 100, 600 });
+}
 
 void OverworldUIWIndowTest::Update()
 {
-	//if (!pendingCameraMovement.IsZero())													//change this to move the offset on the map.cpp
-	//{
-	//	CameraPositionX += pendingCameraMovement.x;//translates the camera position
-	//	CameraPositionY += pendingCameraMovement.y;
-
-	//	if (CameraPositionX < -500)//checks for if its reached any of the 4 boundries
-	//	{
-	//		CameraPositionX = -500;
-	//		sideBoundary = true;
-	//	}
-	//	else if (CameraPositionX > 500)
-	//	{
-	//		CameraPositionX = 500;
-	//		sideBoundary = true;
-	//	}
-	//	else
-	//	{
-	//		sideBoundary = false;
-	//	}
-	//	if (CameraPositionY < -400)
-	//	{
-	//		CameraPositionY = -400;
-	//		floorBoundary = true;
-	//	}
-	//	else if (CameraPositionY > 400)
-	//	{
-	//		CameraPositionY = 400;
-	//		floorBoundary = true;
-	//	}
-	//	else
-	//	{
-	//		floorBoundary = false;
-	//	}
-
-	//	if (!sideBoundary && !floorBoundary)
-	//	{
-	//		//m_heliSprite->GetTransformComp().Translate(pendingCameraMovement);//translates the sprites indevidually, temp solution. Will eventually just transform camera position which will be taken into account in the sprite position
-	//		//m_logoSprite->GetTransformComp().Translate(pendingCameraMovement);
-	//		//m_stickySprite->GetTransformComp().Translate(pendingCameraMovement);
-	//	}
-	//}
+	BattleMapBackground->Render(SCREEN_SURFACE);
+	EnemyTerritoryHexSheet->Render(SCREEN_SURFACE);
+	if (true)//mouse colides with hex
+	{
+		EnemyTerritoryHexSheet->SetFrameNumber(1);
+		RenderText();
+	}
+	else
+	{
+		EnemyTerritoryHexSheet->SetFrameNumber(0);
+	}
 }
 
 

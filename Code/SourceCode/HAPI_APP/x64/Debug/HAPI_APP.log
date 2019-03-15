@@ -1,22 +1,2 @@
-﻿  BattleUIClass.cpp
-c:\users\s6110517\source\white-star-game-1-name-tbd\code\sourcecode\hapi_app\battleuiclass.cpp(121): warning C4244: '+=': conversion from 'T' to '_Ty1', possible loss of data
-          with
-          [
-              T=float
-          ]
-          and
-          [
-              _Ty1=int
-          ]
-c:\users\s6110517\source\white-star-game-1-name-tbd\code\sourcecode\hapi_app\battleuiclass.cpp(122): warning C4244: '+=': conversion from 'T' to '_Ty2', possible loss of data
-          with
-          [
-              T=float
-          ]
-          and
-          [
-              _Ty2=int
-          ]
-  OverworldUIClass.cpp
-  Generating Code...
-  HAPI_APP.vcxproj -> C:\Users\s6110517\Source\White-Star-Game-1-Name-TBD\Code\SourceCode\x64\Debug\HAPI_APP.exe
+﻿  main.cpp
+  HAPI_APP.vcxproj -> X:\Homework\GameJamRepo\White-Star-Game-1-Name-TBD\Code\SourceCode\x64\Debug\HAPI_APP.exe
