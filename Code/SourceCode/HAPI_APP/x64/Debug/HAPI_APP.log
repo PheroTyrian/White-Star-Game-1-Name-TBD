@@ -1,2 +1,11 @@
-﻿  main.cpp
-  HAPI_APP.vcxproj -> X:\Homework\GameJamRepo\White-Star-Game-1-Name-TBD\Code\SourceCode\x64\Debug\HAPI_APP.exe
+﻿  OverworldUIClass.cpp
+c:\users\s6110517\source\white-star-game-1-name-tbd\code\sourcecode\hapi_app\overworlduiclass.cpp(21): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              T=int
+          ]
+  HAPI_APP.vcxproj -> C:\Users\s6110517\Source\White-Star-Game-1-Name-TBD\Code\SourceCode\x64\Debug\HAPI_APP.exe

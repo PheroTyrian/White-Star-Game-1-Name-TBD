@@ -8,19 +8,20 @@ OverworldUiClass::~OverworldUiClass()
 {
 }
 
-void OverworldUIWIndowTest::Initialise()
+bool OverworldUIWIndowTest::Initialise()
 {
 	EnemyTerritoryHexSheet->GetTransformComp().SetPosition({ 100, 600 });
+	return true;
 }
 
 void OverworldUIWIndowTest::Update()
 {
 	BattleMapBackground->Render(SCREEN_SURFACE);
 	EnemyTerritoryHexSheet->Render(SCREEN_SURFACE);
+	SCREEN_SURFACE->DrawText(HAPISPACE::VectorI(EnemyTerritoryHexSheet->GetTransformComp().GetPosition().x + EnemyTerritoryHexSheet->GetCurrentFrame().rect.right/4 - 45, EnemyTerritoryHexSheet->GetTransformComp().GetPosition().y + EnemyTerritoryHexSheet->GetCurrentFrame().rect.bottom/4), HAPISPACE::Colour255::RED, "5.7", 90);
 	if (true)//mouse colides with hex
 	{
 		EnemyTerritoryHexSheet->SetFrameNumber(1);
-		RenderText();
 	}
 	else
 	{
@@ -51,6 +52,11 @@ void OverworldUIWIndowTest::OnMouseEvent(EMouseEvent mouseEvent, const HAPI_TMou
 	{
 		//mouseData.x//how do you check if a mouse click collided with a collider?
 	}
+}
+
+void OverworldUIWIndowTest::OnKeyEvent(EKeyEvent keyEvent, BYTE keyCode)
+{
+
 }
 
 /*
