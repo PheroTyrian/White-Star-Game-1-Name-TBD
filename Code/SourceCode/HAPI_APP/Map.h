@@ -10,6 +10,7 @@ struct entity;
 enum eTileType
 {
 	eWater,
+	eGrass,
 	eSand
 };
 
