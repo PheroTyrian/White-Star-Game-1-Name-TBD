@@ -22,7 +22,7 @@ void Map::drawMap()
 			float xPos = (float)x * textureDimensions.first * 3 / 4;
 			if (x % 2 == 0)//Is even
 				m_data[access].m_sprite->GetTransformComp().SetPosition(HAPISPACE::VectorF(
-					xPos * drawScale + m_drawOffset.first, 
+					xPos * drawScale + m_drawOffset.first,
 					yPosEven * drawScale + m_drawOffset.second));
 			else//Is Odd
 				m_data[access].m_sprite->GetTransformComp().SetPosition(HAPISPACE::VectorF(
@@ -47,8 +47,8 @@ Tile *Map::getTile(std::pair<int, int> coordinate)
 	}
 	/*
 	HAPI_Sprites.UserMessage(
-		std::string("getTile request out of bounds: " + std::to_string(coordinate.first) + 
-			", " + std::to_string(coordinate.second) + " map dimensions are: " + 
+		std::string("getTile request out of bounds: " + std::to_string(coordinate.first) +
+			", " + std::to_string(coordinate.second) + " map dimensions are: " +
 			std::to_string(m_mapDimensions.first) + ", " + std::to_string(m_mapDimensions.second)),
 		"Map error");
 	*/
@@ -89,7 +89,7 @@ std::vector<Tile*> Map::getTileRadius(std::pair<int, int> coord, int range)
 	int reserveSize{ 0 };
 	for (int i = 1; i <= range; i++)
 	{
-		reserveSize += (int) pow(6, i);
+		reserveSize += (int)pow(6, i);
 	}
 	tileStore.reserve((size_t)reserveSize);
 
@@ -97,8 +97,8 @@ std::vector<Tile*> Map::getTileRadius(std::pair<int, int> coord, int range)
 	if (2 % coord.first == 0)
 		bool even = true;
 
-	for (int x = std::max(0, coord.first - range); 
-		x <= std::max(m_mapDimensions.first, coord.first + range); 
+	for (int x = std::max(0, coord.first - range);
+		x <= std::max(m_mapDimensions.first, coord.first + range);
 		x++)
 	{
 		//for (int y = std::max(0, coord.second - ))//Point I stopped at
@@ -113,8 +113,8 @@ std::vector<Tile*> Map::getTileCone(std::pair<int, int> coord, int range, enum e
 
 bool Map::moveEntity(std::pair<int, int> originalPos, std::pair<int, int> newPos)
 {
-	Entity* tmpNew = getTile(newPos)->m_entityOnTile;
-	Entity* tmpOld = getTile(originalPos)->m_entityOnTile;
+	entity* tmpNew = getTile(newPos)->m_entityOnTile;
+	entity* tmpOld = getTile(originalPos)->m_entityOnTile;
 
 	if (tmpNew != nullptr || tmpOld == nullptr)
 		return false;
@@ -134,17 +134,17 @@ std::pair<int, int> Map::getTileScreenPos(std::pair<int, int> coord)
 	std::pair<int, int> textureDimensions = std::pair<int, int>(
 		m_data[0].m_sprite->FrameWidth(),
 		m_data[0].m_sprite->FrameHeight());
-	
+
 	float drawScale = 1.0;//For future zooming and resizing
 	const int xPos = (coord.first * textureDimensions.first) * 3 / 4;
 	const int yPos = ((((1 + coord.first) % 2) + 2 * coord.second) * textureDimensions.second) / 2;
 	return std::pair<int, int>(
-		xPos * drawScale + m_drawOffset.first, 
+		xPos * drawScale + m_drawOffset.first,
 		yPos * drawScale + m_drawOffset.second);
 }
 
-Map::Map(int width, int height) : 
-	m_mapDimensions(std::pair<int, int>(width, height)), m_data(), m_drawOffset(std::pair<int, int>(0, 0)), 
+Map::Map(int width, int height) :
+	m_mapDimensions(std::pair<int, int>(width, height)), m_data(), m_drawOffset(std::pair<int, int>(0, 0)),
 	m_windDirection(0), m_windStrength(0.0)
 {
 	m_data.reserve(width * height);
@@ -152,7 +152,7 @@ Map::Map(int width, int height) :
 	{
 		for (int x = 0; x < width; x++)
 		{
-			Tile tile(0, std::string("tile1.xml"), std::string(), std::pair<int, int>(x, y));
+			Tile tile(eWater, std::string("hexTiles.xml"), std::string("Data\\"), std::pair<int, int>(x, y));
 			m_data.push_back(tile);
 		}
 	}
