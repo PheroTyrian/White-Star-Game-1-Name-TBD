@@ -78,6 +78,8 @@ bool UIWIndowTest::Initialise()
 			storage[i]->GetTransformComp().SetPosition({ (float)frameWidth * (i - storage.size()/2), 200 });
 		}
 	}*/
+	battlesystem = std::make_shared<battleSystem>();
+	battlesystem->initualize();
 
 	return true;
 }
@@ -96,4 +98,6 @@ void UIWIndowTest::Update()
 			
 		storage[x]->Render(SCREEN_SURFACE);
 	}*/
+	battlesystem->update();
+	battlesystem->render();
 }

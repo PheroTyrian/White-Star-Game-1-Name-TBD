@@ -44,7 +44,7 @@ struct weapon
 class entity
 {
 protected:
-	std::unique_ptr<HAPISPACE::Sprite> m_sprite;
+	std::shared_ptr<HAPISPACE::Sprite> m_sprite;
 	bool m_alive;
 	int m_maxHealth;
 	int m_health;

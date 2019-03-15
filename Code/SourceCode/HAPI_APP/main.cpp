@@ -158,5 +158,7 @@ void HAPI_Sprites_Main()
 		sprite->Render(SCREEN_SURFACE);
 		sprite2->Render(SCREEN_SURFACE);
 
+		UIWIndowTest.Update();
+
 	}
 }
