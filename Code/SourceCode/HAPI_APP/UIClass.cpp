@@ -74,8 +74,8 @@ bool UIWIndowTest::Initialise()
 	storage.push_back(HAPI_Sprites.LoadSprite("Data\\mouseCrossHair.xml"));//temp mouse cursor 
 	storage[storage.size()-1]->GetColliderComp().EnablePixelPerfectCollisions(true);
 
-	 frameHeight = storage[0]->FrameHeight();
-	 frameWidth = storage[0]->FrameWidth();
+	frameHeight = storage[0]->FrameHeight();
+	frameWidth = storage[0]->FrameWidth();
 
 
 

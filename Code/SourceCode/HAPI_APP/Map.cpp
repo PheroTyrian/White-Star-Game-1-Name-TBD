@@ -9,9 +9,9 @@ void Map::drawMap()
 {
 	std::pair<int, int> textureDimensions = std::pair<int, int>(
 		m_data[0].m_sprite->FrameWidth(),
-		m_data[0].m_sprite->FrameHeight());
+		30);
+		//m_data[0].m_sprite->FrameHeight());
 
-	float drawScale{ 1.0 };//For future zooming and resizing
 	int access{ 0 };
 	for (int y = 0; y < m_mapDimensions.second; y++)
 	{
@@ -22,12 +22,14 @@ void Map::drawMap()
 			float xPos = (float)x * textureDimensions.first * 3 / 4;
 			if (x % 2 == 0)//Is even
 				m_data[access].m_sprite->GetTransformComp().SetPosition(HAPISPACE::VectorF(
-					xPos * drawScale + m_drawOffset.first,
-					yPosEven * drawScale + m_drawOffset.second));
+					xPos * m_drawScale - m_drawOffset.first,
+					yPosEven * m_drawScale - m_drawOffset.second));
 			else//Is Odd
 				m_data[access].m_sprite->GetTransformComp().SetPosition(HAPISPACE::VectorF(
-					xPos * drawScale + m_drawOffset.first,
-					yPosOdd * drawScale + m_drawOffset.second));
+					xPos * m_drawScale - m_drawOffset.first,
+					yPosOdd * m_drawScale - m_drawOffset.second));
+			m_data[access].m_sprite->GetTransformComp().SetScaling(
+				HAPISPACE::VectorF(m_drawScale, m_drawScale));
 			m_data[access].m_sprite->Render(SCREEN_SURFACE);
 			access++;
 		}
@@ -106,7 +108,7 @@ std::vector<Tile*> Map::getTileRadius(std::pair<int, int> coord, int range)
 	return tileStore;
 }
 
-std::vector<Tile*> Map::getTileCone(std::pair<int, int> coord, int range, enum eDirection)
+std::vector<Tile*> Map::getTileCone(std::pair<int, int> coord, int range, eDirection direction)
 {
 	return std::vector<Tile*>();
 }
@@ -135,25 +137,30 @@ std::pair<int, int> Map::getTileScreenPos(std::pair<int, int> coord)
 		m_data[0].m_sprite->FrameWidth(),
 		m_data[0].m_sprite->FrameHeight());
 
-	float drawScale = 1.0;//For future zooming and resizing
 	const int xPos = (coord.first * textureDimensions.first) * 3 / 4;
 	const int yPos = ((((1 + coord.first) % 2) + 2 * coord.second) * textureDimensions.second) / 2;
 	return std::pair<int, int>(
-		xPos * drawScale + m_drawOffset.first,
-		yPos * drawScale + m_drawOffset.second);
+		xPos * m_drawScale - m_drawOffset.first,
+		yPos * m_drawScale - m_drawOffset.second);
 }
 
 Map::Map(int width, int height) :
-	m_mapDimensions(std::pair<int, int>(width, height)), m_data(), m_drawOffset(std::pair<int, int>(0, 0)),
-	m_windDirection(0), m_windStrength(0.0)
+	m_mapDimensions(std::pair<int, int>(width, height)), m_data(), m_drawOffset(std::pair<int, int>(100, 100)),
+	m_windDirection(eNorth), m_windStrength(0.0), m_drawScale(2.0)
 {
 	m_data.reserve(width * height);
 	for (int y = 0; y < height; y++)
 	{
 		for (int x = 0; x < width; x++)
 		{
-			Tile tile(eWater, std::string("hexTiles.xml"), std::string("Data\\"), std::pair<int, int>(x, y));
+			Tile tile(eWater, std::string("tilemapcurrent.xml"), std::string("Data\\"), std::pair<int, int>(x, y));
 			m_data.push_back(tile);
+			if (!m_data[x + y * m_mapDimensions.first].m_sprite)
+			{
+				HAPI_Sprites.UserMessage("Could not load tile spritesheet", "Error");
+				return;
+			}
+			m_data[x + y * m_mapDimensions.first].m_sprite->SetFrameNumber(6);
 		}
 	}
 }

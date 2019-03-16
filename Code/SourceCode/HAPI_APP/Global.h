@@ -1,6 +1,6 @@
 #pragma once
 
-enum eDirections
+enum eDirection
 {
 	eNorth,
 	eNorthEast,

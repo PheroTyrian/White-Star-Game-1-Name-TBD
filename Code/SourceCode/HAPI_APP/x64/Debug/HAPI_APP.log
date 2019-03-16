@@ -1,6 +1,4 @@
-﻿  entity.cpp
-  main.cpp
-  Map.cpp
+﻿  Map.cpp
 c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.15.26726\include\utility(172): warning C4244: 'initializing': conversion from '_Ty' to '_Ty1', possible loss of data
           with
           [
@@ -10,13 +8,13 @@ c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.1
           [
               _Ty1=int
           ]
-  c:\users\trisl\desktop\white-star-game-1-name-tbd\code\sourcecode\hapi_app\map.cpp(156): note: see reference to function template instantiation 'std::pair<int,int>::pair<float,float,0>(_Other1 &&,_Other2 &&) noexcept' being compiled
+  c:\users\trisl\documents\github\white-star-game-1-name-tbd\code\sourcecode\hapi_app\map.cpp(144): note: see reference to function template instantiation 'std::pair<int,int>::pair<float,float,0>(_Other1 &&,_Other2 &&) noexcept' being compiled
           with
           [
               _Other1=float,
               _Other2=float
           ]
-  c:\users\trisl\desktop\white-star-game-1-name-tbd\code\sourcecode\hapi_app\map.cpp(154): note: see reference to function template instantiation 'std::pair<int,int>::pair<float,float,0>(_Other1 &&,_Other2 &&) noexcept' being compiled
+  c:\users\trisl\documents\github\white-star-game-1-name-tbd\code\sourcecode\hapi_app\map.cpp(142): note: see reference to function template instantiation 'std::pair<int,int>::pair<float,float,0>(_Other1 &&,_Other2 &&) noexcept' being compiled
           with
           [
               _Other1=float,
@@ -31,7 +29,4 @@ c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.1
           [
               _Ty2=int
           ]
-  UIClass.cpp
-  Generating Code...
-  LINK : C:\Users\trisl\Desktop\White-Star-Game-1-Name-TBD\Code\SourceCode\x64\Debug\HAPI_APP.exe not found or not built by the last incremental link; performing full link
-  HAPI_APP.vcxproj -> C:\Users\trisl\Desktop\White-Star-Game-1-Name-TBD\Code\SourceCode\x64\Debug\HAPI_APP.exe
+  HAPI_APP.vcxproj -> C:\Users\trisl\Documents\GitHub\White-Star-Game-1-Name-TBD\Code\SourceCode\x64\Debug\HAPI_APP.exe

@@ -20,6 +20,7 @@
 
 // To use HAPI Sprites you need to include the header
 #include <HAPISprites_Lib.h>
+#include "Map.h"
 
 // All of the core HAPI Sprites functionality is in the HAPISPACE namespace
 using namespace HAPISPACE;
@@ -72,25 +73,10 @@ void HAPI_Sprites_Main()
 	HAPI Sprites returns a unique_ptr to the created sprite. You can keep it unique or convert it to shared (done here)
 	*/
 
-	std::shared_ptr<Sprite> sprite = HAPI_Sprites.MakeSprite("Data\\helicopter.png", 4);
-
-
 	/*
 	Example of creating a Sprite from an XML file
 
-	This file was created using the built in editor and has spritesets defined for walking left, right, idle etc.
-	*/
-
-	std::shared_ptr<Sprite> sprite2 = HAPI_Sprites.LoadSprite("Data\\Troll2.xml");
-
 	/*
-	You must check the returned pointer as the file may not have been found
-	*/
-	if (!sprite2)
-	{
-		HAPI_Sprites.UserMessage("Could not load spritesheet", "Error");
-		return;
-	}
 
 	/*
 	Sprite Operations
@@ -99,23 +85,7 @@ void HAPI_Sprites_Main()
 	For example the helicopter above does not have an alpha channel, however the black colour is used for transparency
 	so we can convert it to alpha.
 	*/
-
-	sprite->GetSurface()->MakeAlphaChannelFromColourKey(Colour255::BLACK);
-
-	/*
-	We can set the sprite to automatically animate
-	Here I am saying I want the frame to change 100 times a second
-	*/
-	sprite->SetAutoAnimate(100);
-
-	/*
-	The second sprite has a lot more frame and animation information
-	So we can use that to specify the exact animation we want
-	In this case I want the walking right animation which is labelled "Right"
-	I want it to animate at 20 FPS and to loop
-	*/
-	sprite2->SetAutoAnimate(20, true, "Right");
-
+	Map* map = new Map(40, 20);
 
 	/*
 	Once loading is complete you can enter the main loop
@@ -129,22 +99,10 @@ void HAPI_Sprites_Main()
 		We can use the screen surface macro
 		*/
 		SCREEN_SURFACE->Clear();
+		map->drawMap();
 
-		/*
-		A sprite holds position, scaling and rotation data in a transform component
-		that can be set prior to rendering. Note the first two functions below take a Vector2f
-		We can create one in place using C++11 curly brace initialisation
-		*/
 
-		sprite->GetTransformComp().SetPosition({ 100, 200 });
-		sprite->GetTransformComp().SetScaling({ 2.0f, 2.0f });
-		sprite->GetTransformComp().SetRotation(0.3f);
-
-		/*
-		We render the sprites to a surface. Normally this is the screen so we pass the screen surface macro.
-		*/
-		sprite->Render(SCREEN_SURFACE);
-		sprite2->Render(SCREEN_SURFACE);
 
 	}
+	delete map;
 }
