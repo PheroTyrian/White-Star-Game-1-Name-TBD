@@ -100,7 +100,7 @@ void HAPI_Sprites_Main()
 		*/
 		SCREEN_SURFACE->Clear();
 		map->drawMap();
-
+		map->setDrawScale(map->getDrawScale() + 0.01);
 
 
 	}

@@ -41,12 +41,12 @@ float entity::getMovementPoints() const
 	return m_movementPoints;
 }
 
-void entity::setDirection(direction newDirection)
+void entity::setDirection(eDirection newDirection)
 {
 	m_direction = newDirection;
 }
 
-direction entity::getDirection() const
+eDirection entity::getDirection() const
 {
 	return m_direction;
 }

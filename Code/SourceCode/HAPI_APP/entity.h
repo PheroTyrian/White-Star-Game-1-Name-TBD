@@ -3,6 +3,7 @@
 
 #include <HAPISprites_lib.h>
 #include <vector>
+#include "Global.h"
 
 enum class shipType
 {
@@ -13,7 +14,7 @@ enum class weaponType
 {
 	eWeaponType1
 };
-
+/* No longer necessary just include Global.h and use eDirection
 enum class direction
 {
 	eUp,
@@ -23,7 +24,7 @@ enum class direction
 	eBottomLeft,
 	eTopLeft
 };
-
+*/
 enum class faction
 {
 	eFaction1,
@@ -48,7 +49,7 @@ protected:
 	int m_health;
 	float m_maxMovementPoints;
 	float m_movementPoints;
-	direction m_direction;
+	eDirection m_direction;
 	HAPISPACE::VectorI m_tileLocation;
 	faction m_faction;
 	std::vector<weapon> m_weapons;
@@ -61,8 +62,8 @@ public:
 	void heal(int healAmount);
 	void setMovementPoints(float movementPoints);
 	float getMovementPoints() const;
-	void setDirection(direction newDirection);
-	direction getDirection() const;
+	void setDirection(eDirection newDirection);
+	eDirection getDirection() const;
 	void setTileLocation(HAPISPACE::VectorI newTileLocation);
 	HAPISPACE::VectorI getTileLocation() const;
 	void setFaction(faction newFaction);

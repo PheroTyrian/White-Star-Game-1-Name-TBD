@@ -9,7 +9,7 @@ void Map::drawMap()
 {
 	std::pair<int, int> textureDimensions = std::pair<int, int>(
 		m_data[0].m_sprite->FrameWidth(),
-		30);
+		28);
 		//m_data[0].m_sprite->FrameHeight());
 
 	int access{ 0 };
@@ -146,7 +146,7 @@ std::pair<int, int> Map::getTileScreenPos(std::pair<int, int> coord)
 
 Map::Map(int width, int height) :
 	m_mapDimensions(std::pair<int, int>(width, height)), m_data(), m_drawOffset(std::pair<int, int>(100, 100)),
-	m_windDirection(eNorth), m_windStrength(0.0), m_drawScale(2.0)
+	m_windDirection(eNorth), m_windStrength(0.0), m_drawScale(0.1)
 {
 	m_data.reserve(width * height);
 	for (int y = 0; y < height; y++)
