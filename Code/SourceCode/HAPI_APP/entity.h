@@ -3,6 +3,7 @@
 
 #include <HAPISprites_lib.h>
 #include <vector>
+#include <memory>
 #include "Global.h"
 
 enum class shipType
@@ -41,20 +42,25 @@ struct weapon
 	int range;
 };
 
-class entity
+class Entity
 {
 protected:
+	std::shared_ptr<HAPISPACE::Sprite> m_sprite;
+
 	bool m_alive;
 	int m_maxHealth;
 	int m_health;
 	float m_maxMovementPoints;
 	float m_movementPoints;
 	eDirection m_direction;
-	HAPISPACE::VectorI m_tileLocation;
+	//HAPISPACE::VectorI m_tileLocation; Redundant, in Battlesystem
 	faction m_faction;
 	std::vector<weapon> m_weapons;
 public:
-	entity();
+	Entity(std::string filename);
+	bool render();
+	HAPISPACE::Sprite& getSprite() const;
+
 	void setAlive(bool alive);
 	void setHealth(int health);
 	int getHealth() const;
@@ -64,8 +70,8 @@ public:
 	float getMovementPoints() const;
 	void setDirection(eDirection newDirection);
 	eDirection getDirection() const;
-	void setTileLocation(HAPISPACE::VectorI newTileLocation);
-	HAPISPACE::VectorI getTileLocation() const;
+	//void setTileLocation(HAPISPACE::VectorI newTileLocation);
+	//HAPISPACE::VectorI getTileLocation() const;
 	void setFaction(faction newFaction);
 	faction getFaction() const;
 	void addWeapon(weapon newWeapon);

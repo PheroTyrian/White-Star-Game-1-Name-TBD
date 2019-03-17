@@ -6,7 +6,7 @@
 #include <HAPISprites_UI.h>
 #include "global.h"
 
-struct entity;
+class Entity;
 
 enum eTileType
 {
@@ -18,7 +18,7 @@ enum eTileType
 struct Tile
 {
 	enum eTileType m_type;
-	entity* m_entityOnTile;
+	Entity* m_entityOnTile;
 	std::unique_ptr<HAPISPACE::Sprite> m_sprite;
 	const std::pair<int, int> m_tileCoordinate;
 
@@ -47,6 +47,9 @@ private:
 
 	std::pair<int, int> m_mapDimensions;
 	std::vector<Tile> m_data;
+
+	std::pair<int, int> offsetToCube(std::pair<int, int>);
+	std::pair<int, int> cubeToOffset(std::pair<int, int>);
 public:
 	//Returns a pointer to a given tile, returns nullptr if there is no tile there
 	Tile *getTile(std::pair<int, int> coordinate);
@@ -62,7 +65,7 @@ public:
 	//Moves an entitys position on the map, returns false if the position is already taken
 	bool moveEntity(std::pair<int, int> originalPos, std::pair<int, int> newPos);
 	//Places a new entity on the map (no check for duplicates yet so try to avoid creating multiples)
-	void insertEntity(entity* newEntity, std::pair<int, int> coord);
+	void insertEntity(Entity* newEntity, std::pair<int, int> coord);
 
 	void drawMap();
 	std::pair<int, int> getDrawOffset() const { return m_drawOffset; }
@@ -76,6 +79,9 @@ public:
 
 	eDirection getWindDirection() const { return m_windDirection; }
 	void setWindDirection(eDirection direction) { m_windDirection = direction; }
+	
+	//TODO: remove later
+	std::vector<Tile>* getMap() { return &m_data; }
 
 	//TODO: Get constructor working. Need tiled parser or load from xml set up
 	Map(int width, int height);

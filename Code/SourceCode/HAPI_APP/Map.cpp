@@ -9,7 +9,7 @@ void Map::drawMap()
 {
 	std::pair<int, int> textureDimensions = std::pair<int, int>(
 		m_data[0].m_sprite->FrameWidth(),
-		30);
+		28);
 		//m_data[0].m_sprite->FrameHeight());
 
 	int access{ 0 };
@@ -17,23 +17,43 @@ void Map::drawMap()
 	{
 		float yPosEven = (float)(0.5 + y) * textureDimensions.second;
 		float yPosOdd = (float)y * textureDimensions.second;
-		for (int x = 0; x < m_mapDimensions.first; x++)
+
+		for (int x = 1; x < m_mapDimensions.first; x += 2)
 		{
 			float xPos = (float)x * textureDimensions.first * 3 / 4;
-			if (x % 2 == 0)//Is even
-				m_data[access].m_sprite->GetTransformComp().SetPosition(HAPISPACE::VectorF(
-					xPos * m_drawScale - m_drawOffset.first,
-					yPosEven * m_drawScale - m_drawOffset.second));
-			else//Is Odd
-				m_data[access].m_sprite->GetTransformComp().SetPosition(HAPISPACE::VectorF(
-					xPos * m_drawScale - m_drawOffset.first,
-					yPosOdd * m_drawScale - m_drawOffset.second));
-			m_data[access].m_sprite->GetTransformComp().SetScaling(
+			//Is Odd
+			m_data[access + x].m_sprite->GetTransformComp().SetPosition(HAPISPACE::VectorF(
+				xPos * m_drawScale - m_drawOffset.first,
+				yPosOdd * m_drawScale - m_drawOffset.second));
+			m_data[access + x].m_sprite->GetTransformComp().SetScaling(
 				HAPISPACE::VectorF(m_drawScale, m_drawScale));
-			m_data[access].m_sprite->Render(SCREEN_SURFACE);
-			access++;
+			m_data[access + x].m_sprite->Render(SCREEN_SURFACE);
 		}
+		for (int x = 0; x < m_mapDimensions.first; x += 2)
+		{
+			float xPos = (float)x * textureDimensions.first * 3 / 4;
+			//Is even
+			m_data[access + x].m_sprite->GetTransformComp().SetPosition(HAPISPACE::VectorF(
+				xPos * m_drawScale - m_drawOffset.first,
+				yPosEven * m_drawScale - m_drawOffset.second));
+			m_data[access + x].m_sprite->GetTransformComp().SetScaling(
+				HAPISPACE::VectorF(m_drawScale, m_drawScale));
+			m_data[access + x].m_sprite->Render(SCREEN_SURFACE);
+		}
+		access += m_mapDimensions.first;
 	}
+}
+
+
+
+std::pair<int, int> Map::offsetToCube(std::pair<int, int>)
+{
+	return std::pair<int, int>();
+}
+
+std::pair<int, int> Map::cubeToOffset(std::pair<int, int>)
+{
+	return std::pair<int, int>();
 }
 
 Tile *Map::getTile(std::pair<int, int> coordinate)
@@ -115,8 +135,8 @@ std::vector<Tile*> Map::getTileCone(std::pair<int, int> coord, int range, eDirec
 
 bool Map::moveEntity(std::pair<int, int> originalPos, std::pair<int, int> newPos)
 {
-	entity* tmpNew = getTile(newPos)->m_entityOnTile;
-	entity* tmpOld = getTile(originalPos)->m_entityOnTile;
+	Entity* tmpNew = getTile(newPos)->m_entityOnTile;
+	Entity* tmpOld = getTile(originalPos)->m_entityOnTile;
 
 	if (tmpNew != nullptr || tmpOld == nullptr)
 		return false;
@@ -126,7 +146,7 @@ bool Map::moveEntity(std::pair<int, int> originalPos, std::pair<int, int> newPos
 	return true;
 }
 
-void Map::insertEntity(entity * newEntity, std::pair<int, int> coord)
+void Map::insertEntity(Entity * newEntity, std::pair<int, int> coord)
 {
 	getTile(coord)->m_entityOnTile = newEntity;
 }
@@ -146,21 +166,21 @@ std::pair<int, int> Map::getTileScreenPos(std::pair<int, int> coord)
 
 Map::Map(int width, int height) :
 	m_mapDimensions(std::pair<int, int>(width, height)), m_data(), m_drawOffset(std::pair<int, int>(100, 100)),
-	m_windDirection(eNorth), m_windStrength(0.0), m_drawScale(0.1)
+	m_windDirection(eNorth), m_windStrength(0.0), m_drawScale(2)
 {
 	m_data.reserve(width * height);
 	for (int y = 0; y < height; y++)
 	{
 		for (int x = 0; x < width; x++)
 		{
-			Tile tile(eWater, std::string("tilemapcurrent.xml"), std::string("Data\\"), std::pair<int, int>(x, y));
+			Tile tile(eWater, std::string("HexTilesWIthoutBordersSpritesheet.xml"), std::string("Data\\"), std::pair<int, int>(x, y));
 			m_data.push_back(tile);
 			if (!m_data[x + y * m_mapDimensions.first].m_sprite)
 			{
 				HAPI_Sprites.UserMessage("Could not load tile spritesheet", "Error");
 				return;
 			}
-			m_data[x + y * m_mapDimensions.first].m_sprite->SetFrameNumber(6);
+			//m_data[x + y * m_mapDimensions.first].m_sprite->SetFrameNumber(0);
 		}
 	}
 }

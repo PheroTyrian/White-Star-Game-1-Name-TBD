@@ -169,14 +169,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BattleSystem.cpp" />
-    <ClCompile Include="entity.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="UIClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BattleSystem.h" />
-    <ClInclude Include="entity.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="UIClass.h" />
