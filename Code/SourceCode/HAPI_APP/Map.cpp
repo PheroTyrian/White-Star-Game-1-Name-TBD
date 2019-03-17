@@ -9,7 +9,7 @@ void Map::drawMap()
 {
 	std::pair<int, int> textureDimensions = std::pair<int, int>(
 		m_data[0].m_sprite->FrameWidth(),
-		28);
+		30);
 		//m_data[0].m_sprite->FrameHeight());
 
 	int access{ 0 };
