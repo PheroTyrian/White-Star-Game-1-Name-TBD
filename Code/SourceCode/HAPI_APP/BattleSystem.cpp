@@ -23,7 +23,7 @@ void BattleSystem::initialize()
 
 	Entity* testShip = new Entity("Data\\mouseCrossHair.xml");
 	m_entities.push_back(
-		std::pair<Entity*, std::pair<int, int> >(testShip,std::pair<int, int>(20,20)));
+		std::pair<Entity*, std::pair<int, int> >(testShip,std::pair<int, int>(4,4)));
 
 }
 

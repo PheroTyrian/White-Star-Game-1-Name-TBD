@@ -48,8 +48,9 @@ private:
 	std::pair<int, int> m_mapDimensions;
 	std::vector<Tile> m_data;
 
-	std::pair<int, int> offsetToCube(std::pair<int, int>);
-	std::pair<int, int> cubeToOffset(std::pair<int, int>);
+	std::pair<int, int> offsetToCube(std::pair<int, int> offset);
+	std::pair<int, int> cubeToOffset(std::pair<int, int> cube);
+	int cubeDistance(std::pair<int, int> a, std::pair<int, int> b);
 public:
 	//Returns a pointer to a given tile, returns nullptr if there is no tile there
 	Tile *getTile(std::pair<int, int> coordinate);

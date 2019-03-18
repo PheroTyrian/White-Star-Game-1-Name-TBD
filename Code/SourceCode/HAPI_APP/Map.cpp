@@ -3,6 +3,7 @@
 #include <math.h>
 #include <algorithm>
 #include <HAPISprites_Lib.h>
+#include <iostream> //For testing
 
 
 void Map::drawMap()
@@ -46,14 +47,29 @@ void Map::drawMap()
 
 
 
-std::pair<int, int> Map::offsetToCube(std::pair<int, int>)
+std::pair<int, int> Map::offsetToCube(std::pair<int, int> offset)
 {
-	return std::pair<int, int>();
+	int cubeX = offset.first;
+	int cubeY = - offset.first - (offset.second - (offset.first + (offset.first & 1)) / 2);
+	int cubeZ = -cubeX - cubeY;
+	std::cout << cubeX << ", " << cubeY << ", " << cubeZ << std::endl;//For testing
+	return std::pair<int, int>(cubeX, cubeY);
 }
 
-std::pair<int, int> Map::cubeToOffset(std::pair<int, int>)
+std::pair<int, int> Map::cubeToOffset(std::pair<int, int> cube)
 {
-	return std::pair<int, int>();
+	int offsetX = cube.first;
+	int offsetY = -cube.first - cube.second + (cube.first + (cube.first & 1)) / 2;
+	std::cout << offsetX << ", " << offsetY << std::endl;//For testing
+	return std::pair<int, int>(offsetX, offsetY);
+}
+
+int Map::cubeDistance(std::pair<int, int> a, std::pair<int, int> b)
+{
+	int x = abs(a.first - b.first);
+	int y = abs(a.second - b.second);
+	int z = abs(a.first + a.second - b.first - b.second);
+	return std::max(x, std::max(y, z));
 }
 
 Tile *Map::getTile(std::pair<int, int> coordinate)
@@ -181,6 +197,7 @@ Map::Map(int width, int height) :
 				return;
 			}
 			//m_data[x + y * m_mapDimensions.first].m_sprite->SetFrameNumber(0);
+			//cubeToOffset(offsetToCube(std::pair<int, int>(x, y)));
 		}
 	}
 }
