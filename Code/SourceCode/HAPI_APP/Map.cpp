@@ -118,35 +118,74 @@ std::vector<Tile*> Map::getAdjacentTiles(std::pair<int, int> coord)
 	return result;
 }
 
-std::vector<Tile*> Map::getTileRadius(std::pair<int, int> coord, int range)
+std::vector<Tile*>* Map::getTileRadius(std::pair<int, int> coord, int range)
 {
 	if (range < 1)
 		HAPI_Sprites.UserMessage("getTileRadius range less than 1", "Map error");
-
-	std::vector<Tile*> tileStore;
+	
 	int reserveSize{ 0 };
 	for (int i = 1; i <= range; i++)
 	{
-		reserveSize += (int)pow(6, i);
+		reserveSize += 6 * i;
 	}
+	std::vector<Tile*> tileStore;
 	tileStore.reserve((size_t)reserveSize);
 
-	bool even{ false };
-	if (2 % coord.first == 0)
-		bool even = true;
+	std::pair<int, int> cubeCoord(offsetToCube(coord));
 
-	for (int x = std::max(0, coord.first - range);
-		x <= std::max(m_mapDimensions.first, coord.first + range);
-		x++)
+	for (int y = std::max(0, coord.second - range);
+		y < std::min(m_mapDimensions.second, coord.second + range + 1);
+		y++)
 	{
-		//for (int y = std::max(0, coord.second - ))//Point I stopped at
+		for (int x = std::max(0, coord.first - range);
+			x < std::min(m_mapDimensions.first, coord.first + range + 1);
+			x++)
+		{
+			if (coord.first != x && coord.second != y)
+			{
+				if (cubeDistance(cubeCoord, offsetToCube(std::pair<int, int>(x, y))) <= range)
+				{
+					tileStore.push_back(getTile(std::pair<int, int>(x, y)));
+				}
+			}
+		}
 	}
-	return tileStore;
+	return &tileStore;
 }
 
-std::vector<Tile*> Map::getTileCone(std::pair<int, int> coord, int range, eDirection direction)
+std::vector<Tile*>* Map::getTileCone(std::pair<int, int> coord, int range, eDirection direction)
 {
-	return std::vector<Tile*>();
+	if (range < 1)
+		HAPI_Sprites.UserMessage("getTileCone range less than 1", "Map error");
+
+	int reserveSize{ 0 };
+	for (int i = 2; i < range + 2; i++)
+	{
+		reserveSize += 2 * i;
+	}
+	std::vector<Tile*> tileStore;
+	tileStore.reserve((size_t)reserveSize);
+
+	std::pair<int, int> cubeCoord(offsetToCube(coord));
+
+	for (int y = std::max(0, coord.second - range);
+		y < std::min(m_mapDimensions.second, coord.second + range + 1);
+		y++)
+	{
+		for (int x = std::max(0, coord.first - range);
+			x < std::min(m_mapDimensions.first, coord.first + range + 1);
+			x++)
+		{
+			if (coord.first != x && coord.second != y)
+			{
+				if (cubeDistance(cubeCoord, offsetToCube(std::pair<int, int>(x, y))) <= range)
+				{
+					tileStore.push_back(getTile(std::pair<int, int>(x, y)));
+				}
+			}
+		}
+	}
+	return &tileStore;
 }
 
 bool Map::moveEntity(std::pair<int, int> originalPos, std::pair<int, int> newPos)
