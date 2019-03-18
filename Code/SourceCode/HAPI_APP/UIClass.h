@@ -35,7 +35,7 @@ private:
 	int frameWidth;
 
 public:
-	UIWindowTest(RectangleI screenRect) : m_screenRect(screenRect), m_rectCollider({ 0,300,0,40 }) {}
+	UIWindowTest() : m_screenRect({ 1280, 800 }), m_rectCollider({ 0,300,0,40 }) {}
 	void OnKeyEvent(EKeyEvent keyEvent, BYTE keyCode) override final;
 	void OnMouseEvent(EMouseEvent mouseEvent, const HAPI_TMouseData& mouseData) override final;
 	void OnMouseMove(const HAPI_TMouseData& mouseData) override final;

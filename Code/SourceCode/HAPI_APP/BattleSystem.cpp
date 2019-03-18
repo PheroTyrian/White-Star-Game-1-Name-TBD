@@ -5,8 +5,10 @@
 //set move stage 
 ///////////////////////////////////////////////////////
 
-BattleSystem::BattleSystem() : running{ true }
+BattleSystem::BattleSystem() : width(1280), height(800), 
+	running{ true }
 {
+	
 	map = new Map(40, 22);
 	if (!HAPI_Sprites.Initialise(width, height, "test Demo ", eHSEnableUI))//it lies
 		return;
@@ -15,22 +17,19 @@ BattleSystem::BattleSystem() : running{ true }
 	Entity* testShip = new Entity("Data\\mouseCrossHair.xml");
 	m_entities.push_back(
 		std::pair<Entity*, std::pair<int, int> >(testShip, std::pair<int, int>(4, 4)));
+
+	UIWind = new UIWindowTest();
+	UIWind->Initialise();
 }
 
 BattleSystem::~BattleSystem()
 {
 	delete map;
+	delete UIWind;
 }
 
 void BattleSystem::update()
 {
-	UIWIndowTest UIWIndowTest({ width,height });
-	if (!UIWIndowTest.Initialise())
-	{
-		HAPI_Sprites.UserMessage("Could not initialise", "Error");
-		return;
-	}
-
 	//temp map set entity to tile 
 	////////
 	map->insertEntity(m_entities[0].first,m_entities[0].second);
@@ -46,12 +45,12 @@ void BattleSystem::update()
 
 		map->drawMap();
 		m_entities[0].first->render();
-		UIWIndowTest.Update();
+		UIWind->Update();
 
 		for (int x = 0; x < map->getMap()->size(); x++) // temp these 2 vectors not gonna be public had to get test working 
 		{
 			//need to talk to tristan about entitys
-			UIWIndowTest.HandleCollision(*UIWIndowTest.storage[UIWIndowTest.storage.size() - 1], *map->getMap()->data()[x].m_sprite);
+			UIWind->HandleCollision(*UIWind->storage[UIWind->storage.size() - 1], *map->getMap()->data()[x].m_sprite);
 		}
 	}
 	running = false;

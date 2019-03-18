@@ -250,7 +250,7 @@ Map::Map(int width, int height) :
 	{
 		for (int x = 0; x < width; x++)
 		{
-			Tile tile(eWater, std::string("HexTilesWIthoutBordersSpritesheet.xml"), 
+			Tile tile(eGrass, std::string("hexTiles.xml"), 
 				std::string("Data\\"), std::pair<int, int>(x, y));
 			m_data.push_back(tile);
 			if (!m_data[x + y * m_mapDimensions.first].m_sprite)

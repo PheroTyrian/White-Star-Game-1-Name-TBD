@@ -18,10 +18,10 @@ private:
 	bool running;
 	void update();
 	void render();
-	int width{ 1280 };
-	int height{ 800 };
+	int width;
+	int height;
 	Map* map;
-
+	UIWindowTest* UIWind;
 public:
 	BattleSystem();
 	~BattleSystem();

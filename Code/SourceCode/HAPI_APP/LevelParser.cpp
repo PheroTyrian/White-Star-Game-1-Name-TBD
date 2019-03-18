@@ -1,6 +1,6 @@
 #include "LevelParser.h"
 #include <assert.h>
-
+/*
 std::vector<TileLayer> parseTileLayers(const TiXmlElement& rootElement, const LevelDetails& levelDetails);
 LevelDetails parseLevelDetails(const TiXmlElement& rootElement);
 std::vector<std::vector<int>> decodeTileLayer(const TiXmlElement & tileLayerElement, sf::Vector2i levelSize);
@@ -85,3 +85,4 @@ std::vector<TileLayer> parseTileLayers(const TiXmlElement & rootElement, const L
 	assert(!tileLayers.empty());
 	return tileLayers;
 }
+*/

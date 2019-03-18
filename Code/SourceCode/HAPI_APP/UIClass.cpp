@@ -63,7 +63,6 @@ void UIWindowTest::Update()
 
 	for (int x = 0; x < storage.size(); x++)
 	{
-
 		storage[x]->Render(SCREEN_SURFACE);
 	}
 }
