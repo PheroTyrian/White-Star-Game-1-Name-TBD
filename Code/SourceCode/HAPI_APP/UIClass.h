@@ -3,7 +3,7 @@
 #include <HAPISprites_UI.h>
 using namespace HAPISPACE;
 using namespace HAPI_UI_SPACE;
-
+/*
 class UIClass
 {
 public:
@@ -11,27 +11,17 @@ public:
 	~UIClass();
 
 private:
-
-
 };
-
-
-class UIWIndowTest :public IHapiSpritesInputListener, public IHapiSpritesUIListener
+*/
+class UIWindowTest :public IHapiSpritesInputListener, public IHapiSpritesUIListener
 {
 private:
-
-
-
 	enum tileState
 	{
 		notSelected = 0,
 		player = 1,
 		selected = 2
 	};
-
-
-
-
 	//temp value set for phases  phase 1 select ship
 
 	RectangleI m_screenRect;
@@ -39,17 +29,13 @@ private:
 	Transform m_rectTransform;
 	ColliderGroup m_rectCollider;
 
-
 	//will be in a vector 
-
-
 	bool trigger = false;//used for switching
 	int frameHeight;
 	int frameWidth;
 
-
 public:
-	UIWIndowTest(RectangleI screenRect) : m_screenRect(screenRect), m_rectCollider({ 0,300,0,40 }) {}
+	UIWindowTest(RectangleI screenRect) : m_screenRect(screenRect), m_rectCollider({ 0,300,0,40 }) {}
 	void OnKeyEvent(EKeyEvent keyEvent, BYTE keyCode) override final;
 	void OnMouseEvent(EMouseEvent mouseEvent, const HAPI_TMouseData& mouseData) override final;
 	void OnMouseMove(const HAPI_TMouseData& mouseData) override final;

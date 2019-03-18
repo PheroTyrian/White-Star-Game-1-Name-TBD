@@ -1,5 +1,4 @@
-#ifndef ENTITY_H
-#define ENTITY_H
+#pragma once
 
 #include <HAPISprites_lib.h>
 #include <vector>
@@ -80,5 +79,3 @@ public:
 	weapon getWeapon(int weaponNumber) const;
 
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef BattleSystem_H
-#define BattleSystem_H
+#pragma once
 
 #include <HAPISprites_lib.h>
 #include <vector>
@@ -7,30 +6,25 @@
 #include "Entity.h"
 #include "Map.h"
 #include "UIClass.h"
+
 using namespace HAPISPACE;
-
-
 
 class BattleSystem
 {
-
-
 private:
+	//Vector of a pair: ptr to entity, the tile coordinates of that entity (on the battle map)
 	std::vector<std::pair<Entity*, std::pair<int, int> > > m_entities;
 
 	bool running;
-	void initialize();
 	void update();
 	void render();
 	int width{ 1280 };
 	int height{ 800 };
-	Map* mappy;
+	Map* map;
 
 public:
 	BattleSystem();
 	~BattleSystem();
 	void run();
-
 };
 
-#endif

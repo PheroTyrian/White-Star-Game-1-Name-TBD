@@ -8,13 +8,6 @@
 
 class Entity;
 
-enum eTileType
-{
-	eWater,
-	eGrass,
-	eSand
-};
-
 struct Tile
 {
 	enum eTileType m_type;
@@ -22,7 +15,7 @@ struct Tile
 	std::unique_ptr<HAPISPACE::Sprite> m_sprite;
 	const std::pair<int, int> m_tileCoordinate;
 
-	Tile(eTileType type, std::string spriteName, std::string directory, std::pair<int, int> coord) :
+	Tile(eTileType type, const std::string& spriteName, const std::string& directory, std::pair<int, int> coord) :
 		m_type(type), m_tileCoordinate(coord)
 	{
 		//HAPI's Sprite constructor takes two strings: the name of the file to load (append .xml) 
@@ -51,15 +44,16 @@ private:
 	std::pair<int, int> offsetToCube(std::pair<int, int> offset);
 	std::pair<int, int> cubeToOffset(std::pair<int, int> cube);
 	int cubeDistance(std::pair<int, int> a, std::pair<int, int> b);
+	bool inCone(std::pair<int, int> orgHex, std::pair<int, int> testHex, eDirection dir);
 public:
 	//Returns a pointer to a given tile, returns nullptr if there is no tile there
 	Tile *getTile(std::pair<int, int> coordinate);
-	//An n = 1 version of getTileRadius for use in pathfinding
+	//An n = 1 version of getTileRadius for use in pathfinding, returns nullptr for 
 	std::vector<Tile*> getAdjacentTiles(std::pair<int, int> coord);
 	//TODO:Returns tiles in a radius around a given tile, skipping the tile itself
-	std::vector<Tile*>* getTileRadius(std::pair<int, int> coord, int range);
+	std::vector<Tile*> getTileRadius(std::pair<int, int> coord, int range);
 	//TODO: Returns tiles in a cone emanating from a given tile, skipping the tile itself
-	std::vector<Tile*>* getTileCone(std::pair<int, int> coord, int range, eDirection direction);
+	std::vector<Tile*> getTileCone(std::pair<int, int> coord, int range, eDirection direction);
 
 	std::pair<int, int> getTileScreenPos(std::pair<int, int> coord);
 

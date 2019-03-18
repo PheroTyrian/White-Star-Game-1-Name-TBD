@@ -5,12 +5,13 @@
 #include <HAPISprites_Lib.h>
 #include <iostream> //For testing
 
+constexpr int FRAME_HEIGHT = 28;
 
-void Map::drawMap()
+void Map::drawMap() 
 {
 	std::pair<int, int> textureDimensions = std::pair<int, int>(
 		m_data[0].m_sprite->FrameWidth(),
-		28);
+		FRAME_HEIGHT);
 		//m_data[0].m_sprite->FrameHeight());
 
 	int access{ 0 };
@@ -52,7 +53,7 @@ std::pair<int, int> Map::offsetToCube(std::pair<int, int> offset)
 	int cubeX = offset.first;
 	int cubeY = - offset.first - (offset.second - (offset.first + (offset.first & 1)) / 2);
 	int cubeZ = -cubeX - cubeY;
-	std::cout << cubeX << ", " << cubeY << ", " << cubeZ << std::endl;//For testing
+	//std::cout << cubeX << ", " << cubeY << ", " << cubeZ << std::endl;//For testing
 	return std::pair<int, int>(cubeX, cubeY);
 }
 
@@ -60,7 +61,7 @@ std::pair<int, int> Map::cubeToOffset(std::pair<int, int> cube)
 {
 	int offsetX = cube.first;
 	int offsetY = -cube.first - cube.second + (cube.first + (cube.first & 1)) / 2;
-	std::cout << offsetX << ", " << offsetY << std::endl;//For testing
+	//std::cout << offsetX << ", " << offsetY << std::endl;//For testing
 	return std::pair<int, int>(offsetX, offsetY);
 }
 
@@ -72,7 +73,25 @@ int Map::cubeDistance(std::pair<int, int> a, std::pair<int, int> b)
 	return std::max(x, std::max(y, z));
 }
 
-Tile *Map::getTile(std::pair<int, int> coordinate)
+bool Map::inCone(std::pair<int, int> orgHex, std::pair<int, int> testHex, eDirection dir)
+{
+	std::pair<int, int> diff(testHex.first - orgHex.first, testHex.second - orgHex.second);
+	if (dir == eNorth || dir == eSouth)//Axis x = 0
+	{
+
+	}
+	else if (dir == eNorthEast || dir == eSouthWest)//Axis y = 0
+	{
+
+	}
+	else if (dir == eNorthWest || dir == eSouthEast)//Axis z = 0
+	{
+
+	}
+	return true;
+}
+
+Tile* Map::getTile(std::pair<int, int> coordinate)
 {
 	//Bounds check
 	if (coordinate.first < m_mapDimensions.first &&
@@ -87,7 +106,7 @@ Tile *Map::getTile(std::pair<int, int> coordinate)
 	HAPI_Sprites.UserMessage(
 		std::string("getTile request out of bounds: " + std::to_string(coordinate.first) +
 			", " + std::to_string(coordinate.second) + " map dimensions are: " +
-			std::to_string(m_mapDimensions.first) + ", " + std::to_string(m_mapDimensions.second)),
+			std::to_string(m_mapDimensions.first) +", "+ std::to_string(m_mapDimensions.second)),
 		"Map error");
 	*/
 	return nullptr;
@@ -118,7 +137,7 @@ std::vector<Tile*> Map::getAdjacentTiles(std::pair<int, int> coord)
 	return result;
 }
 
-std::vector<Tile*>* Map::getTileRadius(std::pair<int, int> coord, int range)
+std::vector<Tile*> Map::getTileRadius(std::pair<int, int> coord, int range)
 {
 	if (range < 1)
 		HAPI_Sprites.UserMessage("getTileRadius range less than 1", "Map error");
@@ -129,6 +148,7 @@ std::vector<Tile*>* Map::getTileRadius(std::pair<int, int> coord, int range)
 		reserveSize += 6 * i;
 	}
 	std::vector<Tile*> tileStore;
+
 	tileStore.reserve((size_t)reserveSize);
 
 	std::pair<int, int> cubeCoord(offsetToCube(coord));
@@ -150,10 +170,10 @@ std::vector<Tile*>* Map::getTileRadius(std::pair<int, int> coord, int range)
 			}
 		}
 	}
-	return &tileStore;
+	return tileStore;
 }
 
-std::vector<Tile*>* Map::getTileCone(std::pair<int, int> coord, int range, eDirection direction)
+std::vector<Tile*> Map::getTileCone(std::pair<int, int> coord, int range, eDirection direction)
 {
 	if (range < 1)
 		HAPI_Sprites.UserMessage("getTileCone range less than 1", "Map error");
@@ -185,7 +205,7 @@ std::vector<Tile*>* Map::getTileCone(std::pair<int, int> coord, int range, eDire
 			}
 		}
 	}
-	return &tileStore;
+	return tileStore;
 }
 
 bool Map::moveEntity(std::pair<int, int> originalPos, std::pair<int, int> newPos)
@@ -210,17 +230,19 @@ std::pair<int, int> Map::getTileScreenPos(std::pair<int, int> coord)
 {
 	std::pair<int, int> textureDimensions = std::pair<int, int>(
 		m_data[0].m_sprite->FrameWidth(),
-		m_data[0].m_sprite->FrameHeight());
+		FRAME_HEIGHT);
 
-	const int xPos = (coord.first * textureDimensions.first) * 3 / 4;
-	const int yPos = ((((1 + coord.first) % 2) + 2 * coord.second) * textureDimensions.second) / 2;
+	const float xPos = (float)(coord.first * textureDimensions.first) * 3 / 4;
+	const float yPos = (float)((((1 + coord.first) % 2) + 2 * coord.second) 
+		* textureDimensions.second) / 2;
 	return std::pair<int, int>(
 		xPos * m_drawScale - m_drawOffset.first,
 		yPos * m_drawScale - m_drawOffset.second);
 }
 
 Map::Map(int width, int height) :
-	m_mapDimensions(std::pair<int, int>(width, height)), m_data(), m_drawOffset(std::pair<int, int>(100, 100)),
+	m_mapDimensions(std::pair<int, int>(width, height)), m_data(), 
+	m_drawOffset(std::pair<int, int>(100, 100)),
 	m_windDirection(eNorth), m_windStrength(0.0), m_drawScale(2)
 {
 	m_data.reserve(width * height);
@@ -228,7 +250,8 @@ Map::Map(int width, int height) :
 	{
 		for (int x = 0; x < width; x++)
 		{
-			Tile tile(eWater, std::string("HexTilesWIthoutBordersSpritesheet.xml"), std::string("Data\\"), std::pair<int, int>(x, y));
+			Tile tile(eWater, std::string("HexTilesWIthoutBordersSpritesheet.xml"), 
+				std::string("Data\\"), std::pair<int, int>(x, y));
 			m_data.push_back(tile);
 			if (!m_data[x + y * m_mapDimensions.first].m_sprite)
 			{

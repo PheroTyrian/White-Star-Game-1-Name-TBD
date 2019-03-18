@@ -7,24 +7,19 @@
 
 BattleSystem::BattleSystem() : running{ true }
 {
-	mappy = new Map(40, 22);
-}
-
-BattleSystem::~BattleSystem()
-{
-	delete mappy;
-}
-
-void BattleSystem::initialize()
-{// temp 
+	map = new Map(40, 22);
 	if (!HAPI_Sprites.Initialise(width, height, "test Demo ", eHSEnableUI))//it lies
 		return;
 	HAPI_Sprites.SetShowFPS(true);
 
 	Entity* testShip = new Entity("Data\\mouseCrossHair.xml");
 	m_entities.push_back(
-		std::pair<Entity*, std::pair<int, int> >(testShip,std::pair<int, int>(4,4)));
+		std::pair<Entity*, std::pair<int, int> >(testShip, std::pair<int, int>(4, 4)));
+}
 
+BattleSystem::~BattleSystem()
+{
+	delete map;
 }
 
 void BattleSystem::update()
@@ -38,7 +33,7 @@ void BattleSystem::update()
 
 	//temp map set entity to tile 
 	////////
-	mappy->insertEntity(m_entities[0].first,m_entities[0].second);
+	map->insertEntity(m_entities[0].first,m_entities[0].second);
 	////////
 
 
@@ -46,16 +41,17 @@ void BattleSystem::update()
 	while (HAPI_Sprites.Update())// work on adding entity tile switching is temp 
 	{
 
+
 		SCREEN_SURFACE->Clear();
 
-		mappy->drawMap();
+		map->drawMap();
 		m_entities[0].first->render();
 		UIWIndowTest.Update();
 
-		for (int x = 0; x < mappy->getMap()->size(); x++) // temp these 2 vectors not gonna be public had to get test working 
+		for (int x = 0; x < map->getMap()->size(); x++) // temp these 2 vectors not gonna be public had to get test working 
 		{
 			//need to talk to tristan about entitys
-			UIWIndowTest.HandleCollision(*UIWIndowTest.storage[UIWIndowTest.storage.size() - 1], *mappy->getMap()->data()[x].m_sprite);
+			UIWIndowTest.HandleCollision(*UIWIndowTest.storage[UIWIndowTest.storage.size() - 1], *map->getMap()->data()[x].m_sprite);
 		}
 	}
 	running = false;
@@ -69,7 +65,6 @@ void BattleSystem::render()
 
 void BattleSystem::run()
 {
-	initialize();
 	while (running == true) //Why are there two while loops nested! (Here and one in update)
 	{
 		update();
