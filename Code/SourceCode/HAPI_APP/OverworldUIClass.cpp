@@ -15,7 +15,7 @@ bool OverworldUIWIndowTest::Initialise()
 	{
 		difficultyColour = HAPISPACE::Colour255::GREEN;
 	}
-	else if (playerFleetPower < testHexDifficulty + hard)
+	else if (playerFleetPower < testHexDifficulty + hard && playerFleetPower > testHexDifficulty)
 	{
 		difficultyColour = HAPISPACE::Colour255::RED;
 	}
@@ -32,7 +32,6 @@ void OverworldUIWIndowTest::Update()
 {
 	BattleMapBackground->Render(SCREEN_SURFACE);
 	EnemyTerritoryHexSheet->Render(SCREEN_SURFACE);
-	//SCREEN_SURFACE->DrawText(HAPISPACE::VectorI(EnemyTerritoryHexSheet->Get, EnemyTerritoryHexSheet->GetTransformComp().GetPosition().y + EnemyTerritoryHexSheet->GetCurrentFrame().rect.bottom/4), HAPISPACE::Colour255::RED, "5.7", 90);
 	if (test)//mouse colides with hex
 	{
 		EnemyTerritoryHexSheet->SetFrameNumber(1);
@@ -42,6 +41,16 @@ void OverworldUIWIndowTest::Update()
 		EnemyTerritoryHexSheet->SetFrameNumber(0);
 		SCREEN_SURFACE->DrawText(HAPISPACE::VectorI(EnemyTerritoryHexSheet->GetTransformComp().GetPosition().x + EnemyTerritoryHexSheet->GetCurrentFrame().rect.right / 2.5, EnemyTerritoryHexSheet->GetTransformComp().GetPosition().y + EnemyTerritoryHexSheet->GetCurrentFrame().rect.bottom / 4), difficultyColour, std::to_string(testHexDifficulty), 90);
 	}
+
+	PrebattleUIBackground->Render(SCREEN_SURFACE);
+	SCREEN_SURFACE->DrawText(HAPISPACE::VectorI(1440, 270), HAPISPACE::Colour255::BLACK, "45/55", 50);
+	SCREEN_SURFACE->DrawText(HAPISPACE::VectorI(1440, 355), HAPISPACE::Colour255::BLACK, "3", 50);
+	SCREEN_SURFACE->DrawText(HAPISPACE::VectorI(1440, 445), HAPISPACE::Colour255::BLACK, "4", 50);
+	SCREEN_SURFACE->DrawText(HAPISPACE::VectorI(1440, 535), HAPISPACE::Colour255::BLACK, "5", 50);
+	//render current ship sprite 1200,300
+
+	//play button
+	//back button
 }
 
 

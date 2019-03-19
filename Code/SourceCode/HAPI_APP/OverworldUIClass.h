@@ -32,8 +32,11 @@ public:
 	std::shared_ptr<Sprite> BattleMapBackground = HAPI_Sprites.MakeSprite("Data\\TempBattleMapBackground.png");
 	std::shared_ptr<Sprite> EnemyTerritoryHexSheet = HAPI_Sprites.MakeSprite("Data\\EnemyTerritoryHexSheet.png", 2);
 	OverworldUIWIndowTest(RectangleI screenRect) : m_screenRect(screenRect), m_rectCollider({ 0,300,0,40 }) {}
-	int playerFleetPower = 3.2;
-	int testHexDifficulty = 5.7;
+	float playerFleetPower = 3.2;
+	float testHexDifficulty = 1.7;
 	int hard = 2;
 	Colour255 difficultyColour;
+
+
+	std::shared_ptr<Sprite> PrebattleUIBackground = HAPI_Sprites.MakeSprite("Data\\PrebattleUI.png");
 };
