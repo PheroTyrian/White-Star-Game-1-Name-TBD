@@ -11,6 +11,20 @@ OverworldUiClass::~OverworldUiClass()
 bool OverworldUIWIndowTest::Initialise()
 {
 	EnemyTerritoryHexSheet->GetTransformComp().SetPosition({ 100, 600 });
+	if (playerFleetPower > testHexDifficulty)
+	{
+		difficultyColour = HAPISPACE::Colour255::GREEN;
+	}
+	else if (playerFleetPower < testHexDifficulty + hard)
+	{
+		difficultyColour = HAPISPACE::Colour255::RED;
+	}
+	else
+	{
+		difficultyColour = HAPISPACE::Colour255::YELLOW;
+	}
+
+
 	return true;
 }
 
@@ -18,14 +32,15 @@ void OverworldUIWIndowTest::Update()
 {
 	BattleMapBackground->Render(SCREEN_SURFACE);
 	EnemyTerritoryHexSheet->Render(SCREEN_SURFACE);
-	SCREEN_SURFACE->DrawText(HAPISPACE::VectorI(EnemyTerritoryHexSheet->GetTransformComp().GetPosition().x + EnemyTerritoryHexSheet->GetCurrentFrame().rect.right/4 - 45, EnemyTerritoryHexSheet->GetTransformComp().GetPosition().y + EnemyTerritoryHexSheet->GetCurrentFrame().rect.bottom/4), HAPISPACE::Colour255::RED, "5.7", 90);
-	if (true)//mouse colides with hex
+	//SCREEN_SURFACE->DrawText(HAPISPACE::VectorI(EnemyTerritoryHexSheet->Get, EnemyTerritoryHexSheet->GetTransformComp().GetPosition().y + EnemyTerritoryHexSheet->GetCurrentFrame().rect.bottom/4), HAPISPACE::Colour255::RED, "5.7", 90);
+	if (test)//mouse colides with hex
 	{
 		EnemyTerritoryHexSheet->SetFrameNumber(1);
 	}
 	else
 	{
 		EnemyTerritoryHexSheet->SetFrameNumber(0);
+		SCREEN_SURFACE->DrawText(HAPISPACE::VectorI(EnemyTerritoryHexSheet->GetTransformComp().GetPosition().x + EnemyTerritoryHexSheet->GetCurrentFrame().rect.right / 2.5, EnemyTerritoryHexSheet->GetTransformComp().GetPosition().y + EnemyTerritoryHexSheet->GetCurrentFrame().rect.bottom / 4), difficultyColour, std::to_string(testHexDifficulty), 90);
 	}
 }
 
@@ -51,6 +66,7 @@ void OverworldUIWIndowTest::OnMouseEvent(EMouseEvent mouseEvent, const HAPI_TMou
 	if (mouseEvent == EMouseEvent::eLeftButtonDown)
 	{
 		//mouseData.x//how do you check if a mouse click collided with a collider?
+		test= !test;
 	}
 }
 

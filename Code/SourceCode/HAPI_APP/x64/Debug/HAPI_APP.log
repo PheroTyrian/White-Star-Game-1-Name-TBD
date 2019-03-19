@@ -1,5 +1,7 @@
 ﻿  OverworldUIClass.cpp
-c:\users\s6110517\source\white-star-game-1-name-tbd\code\sourcecode\hapi_app\overworlduiclass.cpp(21): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+x:\homework\gamejamrepo\white-star-game-1-name-tbd\code\sourcecode\hapi_app\overworlduiclass.h(35): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+x:\homework\gamejamrepo\white-star-game-1-name-tbd\code\sourcecode\hapi_app\overworlduiclass.h(36): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+x:\homework\gamejamrepo\white-star-game-1-name-tbd\code\sourcecode\hapi_app\overworlduiclass.cpp(43): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
           with
           [
               T=float
@@ -8,4 +10,9 @@ c:\users\s6110517\source\white-star-game-1-name-tbd\code\sourcecode\hapi_app\ove
           [
               T=int
           ]
-  HAPI_APP.vcxproj -> C:\Users\s6110517\Source\White-Star-Game-1-Name-TBD\Code\SourceCode\x64\Debug\HAPI_APP.exe
+x:\homework\gamejamrepo\white-star-game-1-name-tbd\code\sourcecode\hapi_app\overworlduiclass.cpp(43): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+  HAPI_APP.vcxproj -> X:\Homework\GameJamRepo\White-Star-Game-1-Name-TBD\Code\SourceCode\x64\Debug\HAPI_APP.exe
