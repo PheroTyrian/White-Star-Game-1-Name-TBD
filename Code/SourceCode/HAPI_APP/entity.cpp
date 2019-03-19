@@ -1,92 +1,95 @@
 #include "entity.h"
 
-entity::entity()
-{
 
+Entity::Entity(std::string filename)
+{
+	m_sprite = HAPI_Sprites.LoadSprite(filename);
 }
 
-void entity::setAlive(bool alive)
+bool Entity::render()
+{
+	m_sprite->Render(SCREEN_SURFACE);
+	
+	return true;
+}
+
+HAPISPACE::Sprite& Entity::getSprite() const
+{
+	return *m_sprite;
+}
+
+void Entity::setAlive(bool alive)
 {
 	m_alive = alive;
 }
 
-void entity::setHealth(int health)
+void Entity::setHealth(int health)
 {
 	m_maxHealth = health;
 	m_health = health;
 }
 
-int entity::getHealth() const
+int Entity::getHealth() const
 {
 	return m_health;
 }
 
-void entity::takeDamage(int damage)
+void Entity::takeDamage(int damage)
 {
 	m_health -= damage;
 }
 
-void entity::heal(int healAmount)
+void Entity::heal(int healAmount)
 {
 	m_health += healAmount;
 }
 
-void entity::setMovementPoints(float movementPoints)
+void Entity::setMovementPoints(float movementPoints)
 {
 	m_movementPoints = movementPoints;
 }
 
-float entity::getMovementPoints() const
+float Entity::getMovementPoints() const
 {
 	return m_movementPoints;
 }
 
-void entity::setDirection(eDirection newDirection)
+void Entity::setDirection(eDirection newDirection)
 {
 	m_direction = newDirection;
 }
 
-eDirection entity::getDirection() const
+eDirection Entity::getDirection() const
 {
 	return m_direction;
 }
 
-void entity::setTileLocation(HAPISPACE::VectorI newTileLocation)
-{
-	m_tileLocation = newTileLocation;
-}
-
-HAPISPACE::VectorI entity::getTileLocation() const
-{
-	return m_tileLocation;
-}
-
-void entity::setFaction(faction newFaction)
+void Entity::setFaction(faction newFaction)
 {
 	m_faction = newFaction;
 }
 
-faction entity::getFaction() const
+faction Entity::getFaction() const
 {
 	return m_faction;
 }
 
-void entity::addWeapon(weapon newWeapon)
+void Entity::addWeapon(weapon newWeapon)
 {
 	m_weapons.push_back(newWeapon);
 }
 
-void entity::setWeapon(weapon newWeapon, int weaponNumber)
+void Entity::setWeapon(weapon newWeapon, int weaponNumber)
 {
 	m_weapons[weaponNumber] = newWeapon;
 }
 
-void entity::resetWeapons()
+void Entity::resetWeapons()
 {
 	m_weapons.clear();
 }
 
-weapon entity::getWeapon(int weaponNumber) const
+weapon Entity::getWeapon(int weaponNumber) const
 {
 	return m_weapons[weaponNumber];
 }

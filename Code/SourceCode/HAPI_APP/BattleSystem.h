@@ -1,23 +1,27 @@
-#ifndef BattleSystem_H
-#define BattleSystem_H
+#pragma once
 
-#include<HAPISprites_lib.h>
-#include<vector>
-#include"entity.h"
+#include <HAPISprites_lib.h>
+#include <vector>
+#include <utility>
+#include "Entity.h"
+#include "Map.h"
+#include "UIClass.h"
 
+using namespace HAPISPACE;
 
 class BattleSystem
 {
 private:
-	//std::vector<std::pair<entity*, tile*>> m_entities; // need tile class
-	bool running;
-	void initialize();
 	void update();
-	void render();
 
+	std::vector<std::pair<Entity*, std::pair<int, int>>> m_entities;
+	bool running;
+	Map m_map;
+	UIWindowTest UIWind;
+	
 public:
 	BattleSystem();
+	~BattleSystem();
+
 	void run();
 };
-
-#endif
