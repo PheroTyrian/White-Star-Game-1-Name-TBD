@@ -111,7 +111,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>TIXML_USE_STL;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>HAPI_SPRITES;HAPI_SPRITES\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -154,7 +154,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>TIXML_USE_STL;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>HAPI_SPRITES;HAPI_SPRITES\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -170,18 +170,28 @@
   <ItemGroup>
     <ClCompile Include="BattleSystem.cpp" />
     <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="LevelParser.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="UIClass.cpp" />
+    <ClCompile Include="Utilities\Base64.cpp" />
+    <ClCompile Include="Utilities\MapParser.cpp" />
+    <ClCompile Include="Utilities\tinyxml.cpp" />
+    <ClCompile Include="Utilities\tinyxmlerror.cpp" />
+    <ClCompile Include="Utilities\tinyxmlparser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BattleSystem.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Global.h" />
-    <ClInclude Include="LevelParser.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="UIClass.h" />
+    <ClInclude Include="Utilities\Base64.h" />
+    <ClInclude Include="Utilities\MapParser.h" />
+    <ClInclude Include="Utilities\tinyxml.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="HAPI_APP.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

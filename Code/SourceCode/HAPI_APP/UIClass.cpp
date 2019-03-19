@@ -1,6 +1,18 @@
 #include "UIClass.h"
 //needs splitting out really into function wrapper
 
+// : m_screenRect({ 1280, 800 }), m_rectCollider({ 0,300,0,40 }) {}
+UIWindowTest::UIWindowTest()
+	: m_screenRect({ 1280, 800 }),
+	m_rectCollider({ 0, 300, 0, 40 })
+{
+	storage.push_back(HAPI_Sprites.LoadSprite("Data\\mouseCrossHair.xml"));//temp mouse cursor sprite
+	storage[storage.size() - 1]->GetColliderComp().EnablePixelPerfectCollisions(true);
+
+	frameHeight = storage[0]->FrameHeight();
+	frameWidth = storage[0]->FrameWidth();
+}
+
 void UIWindowTest::OnKeyEvent(EKeyEvent keyEvent, BYTE keyCode)
 {
 }
@@ -22,7 +34,6 @@ void UIWindowTest::HandleCollision(Sprite & sprite, Sprite & collideWith)
 {
 	//sprite is the mouse cursor sprite
 	// collideWith is the tile
-
 	CollisionInfo info;
 	if (sprite.CheckCollision(collideWith, &info) && trigger == true)
 	{
@@ -33,7 +44,6 @@ void UIWindowTest::HandleCollision(Sprite & sprite, Sprite & collideWith)
 	}
 }
 
-
 void UIWindowTest::OnMouseEvent(EMouseEvent mouseEvent, const HAPI_TMouseData& mouseData)
 {
 	if (mouseEvent == EMouseEvent::eLeftButtonDown)
@@ -42,17 +52,6 @@ void UIWindowTest::OnMouseEvent(EMouseEvent mouseEvent, const HAPI_TMouseData& m
 		mouseY = mouseData.y;
 		trigger = true;
 	}
-}
-
-bool UIWindowTest::Initialise()
-{
-	storage.push_back(HAPI_Sprites.LoadSprite("Data\\mouseCrossHair.xml"));//temp mouse cursor sprite
-	storage[storage.size() - 1]->GetColliderComp().EnablePixelPerfectCollisions(true);
-
-	frameHeight = storage[0]->FrameHeight();
-	frameWidth = storage[0]->FrameWidth();
-
-	return true;
 }
 
 void UIWindowTest::Update()

@@ -7,7 +7,7 @@
 
 constexpr int FRAME_HEIGHT = 28;
 
-void Map::drawMap() 
+void Map::drawMap() const 
 {
 	std::pair<int, int> textureDimensions = std::pair<int, int>(
 		m_data[0].m_sprite->FrameWidth(),
@@ -17,12 +17,12 @@ void Map::drawMap()
 	int access{ 0 };
 	for (int y = 0; y < m_mapDimensions.second; y++)
 	{
-		float yPosEven = (float)(0.5 + y) * textureDimensions.second;
-		float yPosOdd = (float)y * textureDimensions.second;
+		const float yPosEven = (float)(0.5 + y) * textureDimensions.second;
+		const float yPosOdd = (float)y * textureDimensions.second;
 
 		for (int x = 1; x < m_mapDimensions.first; x += 2)
 		{
-			float xPos = (float)x * textureDimensions.first * 3 / 4;
+			const float xPos = (float)x * textureDimensions.first * 3 / 4;
 			//Is Odd
 			m_data[access + x].m_sprite->GetTransformComp().SetPosition(HAPISPACE::VectorF(
 				xPos * m_drawScale - m_drawOffset.first,
@@ -33,7 +33,7 @@ void Map::drawMap()
 		}
 		for (int x = 0; x < m_mapDimensions.first; x += 2)
 		{
-			float xPos = (float)x * textureDimensions.first * 3 / 4;
+			const float xPos = (float)x * textureDimensions.first * 3 / 4;
 			//Is even
 			m_data[access + x].m_sprite->GetTransformComp().SetPosition(HAPISPACE::VectorF(
 				xPos * m_drawScale - m_drawOffset.first,
@@ -46,9 +46,7 @@ void Map::drawMap()
 	}
 }
 
-
-
-std::pair<int, int> Map::offsetToCube(std::pair<int, int> offset)
+std::pair<int, int> Map::offsetToCube(std::pair<int, int> offset) const
 {
 	int cubeX = offset.first;
 	int cubeY = - offset.first - (offset.second - (offset.first + (offset.first & 1)) / 2);
@@ -57,7 +55,7 @@ std::pair<int, int> Map::offsetToCube(std::pair<int, int> offset)
 	return std::pair<int, int>(cubeX, cubeY);
 }
 
-std::pair<int, int> Map::cubeToOffset(std::pair<int, int> cube)
+std::pair<int, int> Map::cubeToOffset(std::pair<int, int> cube) const
 {
 	int offsetX = cube.first;
 	int offsetY = -cube.first - cube.second + (cube.first + (cube.first & 1)) / 2;
@@ -65,15 +63,15 @@ std::pair<int, int> Map::cubeToOffset(std::pair<int, int> cube)
 	return std::pair<int, int>(offsetX, offsetY);
 }
 
-int Map::cubeDistance(std::pair<int, int> a, std::pair<int, int> b)
+int Map::cubeDistance(std::pair<int, int> a, std::pair<int, int> b) const
 {
-	int x = abs(a.first - b.first);
-	int y = abs(a.second - b.second);
-	int z = abs(a.first + a.second - b.first - b.second);
+	const int x = abs(a.first - b.first);
+	const int y = abs(a.second - b.second);
+	const int z = abs(a.first + a.second - b.first - b.second);
 	return std::max(x, std::max(y, z));
 }
 
-bool Map::inCone(std::pair<int, int> orgHex, std::pair<int, int> testHex, eDirection dir)
+bool Map::inCone(std::pair<int, int> orgHex, std::pair<int, int> testHex, eDirection dir) const//TODO
 {
 	std::pair<int, int> diff(testHex.first - orgHex.first, testHex.second - orgHex.second);
 	if (dir == eNorth || dir == eSouth)//Axis x = 0
@@ -115,7 +113,7 @@ Tile* Map::getTile(std::pair<int, int> coordinate)
 std::vector<Tile*> Map::getAdjacentTiles(std::pair<int, int> coord)
 {
 	std::vector<Tile*> result;
-	result.reserve(6);
+	result.reserve(size_t(6));
 	if (2 % coord.first == 1)//Is an odd tile
 	{
 		result.push_back(getTile(std::pair<int, int>(coord.first, coord.second - 1)));//N
@@ -173,7 +171,7 @@ std::vector<Tile*> Map::getTileRadius(std::pair<int, int> coord, int range)
 	return tileStore;
 }
 
-std::vector<Tile*> Map::getTileCone(std::pair<int, int> coord, int range, eDirection direction)
+std::vector<Tile*> Map::getTileCone(std::pair<int, int> coord, int range, eDirection direction) //TODO
 {
 	if (range < 1)
 		HAPI_Sprites.UserMessage("getTileCone range less than 1", "Map error");
@@ -205,13 +203,14 @@ std::vector<Tile*> Map::getTileCone(std::pair<int, int> coord, int range, eDirec
 			}
 		}
 	}
+
 	return tileStore;
 }
 
 bool Map::moveEntity(std::pair<int, int> originalPos, std::pair<int, int> newPos)
 {
-	Entity* tmpNew = getTile(newPos)->m_entityOnTile;
-	Entity* tmpOld = getTile(originalPos)->m_entityOnTile;
+	const Entity* tmpNew = getTile(newPos)->m_entityOnTile;
+	const Entity* tmpOld = getTile(originalPos)->m_entityOnTile;
 
 	if (tmpNew != nullptr || tmpOld == nullptr)
 		return false;
@@ -223,10 +222,14 @@ bool Map::moveEntity(std::pair<int, int> originalPos, std::pair<int, int> newPos
 
 void Map::insertEntity(Entity * newEntity, std::pair<int, int> coord)
 {
-	getTile(coord)->m_entityOnTile = newEntity;
+	Tile* tile = getTile(coord);
+	if (tile && !tile->m_entityOnTile)
+	{
+		tile->m_entityOnTile = newEntity;
+	}
 }
 
-std::pair<int, int> Map::getTileScreenPos(std::pair<int, int> coord)
+std::pair<int, int> Map::getTileScreenPos(std::pair<int, int> coord) const
 {
 	std::pair<int, int> textureDimensions = std::pair<int, int>(
 		m_data[0].m_sprite->FrameWidth(),
@@ -235,36 +238,37 @@ std::pair<int, int> Map::getTileScreenPos(std::pair<int, int> coord)
 	const float xPos = (float)(coord.first * textureDimensions.first) * 3 / 4;
 	const float yPos = (float)((((1 + coord.first) % 2) + 2 * coord.second) 
 		* textureDimensions.second) / 2;
+
 	return std::pair<int, int>(
 		xPos * m_drawScale - m_drawOffset.first,
 		yPos * m_drawScale - m_drawOffset.second);
 }
 
-Map::Map(int width, int height) :
-	m_mapDimensions(std::pair<int, int>(width, height)), m_data(), 
-	m_drawOffset(std::pair<int, int>(100, 100)),
-	m_windDirection(eNorth), m_windStrength(0.0), m_drawScale(2)
+Map::Map(std::pair<int, int> size, const std::vector<std::vector<int>>& tileData) :
+	m_mapDimensions(size),
+	m_data(), 
+	m_drawOffset(std::pair<int, int>(50, 50)),
+	m_windDirection(eNorth), 
+	m_windStrength(0.0), 
+	m_drawScale(2)
 {
-	m_data.reserve(width * height);
-	for (int y = 0; y < height; y++)
+	m_data.reserve(m_mapDimensions.first * m_mapDimensions.second);
+	for (int y = 0; y < m_mapDimensions.second; y++)
 	{
-		for (int x = 0; x < width; x++)
+		for (int x = 0; x < m_mapDimensions.first; x++)
 		{
-			Tile tile(eGrass, std::string("hexTiles.xml"), 
-				std::string("Data\\"), std::pair<int, int>(x, y));
-			m_data.push_back(tile);
+			const int tileID = tileData[y][x];
+			assert(tileID != -1);
+			m_data.emplace_back(static_cast<eTileType>(tileID), 
+				std::string("Data\\hexTiles.xml"), std::pair<int, int>(x, y));
+
 			if (!m_data[x + y * m_mapDimensions.first].m_sprite)
 			{
 				HAPI_Sprites.UserMessage("Could not load tile spritesheet", "Error");
 				return;
 			}
-			//m_data[x + y * m_mapDimensions.first].m_sprite->SetFrameNumber(0);
+			m_data[x + y * m_mapDimensions.first].m_sprite->SetFrameNumber(tileID);
 			//cubeToOffset(offsetToCube(std::pair<int, int>(x, y)));
 		}
 	}
-}
-
-
-Map::~Map()
-{
 }

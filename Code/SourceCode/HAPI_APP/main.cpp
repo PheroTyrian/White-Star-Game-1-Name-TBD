@@ -9,6 +9,11 @@ using namespace HAPISPACE;
 // When this function exits the program will close down
 void HAPI_Sprites_Main()
 {
+	std::pair<int, int> windowSize(1280, 800);
+	if (!HAPI_Sprites.Initialise(windowSize.first, windowSize.second, "test Demo ", eHSEnableUI))//it lies
+		return;
+	HAPI_Sprites.SetShowFPS(true);
+
 	BattleSystem world;
 	world.run();
 

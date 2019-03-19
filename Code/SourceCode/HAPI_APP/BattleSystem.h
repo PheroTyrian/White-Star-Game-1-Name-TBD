@@ -12,19 +12,16 @@ using namespace HAPISPACE;
 class BattleSystem
 {
 private:
-	//Vector of a pair: ptr to entity, the tile coordinates of that entity (on the battle map)
-	std::vector<std::pair<Entity*, std::pair<int, int> > > m_entities;
-
-	bool running;
 	void update();
-	void render();
-	int width;
-	int height;
-	Map* map;
-	UIWindowTest* UIWind;
+
+	std::vector<std::pair<Entity*, std::pair<int, int>>> m_entities;
+	bool running;
+	Map m_map;
+	UIWindowTest UIWind;
+	
 public:
 	BattleSystem();
 	~BattleSystem();
+
 	void run();
 };
-

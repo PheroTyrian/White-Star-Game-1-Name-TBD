@@ -12,7 +12,7 @@ enum eDirection
 
 enum eTileType
 {
-	eGrass,
+	eGrass = 0,
 	eSparseForest,
 	eForest,
 	eFoothills,

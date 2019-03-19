@@ -35,12 +35,12 @@ private:
 	int frameWidth;
 
 public:
-	UIWindowTest() : m_screenRect({ 1280, 800 }), m_rectCollider({ 0,300,0,40 }) {}
+	UIWindowTest();
+
 	void OnKeyEvent(EKeyEvent keyEvent, BYTE keyCode) override final;
 	void OnMouseEvent(EMouseEvent mouseEvent, const HAPI_TMouseData& mouseData) override final;
 	void OnMouseMove(const HAPI_TMouseData& mouseData) override final;
 	void HandleCollision(Sprite& sprite, Sprite& collideWith);
-	bool Initialise();
 	void Update();
 	int mouseX, mouseY;
 	std::vector<std::unique_ptr <Sprite>>storage;
