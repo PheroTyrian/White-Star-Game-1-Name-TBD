@@ -30,19 +30,18 @@ BattleSystem::~BattleSystem()
 {
 	for (auto it : m_entities)
 	{
-		//delete it.first;
+		delete it.first;
 	}
 	m_entities.clear();
 }
 
 void BattleSystem::update()
 {
-	
-	//temp map set entity to tile 
+
 	{
 	std::pair<float,float> tempTileLocation ;
 	
-	while (HAPI_Sprites.Update())// work on adding entity tile switching is temp 
+	while (HAPI_Sprites.Update())
 	{
 		SCREEN_SURFACE->Clear();
 		
@@ -50,7 +49,6 @@ void BattleSystem::update()
 		
 		UIWind.Update();
 		
-		// test
 		for (int x = 0; x < m_map.getMap()->size(); x++) // temp these 2 vectors not gonna be public had to get test working 
 		{
 			UIWind.HandleCollision(*UIWind.storage[UIWind.storage.size() - 1], *m_map.getMap()->data()[x].m_sprite);
@@ -78,8 +76,6 @@ void BattleSystem::update()
 			if (m_map.getMap()->data()[x].m_entityOnTile != nullptr)
 			{
 				m_map.getMap()->data()[x].m_entityOnTile->getSprite().GetTransformComp().SetPosition({ m_map.getMap()->data()[x].m_sprite->GetTransformComp().GetPosition().x + 30, m_map.getMap()->data()[x].m_sprite->GetTransformComp().GetPosition().y + 40 });
-				//m_map.getMap()->data()[x].m_sprite->AdvanceToNextFrame();
-				
 				m_map.getMap()->data()[x].m_entityOnTile->render();
 	
 			}
@@ -88,7 +84,7 @@ void BattleSystem::update()
 	}
 
 }
-	//m_entities[0].first->getSprite().GetTransformComp().SetPosition({ (float)tempTileLocation.first + 30,(float)tempTileLocation.second + 40 });
+	
 	running = false;
 }
 
