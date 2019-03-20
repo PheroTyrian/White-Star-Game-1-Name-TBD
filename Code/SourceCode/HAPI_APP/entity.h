@@ -46,6 +46,7 @@ class entity
 protected:
 	std::shared_ptr<HAPISPACE::Sprite> m_sprite;
 	bool m_alive;
+	bool m_selected;
 	int m_maxHealth;
 	int m_health;
 	float m_maxMovementPoints;
@@ -54,11 +55,14 @@ protected:
 	HAPISPACE::VectorI m_tileLocation;
 	faction m_faction;
 	std::vector<weapon> m_weapons;
+
 public:
 	entity(std::string filename);
 	bool render();
 	HAPISPACE::Sprite& getSprite() const;
 	void setAlive(bool alive);
+	void select();
+	void select(bool isSelected);
 	void setHealth(int health);
 	int getHealth() const;
 	void takeDamage(int damage);

@@ -1,7 +1,7 @@
 ﻿  OverworldUIClass.cpp
-c:\users\s6110517\source\white-star-game-1-name-tbd\code\sourcecode\hapi_app\overworlduiclass.h(35): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\s6110517\source\white-star-game-1-name-tbd\code\sourcecode\hapi_app\overworlduiclass.h(36): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\s6110517\source\white-star-game-1-name-tbd\code\sourcecode\hapi_app\overworlduiclass.cpp(42): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+c:\users\s6110517\source\white-star-game-1-name-tbd\code\sourcecode\hapi_app\overworlduiclass.h(41): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\s6110517\source\white-star-game-1-name-tbd\code\sourcecode\hapi_app\overworlduiclass.h(42): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\s6110517\source\white-star-game-1-name-tbd\code\sourcecode\hapi_app\overworlduiclass.cpp(63): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
           with
           [
               T=float
@@ -10,7 +10,7 @@ c:\users\s6110517\source\white-star-game-1-name-tbd\code\sourcecode\hapi_app\ove
           [
               T=int
           ]
-c:\users\s6110517\source\white-star-game-1-name-tbd\code\sourcecode\hapi_app\overworlduiclass.cpp(42): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+c:\users\s6110517\source\white-star-game-1-name-tbd\code\sourcecode\hapi_app\overworlduiclass.cpp(63): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
           with
           [
               T=int

@@ -26,7 +26,7 @@ void UIWIndowTest::OnMouseMove(const HAPI_TMouseData& mouseData)
 	{
 		pendingCameraMovement = VectorF{ 1,0 };
 	}
-	else if (mouseData.x > 1180)
+	else if (mouseData.x > 1500)
 	{
 		pendingCameraMovement = VectorF{ -1,0 };
 	}
@@ -35,7 +35,7 @@ void UIWIndowTest::OnMouseMove(const HAPI_TMouseData& mouseData)
 	{
 		pendingCameraMovement = VectorF{ 0,1 };
 	}
-	else if (mouseData.y > 700)
+	else if (mouseData.y > 800)
 	{
 		pendingCameraMovement = VectorF{ 0,-1 };
 	}
@@ -69,6 +69,15 @@ void UIWIndowTest::OnMouseEvent(EMouseEvent mouseEvent, const HAPI_TMouseData& m
 		mouseY = mouseData.y;
 		trigger = true;
 
+	}
+
+	if (mouseEvent == EMouseEvent::eWheelForward)
+	{
+		cameraZoom += 0.1f;
+	}
+	else if (mouseEvent == EMouseEvent::eWheelBack)
+	{
+		cameraZoom -= 0.1f;
 	}
 }
 

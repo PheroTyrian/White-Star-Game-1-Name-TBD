@@ -41,6 +41,7 @@ private:
 	//int sideBoundary;
 	VectorF pendingCameraMovement{ 0 };
 	std::pair<int, int> CameraPositionOffset;
+	float cameraZoom = 1.0f;
 
 public:
 	UIWIndowTest(RectangleI screenRect) : m_screenRect(screenRect), m_rectCollider({ 0,300,0,40 }) {}

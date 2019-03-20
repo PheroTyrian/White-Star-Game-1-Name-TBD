@@ -21,6 +21,16 @@ void entity::setAlive(bool alive)
 	m_alive = alive;
 }
 
+void entity::select()
+{
+	m_selected = !m_selected;
+}
+
+void entity::select(bool isSelected)
+{
+	m_selected = isSelected;
+}
+
 void entity::setHealth(int health)
 {
 	m_maxHealth = health;

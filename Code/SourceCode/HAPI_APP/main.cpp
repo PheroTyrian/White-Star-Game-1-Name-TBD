@@ -37,7 +37,6 @@ void HAPI_Sprites_Main()
 	// This call allows us to specify the screen size and optionally the window title text and flags
 	if (!HAPI_Sprites.Initialise(width, height, "HAPI Sprites Start Project", eHSEnableUI))
 		return;
-
 	OverworldUIWIndowTest OverworldUIWIndowTest({width, height});
 	if (!OverworldUIWIndowTest.Initialise())
 		return;

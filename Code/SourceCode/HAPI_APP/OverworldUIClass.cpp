@@ -10,7 +10,15 @@ OverworldUiClass::~OverworldUiClass()
 
 bool OverworldUIWIndowTest::Initialise()
 {
+	//UI.AddWindow("testWindow", m_screenRect);
+	//UI.OpenWindow("testWindow");
+
+	testBattleMapWindow = true;
+
 	EnemyTerritoryHexSheet->GetTransformComp().SetPosition({ 100, 600 });
+	PlayButton->GetTransformComp().SetPosition({ 1150, 722 });
+	BackButton->GetTransformComp().SetPosition({ 185, 747 });
+
 	if (playerFleetPower > testHexDifficulty)
 	{
 		difficultyColour = HAPISPACE::Colour255::GREEN;
@@ -24,6 +32,23 @@ bool OverworldUIWIndowTest::Initialise()
 		difficultyColour = HAPISPACE::Colour255::YELLOW;
 	}
 
+	entity newEntity("Data//thing.png");
+	newEntity.setTileLocation(HAPISPACE::VectorI(50, 50));
+	newEntity.setHealth(100);
+	newEntity.setMovementPoints(6);
+	weapon newWeapon;
+	newWeapon.damage = 10;
+	newWeapon.range = 5;
+	newWeapon.type = weaponType::eWeaponType1;
+	newEntity.addWeapon(newWeapon);
+	m_entityVector.push_back(newEntity);
+
+	entity secondEntity("Data//HAPI Sprites Logo.png");
+	secondEntity.setTileLocation(HAPISPACE::VectorI(50, 100));
+	secondEntity.setHealth(600);
+	secondEntity.setMovementPoints(3);
+	secondEntity.addWeapon(newWeapon);
+	m_entityVector.push_back(secondEntity);
 
 	return true;
 }
@@ -32,51 +57,95 @@ void OverworldUIWIndowTest::Update()
 {
 	BattleMapBackground->Render(SCREEN_SURFACE);
 	EnemyTerritoryHexSheet->Render(SCREEN_SURFACE);
-	if (test)//mouse colides with hex
+
+	if (EnemyTerritoryHexSheet->GetFrameNumber() == 0)
 	{
-		EnemyTerritoryHexSheet->SetFrameNumber(1);
-	}
-	else
-	{
-		EnemyTerritoryHexSheet->SetFrameNumber(0);
 		SCREEN_SURFACE->DrawText(HAPISPACE::VectorI(EnemyTerritoryHexSheet->GetTransformComp().GetPosition().x + EnemyTerritoryHexSheet->GetCurrentFrame().rect.right / 2.5, EnemyTerritoryHexSheet->GetTransformComp().GetPosition().y + EnemyTerritoryHexSheet->GetCurrentFrame().rect.bottom / 4), difficultyColour, std::to_string(testHexDifficulty), 90);
 	}
+	
+	if(testPrebattleWindow)
+	{
+		PrebattleUIBackground->Render(SCREEN_SURFACE);
+		SCREEN_SURFACE->DrawText(HAPISPACE::VectorI(1440, 270), HAPISPACE::Colour255::BLACK, "45/55", 50);
+		SCREEN_SURFACE->DrawText(HAPISPACE::VectorI(1440, 355), HAPISPACE::Colour255::BLACK, "3", 50);
+		SCREEN_SURFACE->DrawText(HAPISPACE::VectorI(1440, 445), HAPISPACE::Colour255::BLACK, "4", 50);
+		SCREEN_SURFACE->DrawText(HAPISPACE::VectorI(1440, 535), HAPISPACE::Colour255::BLACK, "5", 50);
+		PlayButton->Render(SCREEN_SURFACE);
+		BackButton->Render(SCREEN_SURFACE);	
+	}
 
-	PrebattleUIBackground->Render(SCREEN_SURFACE);
-	SCREEN_SURFACE->DrawText(HAPISPACE::VectorI(1440, 270), HAPISPACE::Colour255::BLACK, "45/55", 50);
-	SCREEN_SURFACE->DrawText(HAPISPACE::VectorI(1440, 355), HAPISPACE::Colour255::BLACK, "3", 50);
-	SCREEN_SURFACE->DrawText(HAPISPACE::VectorI(1440, 445), HAPISPACE::Colour255::BLACK, "4", 50);
-	SCREEN_SURFACE->DrawText(HAPISPACE::VectorI(1440, 535), HAPISPACE::Colour255::BLACK, "5", 50);
 	//render current ship sprite 1200,300
-
-	//play button
-	//back button
 }
 
 
 
 void OverworldUIWIndowTest::OnMouseEvent(EMouseEvent mouseEvent, const HAPI_TMouseData& mouseData)
 {
-	if (mouseEvent == EMouseEvent::eWheelForward)
-	{
-		cameraZoom += 0.1f;
-		//m_heliSprite->GetTransformComp().SetScaling(m_heliSprite->GetTransformComp().GetScale() + 0.1f);//scales the sprites indevidually, temp solution. Will eventually scale camera. Also need to ask kieth if i was alowed to change his vector operator.
-		//m_logoSprite->GetTransformComp().SetScaling(m_logoSprite->GetTransformComp().GetScale() + 0.1f);
-		//m_stickySprite->GetTransformComp().SetScaling(m_stickySprite->GetTransformComp().GetScale() + 0.1f);
-	}
-	else if (mouseEvent == EMouseEvent::eWheelBack)
-	{
-		cameraZoom -= 0.1f;
-		//m_heliSprite->GetTransformComp().SetScaling(m_heliSprite->GetTransformComp().GetScale() + -0.1f);//scales the sprites indevidually, temp solution
-		//m_logoSprite->GetTransformComp().SetScaling(m_logoSprite->GetTransformComp().GetScale() + -0.1f);
-		//m_stickySprite->GetTransformComp().SetScaling(m_stickySprite->GetTransformComp().GetScale() + -0.1f);
-	}
-
 	if (mouseEvent == EMouseEvent::eLeftButtonDown)
 	{
-		//mouseData.x//how do you check if a mouse click collided with a collider?
-		test= !test;
+		if (testBattleMapWindow && !testPrebattleWindow)
+		{
+			if (EnemyTerritoryHexSheet->GetSpritesheet()->GetFrameRect(0).Translated(EnemyTerritoryHexSheet->GetTransformComp().GetPosition()).Contains(HAPISPACE::RectangleI(mouseData.x, mouseData.x, mouseData.y, mouseData.y)))
+			{
+				testPrebattleWindow = true;
+			}
+		}
+		else if (testPrebattleWindow)
+		{
+			if (PlayButton->GetSpritesheet()->GetFrameRect(0).Translated(PlayButton->GetTransformComp().GetPosition()).Contains(HAPISPACE::RectangleI(mouseData.x, mouseData.x, mouseData.y, mouseData.y)))
+			{
+				//play level
+			}
+			else if (BackButton->GetSpritesheet()->GetFrameRect(0).Translated(BackButton->GetTransformComp().GetPosition()).Contains(HAPISPACE::RectangleI(mouseData.x, mouseData.x, mouseData.y, mouseData.y)))
+			{
+				testPrebattleWindow = false;
+			}
+		}
 	}
+
+	if (mouseEvent == EMouseEvent::eLeftButtonUp)
+	{
+	}
+}
+
+void OverworldUIWIndowTest::OnMouseMove(const HAPI_TMouseData& mouseData)
+{
+	if (testBattleMapWindow && !testPrebattleWindow)
+	{
+		if (EnemyTerritoryHexSheet->GetSpritesheet()->GetFrameRect(0).Translated(EnemyTerritoryHexSheet->GetTransformComp().GetPosition()).Contains(HAPISPACE::RectangleI(mouseData.x, mouseData.x, mouseData.y, mouseData.y)))
+		{
+			EnemyTerritoryHexSheet->SetFrameNumber(1);
+		}
+		else if (EnemyTerritoryHexSheet->GetFrameNumber() != 0)
+		{
+			EnemyTerritoryHexSheet->SetFrameNumber(0);
+		}
+	}
+	else if (testPrebattleWindow)
+	{
+		if (PlayButton->GetSpritesheet()->GetFrameRect(0).Translated(PlayButton->GetTransformComp().GetPosition()).Contains(HAPISPACE::RectangleI(mouseData.x, mouseData.x, mouseData.y, mouseData.y)))
+		{
+			PlayButton->SetFrameNumber(1);
+		}
+		else if (PlayButton->GetFrameNumber() != 0)
+		{
+			PlayButton->SetFrameNumber(0);
+		}
+
+		if (BackButton->GetSpritesheet()->GetFrameRect(0).Translated(BackButton->GetTransformComp().GetPosition()).Contains(HAPISPACE::RectangleI(mouseData.x, mouseData.x, mouseData.y, mouseData.y)))
+		{
+			BackButton->SetFrameNumber(1);
+		}
+		else if (BackButton->GetFrameNumber() != 0)
+		{
+			BackButton->SetFrameNumber(0);
+		}
+	}
+}
+
+void OverworldUIWIndowTest::HandleCollision(Sprite & sprite, Sprite & collideWith)
+{
+	
 }
 
 void OverworldUIWIndowTest::OnKeyEvent(EKeyEvent keyEvent, BYTE keyCode)
