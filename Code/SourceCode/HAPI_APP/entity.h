@@ -3,6 +3,7 @@
 
 #include <HAPISprites_lib.h>
 #include <vector>
+#include <memory>
 
 enum class shipType
 {
@@ -43,6 +44,7 @@ struct weapon
 class entity
 {
 protected:
+	std::shared_ptr<HAPISPACE::Sprite> m_sprite;
 	bool m_alive;
 	int m_maxHealth;
 	int m_health;
@@ -53,7 +55,9 @@ protected:
 	faction m_faction;
 	std::vector<weapon> m_weapons;
 public:
-	entity();
+	entity(std::string filename);
+	bool render();
+	HAPISPACE::Sprite& getSprite() const;
 	void setAlive(bool alive);
 	void setHealth(int health);
 	int getHealth() const;

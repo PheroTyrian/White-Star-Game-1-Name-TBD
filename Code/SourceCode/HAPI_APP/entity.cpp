@@ -1,8 +1,19 @@
 #include "entity.h"
 
-entity::entity()
+entity::entity(std::string filename)
 {
+	m_sprite = HAPI_Sprites.MakeSprite(filename);
+}
 
+bool entity::render()
+{
+	m_sprite->Render(SCREEN_SURFACE);
+	return true;
+}
+
+HAPISPACE::Sprite& entity::getSprite() const
+{
+	return *m_sprite;
 }
 
 void entity::setAlive(bool alive)
@@ -54,6 +65,7 @@ direction entity::getDirection() const
 void entity::setTileLocation(HAPISPACE::VectorI newTileLocation)
 {
 	m_tileLocation = newTileLocation;
+	m_sprite->GetTransformComp().SetPosition(newTileLocation);
 }
 
 HAPISPACE::VectorI entity::getTileLocation() const
@@ -78,7 +90,10 @@ void entity::addWeapon(weapon newWeapon)
 
 void entity::setWeapon(weapon newWeapon, int weaponNumber)
 {
-	m_weapons[weaponNumber] = newWeapon;
+	if (weaponNumber >= 0 && weaponNumber <= m_weapons.size())
+	{
+		m_weapons[weaponNumber] = newWeapon;
+	}
 }
 
 void entity::resetWeapons()
@@ -88,5 +103,8 @@ void entity::resetWeapons()
 
 weapon entity::getWeapon(int weaponNumber) const
 {
-	return m_weapons[weaponNumber];
+	if (weaponNumber >= 0 && weaponNumber <= m_weapons.size())
+	{
+		return m_weapons[weaponNumber];
+	}
 }
