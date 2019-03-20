@@ -71,20 +71,27 @@ int Map::cubeDistance(std::pair<int, int> a, std::pair<int, int> b) const
 	return std::max(x, std::max(y, z));
 }
 
-bool Map::inCone(std::pair<int, int> orgHex, std::pair<int, int> testHex, eDirection dir) const//TODO
+bool Map::inCone(std::pair<int, int> orgHex, std::pair<int, int> testHex, eDirection dir) const
 {
-	std::pair<int, int> diff(testHex.first - orgHex.first, testHex.second - orgHex.second);
+	const std::pair<int, int> diff(testHex.first - orgHex.first, testHex.second - orgHex.second);
+	const int zDiff = -diff.first - diff.second;
 	if (dir == eNorth || dir == eSouth)//Axis x = 0
 	{
-
+		//Deadzones y pos and z neg or y neg and z pos
+		if ((diff.second > 0 && zDiff < 0) || (diff.second < 0 && zDiff > 0))
+			return false;
 	}
 	else if (dir == eNorthEast || dir == eSouthWest)//Axis y = 0
 	{
-
+		//Deadzones x pos and z neg or x neg and z pos
+		if ((diff.first > 0 && zDiff < 0) || (diff.first < 0 && zDiff > 0))
+			return false;
 	}
 	else if (dir == eNorthWest || dir == eSouthEast)//Axis z = 0
 	{
-
+		//Deadzones x pos and y neg or x neg and y pos
+		if ((diff.first > 0 && diff.second < 0) || (diff.first < 0 && diff.second > 0))
+			return false;
 	}
 	return true;
 }
@@ -159,11 +166,12 @@ std::vector<Tile*> Map::getTileRadius(std::pair<int, int> coord, int range)
 			x < std::min(m_mapDimensions.first, coord.first + range + 1);
 			x++)
 		{
-			if (coord.first != x && coord.second != y)
+			if (!(coord.first == x && coord.second == y))//If not the tile at the centre
 			{
 				if (cubeDistance(cubeCoord, offsetToCube(std::pair<int, int>(x, y))) <= range)
 				{
 					tileStore.push_back(getTile(std::pair<int, int>(x, y)));
+					//std::cout << "CubeCheck " << x << ", " << y << std::endl;//For testing
 				}
 			}
 		}
@@ -171,7 +179,7 @@ std::vector<Tile*> Map::getTileRadius(std::pair<int, int> coord, int range)
 	return tileStore;
 }
 
-std::vector<Tile*> Map::getTileCone(std::pair<int, int> coord, int range, eDirection direction) //TODO
+std::vector<Tile*> Map::getTileCone(std::pair<int, int> coord, int range, eDirection direction)
 {
 	if (range < 1)
 		HAPI_Sprites.UserMessage("getTileCone range less than 1", "Map error");
@@ -184,26 +192,30 @@ std::vector<Tile*> Map::getTileCone(std::pair<int, int> coord, int range, eDirec
 	std::vector<Tile*> tileStore;
 	tileStore.reserve((size_t)reserveSize);
 
-	std::pair<int, int> cubeCoord(offsetToCube(coord));
+	const std::pair<int, int> cubeCoord(offsetToCube(coord));
 
-	for (int y = std::max(0, coord.second - range);
-		y < std::min(m_mapDimensions.second, coord.second + range + 1);
+	for (int y = std::max(0, coord.second - range - 1);
+		y < std::min(m_mapDimensions.second, coord.second + range + 2);
 		y++)
 	{
-		for (int x = std::max(0, coord.first - range);
-			x < std::min(m_mapDimensions.first, coord.first + range + 1);
+		for (int x = std::max(0, coord.first - range - 1);
+			x < std::min(m_mapDimensions.first, coord.first + range + 2);
 			x++)
 		{
-			if (coord.first != x && coord.second != y)
+			if (!(coord.first == x && coord.second == y))//If not the tile at the centre
 			{
-				if (cubeDistance(cubeCoord, offsetToCube(std::pair<int, int>(x, y))) <= range)
+				std::pair<int, int> tempCube(offsetToCube(std::pair<int, int>(x, y)));
+				if (cubeDistance(cubeCoord, tempCube) <= range)
 				{
-					tileStore.push_back(getTile(std::pair<int, int>(x, y)));
+					if (inCone(cubeCoord, tempCube, direction))
+					{
+						tileStore.push_back(getTile(std::pair<int, int>(x, y)));
+						//std::cout << "CubeCheck " << x << ", " << y << std::endl;//For testing
+					}
 				}
 			}
 		}
 	}
-
 	return tileStore;
 }
 
@@ -249,7 +261,7 @@ std::pair<int, int> Map::getTileScreenPos(std::pair<int, int> coord) const
 Map::Map(std::pair<int, int> size, const std::vector<std::vector<int>>& tileData) :
 	m_mapDimensions(size),
 	m_data(),
-	m_drawOffset(std::pair<int, int>(10, 55)),
+	m_drawOffset(std::pair<int, int>(10, 60)),
 	m_windDirection(eNorth),
 	m_windStrength(0.0),
 	m_drawScale(2),
