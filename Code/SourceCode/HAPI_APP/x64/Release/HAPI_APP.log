@@ -30,9 +30,11 @@ c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.
           [
               _Ty2=int
           ]
+  MapParser.cpp
+  main.cpp
   Generating code
-  5 of 877 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    2 functions had inline decision re-evaluated but remain unchanged
+  28 of 881 functions ( 3.2%) were compiled, the rest were copied from previous compilation.
+    10 functions were new in current compilation
+    10 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  HAPI_APP.vcxproj -> C:\Users\T7147947\Source\White-Star-Game-1-Name-TBD\Code\SourceCode\x64\Release\HAPI_APP.exe
+  HAPI_APP.vcxproj -> C:\Users\t7147947\Source\White-Star-Game-1-Name-TBD\Code\SourceCode\x64\Release\HAPI_APP.exe

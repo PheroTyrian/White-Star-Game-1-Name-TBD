@@ -23,6 +23,13 @@ struct Tile
 		//and the path to that file relative to the program
 		m_sprite = HAPI_Sprites.LoadSprite(spriteName);
 	}
+	Tile(eTileType type, std::shared_ptr<HAPISPACE::SpriteSheet> spriteSheet, std::pair<int, int> coord) :
+		m_type(type), m_tileCoordinate(coord),
+		m_entityOnTile(nullptr)
+	{
+		//HAPI's make sprite takes a pointer to an existing spritesheet
+		m_sprite = HAPI_Sprites.MakeSprite(spriteSheet);
+	}
 	Tile(const Tile &other) : m_tileCoordinate(std::pair<int, int>(other.m_tileCoordinate.first, other.m_tileCoordinate.second))
 	{
 		m_type = other.m_type;
@@ -39,6 +46,7 @@ private:
 	eDirection m_windDirection;
 	float m_drawScale;
 	std::pair<int, int> m_drawOffset;
+	std::unique_ptr<HAPISPACE::Sprite> motherSprite; //All tiles inherit from this sprite
 	std::vector<Tile> m_data;
 
 	std::pair<int, int> offsetToCube(std::pair<int, int> offset) const;

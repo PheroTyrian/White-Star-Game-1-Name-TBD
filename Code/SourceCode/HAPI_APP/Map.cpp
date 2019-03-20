@@ -248,13 +248,16 @@ std::pair<int, int> Map::getTileScreenPos(std::pair<int, int> coord) const
 
 Map::Map(std::pair<int, int> size, const std::vector<std::vector<int>>& tileData) :
 	m_mapDimensions(size),
-	m_data(), 
+	m_data(),
 	m_drawOffset(std::pair<int, int>(50, 50)),
-	m_windDirection(eNorth), 
-	m_windStrength(0.0), 
-	m_drawScale(2)
+	m_windDirection(eNorth),
+	m_windStrength(0.0),
+	m_drawScale(2),
+	motherSprite(nullptr)
 {
 	m_data.reserve(m_mapDimensions.first * m_mapDimensions.second);
+	motherSprite = HAPI_Sprites.LoadSprite("Data\\hexTiles.xml");
+
 	for (int y = 0; y < m_mapDimensions.second; y++)
 	{
 		for (int x = 0; x < m_mapDimensions.first; x++)
@@ -262,7 +265,7 @@ Map::Map(std::pair<int, int> size, const std::vector<std::vector<int>>& tileData
 			const int tileID = tileData[y][x];
 			assert(tileID != -1);
 			m_data.emplace_back(static_cast<eTileType>(tileID), 
-				std::string("Data\\hexTiles.xml"), std::pair<int, int>(x, y));
+				motherSprite->GetSpritesheet(), std::pair<int, int>(x, y));
 
 			if (!m_data[x + y * m_mapDimensions.first].m_sprite)
 			{
