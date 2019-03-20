@@ -209,16 +209,18 @@ std::vector<Tile*> Map::getTileCone(std::pair<int, int> coord, int range, eDirec
 
 bool Map::moveEntity(std::pair<int, int> originalPos, std::pair<int, int> newPos)
 {
-	if (!getTile(newPos) || !getTile(originalPos))
-		return false;
 
+	const Entity* tmpNew = getTile(newPos)->m_entityOnTile;
 	Entity* tmpOld = getTile(originalPos)->m_entityOnTile;
 
-	if (getTile(newPos)->m_entityOnTile != nullptr || tmpOld == nullptr)
+	if (tmpNew != nullptr || tmpOld == nullptr)
 		return false;
 
 	getTile(newPos)->m_entityOnTile = tmpOld;
 	getTile(originalPos)->m_entityOnTile = nullptr;
+
+
+
 	return true;
 }
 

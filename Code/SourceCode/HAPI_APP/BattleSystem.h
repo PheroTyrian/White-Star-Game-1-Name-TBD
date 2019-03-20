@@ -7,6 +7,7 @@
 #include "Map.h"
 #include "UIClass.h"
 
+
 using namespace HAPISPACE;
 
 class BattleSystem
@@ -18,10 +19,11 @@ private:
 	bool running;
 	Map m_map;
 	UIWindowTest UIWind;
+	std::pair<int, int>coord;
+	int entityPositionInVector;
 	
 public:
 	BattleSystem();
 	~BattleSystem();
-
 	void run();
 };

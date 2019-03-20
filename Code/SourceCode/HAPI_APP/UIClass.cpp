@@ -37,9 +37,10 @@ void UIWindowTest::HandleCollision(Sprite & sprite, Sprite & collideWith)
 	CollisionInfo info;
 	if (sprite.CheckCollision(collideWith, &info) && trigger == true)
 	{
-		//auto duck = collideWith.GetTransformComp().GetPosition();
 
-		collideWith.AdvanceToNextFrame();
+		//collideWith.AdvanceToNextFrame();
+		tilePos =  std::pair<float,float> (collideWith.GetTransformComp().GetPosition().x, collideWith.GetTransformComp().GetPosition().y);
+
 		trigger = false;
 	}
 }
@@ -50,6 +51,8 @@ void UIWindowTest::OnMouseEvent(EMouseEvent mouseEvent, const HAPI_TMouseData& m
 	{
 		mouseX = mouseData.x;
 		mouseY = mouseData.y;
+
+		
 		trigger = true;
 	}
 }

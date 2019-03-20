@@ -43,5 +43,6 @@ public:
 	void HandleCollision(Sprite& sprite, Sprite& collideWith);
 	void Update();
 	int mouseX, mouseY;
+	std::pair<float,float> tilePos;// this is to get center of sprite
 	std::vector<std::unique_ptr <Sprite>>storage;
 };
