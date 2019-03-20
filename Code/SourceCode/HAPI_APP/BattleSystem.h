@@ -16,7 +16,6 @@ private:
 	void update();
 
 	std::vector<std::pair<Entity*, std::pair<int, int>>> m_entities;
-	bool running;
 	Map m_map;
 	UIWindowTest UIWind;
 	std::pair<int, int>coord;

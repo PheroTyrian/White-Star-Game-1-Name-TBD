@@ -209,18 +209,16 @@ std::vector<Tile*> Map::getTileCone(std::pair<int, int> coord, int range, eDirec
 
 bool Map::moveEntity(std::pair<int, int> originalPos, std::pair<int, int> newPos)
 {
+	if (!getTile(newPos) || !getTile(originalPos))
+		return false;
 
-	const Entity* tmpNew = getTile(newPos)->m_entityOnTile;
 	Entity* tmpOld = getTile(originalPos)->m_entityOnTile;
 
-	if (tmpNew != nullptr || tmpOld == nullptr)
+	if (getTile(newPos)->m_entityOnTile != nullptr || tmpOld == nullptr)
 		return false;
 
 	getTile(newPos)->m_entityOnTile = tmpOld;
 	getTile(originalPos)->m_entityOnTile = nullptr;
-
-
-
 	return true;
 }
 
@@ -251,7 +249,7 @@ std::pair<int, int> Map::getTileScreenPos(std::pair<int, int> coord) const
 Map::Map(std::pair<int, int> size, const std::vector<std::vector<int>>& tileData) :
 	m_mapDimensions(size),
 	m_data(),
-	m_drawOffset(std::pair<int, int>(50, 50)),
+	m_drawOffset(std::pair<int, int>(10, 55)),
 	m_windDirection(eNorth),
 	m_windStrength(0.0),
 	m_drawScale(2),

@@ -7,9 +7,10 @@
 ///////////////////////////////////////////////////////
 
 BattleSystem::BattleSystem() : 
-	running{ true },
 	m_map(MapParser::parseMap("Data\\Level1.tmx")),
-	UIWind()
+	UIWind(),
+	entityPositionInVector(0),
+	coord(std::pair<int, int>(0, 0))
 {
 	Entity* testShip = new Entity("Data\\mouseCrossHair.xml");
 	Entity* testShip2 = new Entity("Data\\thingy.xml");
@@ -37,60 +38,49 @@ BattleSystem::~BattleSystem()
 
 void BattleSystem::update()
 {
-
-	{
-	std::pair<float,float> tempTileLocation ;
+	std::pair<float,float> tempTileLocation;
 	
-	while (HAPI_Sprites.Update())
+	SCREEN_SURFACE->Clear();
+		
+	m_map.drawMap();
+		
+	UIWind.Update();
+		
+	for (int x = 0; x < m_map.getMap()->size(); x++) // temp these 2 vectors not gonna be public had to get test working 
 	{
-		SCREEN_SURFACE->Clear();
+		UIWind.HandleCollision(*UIWind.storage[UIWind.storage.size() - 1], *m_map.getMap()->data()[x].m_sprite);
+		tempTileLocation = std::pair<float, float>(m_map.getMap()->data()[x].m_sprite->GetTransformComp().GetPosition().x, m_map.getMap()->data()[x].m_sprite->GetTransformComp().GetPosition().y);
 		
-		m_map.drawMap();
-		
-		UIWind.Update();
-		
-		for (int x = 0; x < m_map.getMap()->size(); x++) // temp these 2 vectors not gonna be public had to get test working 
+		if (tempTileLocation == UIWind.tilePos)
 		{
-			UIWind.HandleCollision(*UIWind.storage[UIWind.storage.size() - 1], *m_map.getMap()->data()[x].m_sprite);
-			tempTileLocation = std::pair<float, float>(m_map.getMap()->data()[x].m_sprite->GetTransformComp().GetPosition().x, m_map.getMap()->data()[x].m_sprite->GetTransformComp().GetPosition().y);
-		
-			if (tempTileLocation == UIWind.tilePos)
-			{
-				
 				coord = m_map.getMap()->data()[x].m_tileCoordinate;
-			}
-			
-			for (int x = 0; x < m_entities.size(); x++)
-			{
-				if (m_entities[x].second == coord)
-				{
-					entityPositionInVector = x;
-				}
-			}
-			
-			if (m_map.moveEntity(std::pair<int, int>(m_entities[entityPositionInVector].second), coord))
-			{
-				m_entities[entityPositionInVector].second = coord;
-			}
-
-			if (m_map.getMap()->data()[x].m_entityOnTile != nullptr)
-			{
-				m_map.getMap()->data()[x].m_entityOnTile->getSprite().GetTransformComp().SetPosition({ m_map.getMap()->data()[x].m_sprite->GetTransformComp().GetPosition().x + 30, m_map.getMap()->data()[x].m_sprite->GetTransformComp().GetPosition().y + 40 });
-				m_map.getMap()->data()[x].m_entityOnTile->render();
-	
-			}
-			
 		}
-	}
+			
+		for (int x = 0; x < m_entities.size(); x++)
+		{
+			if (m_entities[x].second == coord)
+			{
+				entityPositionInVector = x;
+			}
+		}
+			
+		if (m_map.moveEntity(std::pair<int, int>(m_entities[entityPositionInVector].second), coord))
+		{
+			m_entities[entityPositionInVector].second = coord;
+		}
 
-}
-	
-	running = false;
+		if (m_map.getMap()->data()[x].m_entityOnTile != nullptr)
+		{
+			m_map.getMap()->data()[x].m_entityOnTile->getSprite().GetTransformComp().SetPosition({ m_map.getMap()->data()[x].m_sprite->GetTransformComp().GetPosition().x + 30, m_map.getMap()->data()[x].m_sprite->GetTransformComp().GetPosition().y + 40 });
+			m_map.getMap()->data()[x].m_entityOnTile->render();
+		}
+			
+	}
 }
 
 void BattleSystem::run()
 {
-	while (running) //Why are there two while loops nested! (Here and one in update)
+	while (HAPI_Sprites.Update()) //Why are there two while loops nested! (Here and one in update)
 	{
 		update();
 	}
