@@ -22,6 +22,9 @@ private:
 
 	std::vector<Entity> m_entityVector;
 	std::vector<Entity> m_SelectedEntities;
+
+	std::shared_ptr<Sprite> sprite = HAPI_Sprites.LoadSprite("Data\\thing.png");
+
 public:
 	bool Initialise();
 	void Update();

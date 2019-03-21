@@ -32,8 +32,8 @@ bool OverworldUIWIndowTest::Initialise()
 		difficultyColour = HAPISPACE::Colour255::YELLOW;
 	}
 
-	Entity newEntity("Data//thing.png");
-	//newEntity.setTileLocation(HAPISPACE::VectorI(50, 50));
+	/*Entity newEntity("Data//thing.png");
+	newEntity.setTileLocation(HAPISPACE::VectorI(50, 50));
 	newEntity.setHealth(100);
 	newEntity.setMovementPoints(6);
 	weapon newWeapon;
@@ -44,11 +44,22 @@ bool OverworldUIWIndowTest::Initialise()
 	m_entityVector.push_back(newEntity);
 
 	Entity secondEntity("Data//HAPI Sprites Logo.png");
-	//secondEntity.setTileLocation(HAPISPACE::VectorI(50, 100));
+	secondEntity.setTileLocation(HAPISPACE::VectorI(50, 100));
 	secondEntity.setHealth(600);
 	secondEntity.setMovementPoints(3);
 	secondEntity.addWeapon(newWeapon);
-	m_entityVector.push_back(secondEntity);
+	m_entityVector.push_back(secondEntity);*/
+	for (int i = 0; i < 20; i++)
+	{
+		Entity newEntity("Data\\thingy.xml");
+		m_entityVector.push_back(newEntity);
+	}
+
+	UI.AddWindow("testWindow", HAPISPACE::RectangleI(220, 1050, 510, 710));
+	for (int i = 0; i < m_entityVector.size(); i++)
+	{
+		UI.GetWindow("testWindow")->AddCanvas("entity" + std::to_string(i), HAPISPACE::RectangleI(50 * i, (50 * i) + 50, 0, 100), m_entityVector[i].getSpritePtr());
+	}
 
 	return true;
 }
@@ -97,6 +108,7 @@ void OverworldUIWIndowTest::OnMouseEvent(EMouseEvent mouseEvent, const HAPI_TMou
 			if (EnemyTerritoryHexSheet->GetSpritesheet()->GetFrameRect(0).Translated(EnemyTerritoryHexSheet->GetTransformComp().GetPosition()).Contains(HAPISPACE::RectangleI(mouseData.x, mouseData.x, mouseData.y, mouseData.y)))
 			{
 				testPrebattleWindow = true;
+				UI.OpenWindow("testWindow");
 			}
 		}
 		else if (testPrebattleWindow)
@@ -109,6 +121,7 @@ void OverworldUIWIndowTest::OnMouseEvent(EMouseEvent mouseEvent, const HAPI_TMou
 			else if (BackButton->GetSpritesheet()->GetFrameRect(0).Translated(BackButton->GetTransformComp().GetPosition()).Contains(HAPISPACE::RectangleI(mouseData.x, mouseData.x, mouseData.y, mouseData.y)))
 			{
 				testPrebattleWindow = false;
+				UI.CloseWindow("testWindow");
 			}
 		}
 	}
