@@ -34,6 +34,12 @@ private:
 	int frameHeight;
 	int frameWidth;
 
+	bool sideBoundary = false;
+	bool floorBoundary = false;//if sides are on the left and right, what is on the top and bottom. I dont think a word exists for that. vertical, plane & floor arnt quite right.
+	VectorF pendingCameraMovement{ 0 };
+	std::pair<int, int> CameraPositionOffset;//camera offset that will be used by the map
+	float cameraZoom = 1.0f;//variable to multiply scale by
+
 public:
 	UIWindowTest();
 

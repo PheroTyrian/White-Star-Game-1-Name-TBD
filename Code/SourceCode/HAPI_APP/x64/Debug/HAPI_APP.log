@@ -1,2 +1,22 @@
-﻿  BattleSystem.cpp
-  HAPI_APP.vcxproj -> C:\Users\trisl\Documents\GitHub\White-Star-Game-1-Name-TBD\Code\SourceCode\x64\Debug\HAPI_APP.exe
+﻿  OverworldUI.cpp
+c:\users\s6110517\source\white-star-game-1-name-tbd\code\sourcecode\hapi_app\overworldui.h(43): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\s6110517\source\white-star-game-1-name-tbd\code\sourcecode\hapi_app\overworldui.h(44): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\s6110517\source\white-star-game-1-name-tbd\code\sourcecode\hapi_app\overworldui.cpp(65): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              T=int
+          ]
+c:\users\s6110517\source\white-star-game-1-name-tbd\code\sourcecode\hapi_app\overworldui.cpp(65): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+  main.cpp
+c:\users\s6110517\source\white-star-game-1-name-tbd\code\sourcecode\hapi_app\overworldui.h(43): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\s6110517\source\white-star-game-1-name-tbd\code\sourcecode\hapi_app\overworldui.h(44): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  Generating Code...
+  HAPI_APP.vcxproj -> C:\Users\s6110517\source\White-Star-Game-1-Name-TBD\Code\SourceCode\x64\Debug\HAPI_APP.exe

@@ -172,6 +172,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="OverworldUI.cpp" />
     <ClCompile Include="UIClass.cpp" />
     <ClCompile Include="Utilities\Base64.cpp" />
     <ClCompile Include="Utilities\MapParser.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="OverworldUI.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="UIClass.h" />
     <ClInclude Include="Utilities\Base64.h" />

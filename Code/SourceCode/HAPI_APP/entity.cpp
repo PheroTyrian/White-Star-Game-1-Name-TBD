@@ -1,5 +1,4 @@
-#include "entity.h"
-
+#include "Entity.h"
 
 Entity::Entity(std::string filename)
 {
@@ -9,7 +8,6 @@ Entity::Entity(std::string filename)
 bool Entity::render()
 {
 	m_sprite->Render(SCREEN_SURFACE);
-	
 	return true;
 }
 
@@ -21,6 +19,16 @@ HAPISPACE::Sprite& Entity::getSprite() const
 void Entity::setAlive(bool alive)
 {
 	m_alive = alive;
+}
+
+void Entity::select()
+{
+	m_selected = !m_selected;
+}
+
+void Entity::select(bool isSelected)
+{
+	m_selected = isSelected;
 }
 
 void Entity::setHealth(int health)
@@ -64,6 +72,17 @@ eDirection Entity::getDirection() const
 	return m_direction;
 }
 
+void Entity::setTileLocation(HAPISPACE::VectorI newTileLocation)
+{
+	m_tileLocation = newTileLocation;
+	m_sprite->GetTransformComp().SetPosition(newTileLocation);
+}
+
+HAPISPACE::VectorI Entity::getTileLocation() const
+{
+	return m_tileLocation;
+}
+
 void Entity::setFaction(faction newFaction)
 {
 	m_faction = newFaction;
@@ -81,7 +100,10 @@ void Entity::addWeapon(weapon newWeapon)
 
 void Entity::setWeapon(weapon newWeapon, int weaponNumber)
 {
-	m_weapons[weaponNumber] = newWeapon;
+	if (weaponNumber >= 0 && weaponNumber <= m_weapons.size())
+	{
+		m_weapons[weaponNumber] = newWeapon;
+	}
 }
 
 void Entity::resetWeapons()
@@ -91,5 +113,8 @@ void Entity::resetWeapons()
 
 weapon Entity::getWeapon(int weaponNumber) const
 {
-	return m_weapons[weaponNumber];
+	if (weaponNumber >= 0 && weaponNumber <= m_weapons.size())
+	{
+		return m_weapons[weaponNumber];
+	}
 }
