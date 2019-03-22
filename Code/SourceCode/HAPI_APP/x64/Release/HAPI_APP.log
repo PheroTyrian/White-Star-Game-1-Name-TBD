@@ -1,38 +1,7 @@
 ﻿  BattleSystem.cpp
-  Map.cpp
-c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.15.26726\include\utility(172): warning C4244: 'initializing': conversion from '_Ty' to '_Ty1', possible loss of data
-          with
-          [
-              _Ty=float
-          ]
-          and
-          [
-              _Ty1=int
-          ]
-  c:\users\t7147947\source\white-star-game-1-name-tbd\code\sourcecode\hapi_app\map.cpp(246): note: see reference to function template instantiation 'std::pair<int,int>::pair<float,float,0>(_Other1 &&,_Other2 &&) noexcept' being compiled
-          with
-          [
-              _Other1=float,
-              _Other2=float
-          ]
-  c:\users\t7147947\source\white-star-game-1-name-tbd\code\sourcecode\hapi_app\map.cpp(244): note: see reference to function template instantiation 'std::pair<int,int>::pair<float,float,0>(_Other1 &&,_Other2 &&) noexcept' being compiled
-          with
-          [
-              _Other1=float,
-              _Other2=float
-          ]
-c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.15.26726\include\utility(173): warning C4244: 'initializing': conversion from '_Ty' to '_Ty2', possible loss of data
-          with
-          [
-              _Ty=float
-          ]
-          and
-          [
-              _Ty2=int
-          ]
   Generating code
-  5 of 877 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
+  1 of 1492 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    2 functions had inline decision re-evaluated but remain unchanged
+    1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  HAPI_APP.vcxproj -> C:\Users\T7147947\Source\White-Star-Game-1-Name-TBD\Code\SourceCode\x64\Release\HAPI_APP.exe
+  HAPI_APP.vcxproj -> C:\Users\s6088315\Source\White-Star-Game-1-Name-TBD\Code\SourceCode\x64\Release\HAPI_APP.exe

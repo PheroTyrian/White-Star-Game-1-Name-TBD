@@ -1,5 +1,6 @@
 #include "BattleSystem.h"
 #include "Utilities/MapParser.h"
+#include "Pathfinding.h"
 ////////////////////////////////////////////////////////
 //move all code out of main into here
 // build stage to here to place an entity 
@@ -37,11 +38,20 @@ void BattleSystem::update()
 		m_map.drawMap();
 		m_entities[0].first->render();
 		UIWind.Update();
+		
 
 		for (int x = 0; x < m_map.getMap()->size(); x++) // temp these 2 vectors not gonna be public had to get test working 
 		{
 			//need to talk to tristan about entitys
 			UIWind.HandleCollision(*UIWind.storage[UIWind.storage.size() - 1], *m_map.getMap()->data()[x].m_sprite);
+		}
+
+		Pathfinding finder;
+		finder.aStarSearch(m_map, Pair(5,2), Pair(15,7));
+		m_map.getTile(Pair(5, 2))->m_sprite->SetFrameNumber(1);
+		for (auto& path : finder.getPathTrace())
+		{
+			m_map.getTile(path)->m_sprite->SetFrameNumber(7);
 		}
 	}
 	running = false;

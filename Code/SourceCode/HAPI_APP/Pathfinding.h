@@ -13,8 +13,8 @@ typedef std::pair<double, std::pair<int, int>> pPair;
 
 struct cell
 {
-	int parent_i, parent_j;
-	double f, g, h;
+	int parent_i, parent_j = 0;
+	double f, g, h = 0.0;
 };
 
 class Pathfinding
@@ -22,16 +22,18 @@ class Pathfinding
 public:
 	Pathfinding();
 	~Pathfinding();
-	bool isValid(int row, int col);
-	bool isUnBlocked(Map &map, Pair coord);
-	bool isDestination(int row, int col, Pair dest);
-	double calculateHeuristicValue(int row, int col, Pair dest);
-	void tracePath(std::vector<std::vector<cell>> cellDetails, Pair dest);
+	bool isValid(int row, int col)const;
+	bool isUnBlocked(Map &map, Pair coord)const;
+	bool isDestination(int row, int col, Pair dest)const;
+	double calculateHeuristicValue(int row, int col, Pair dest)const;
+	void tracePath(const std::vector<std::vector<cell>>& cellDetails, Pair dest);
 	void aStarSearch(Map &map, Pair src, Pair dest);
 	void findAvailableTiles(Pair src, Map &map, int depth);
+	std::vector<Pair> getPathTrace() { return m_path; };
+	std::vector<Pair> getMovementRange() { return m_range; };
+private:
 	std::vector<Pair> m_path;
 	std::vector<Pair> m_range;
-private:
 	int m_size;
 	
 };

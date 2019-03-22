@@ -11,14 +11,14 @@ Pathfinding::~Pathfinding()
 {
 }
 
-bool Pathfinding::isValid(int row, int col)
+bool Pathfinding::isValid(int row, int col)const
 {
 	//returns true if the row and col are in range
 	return (row >= 1) && (row < m_size) &&
 		(col >= 1) && (col < m_size);
 }
 
-bool Pathfinding::isUnBlocked(Map &map, Pair coord)
+bool Pathfinding::isUnBlocked(Map &map, Pair coord)const
 {
 	
 	if (map.getTile(coord) != nullptr)
@@ -28,7 +28,7 @@ bool Pathfinding::isUnBlocked(Map &map, Pair coord)
 }
 
 
-bool Pathfinding::isDestination(int row, int col, Pair dest)
+bool Pathfinding::isDestination(int row, int col, Pair dest)const
 {
 	if (row == dest.first && col == dest.second)
 		return true;
@@ -36,13 +36,13 @@ bool Pathfinding::isDestination(int row, int col, Pair dest)
 		return false;
 }
 
-double Pathfinding::calculateHeuristicValue(int row, int col, Pair dest)
+double Pathfinding::calculateHeuristicValue(int row, int col, Pair dest)const
 {
 	//calculated using Euclidean Distance
 	return((double)sqrt((row - dest.first)*(row - dest.first) + (col - dest.second) * (col - dest.second)));
 }
 
-void Pathfinding::tracePath(std::vector<std::vector<cell> > cellDetails, Pair dest)
+void Pathfinding::tracePath(const std::vector<std::vector<cell> >& cellDetails, Pair dest)
 {
 
 	int row = dest.first;
@@ -68,7 +68,7 @@ void Pathfinding::tracePath(std::vector<std::vector<cell> > cellDetails, Pair de
 void Pathfinding::aStarSearch(Map &map, Pair src, Pair dest)
 {
 	
-	std::vector<Tile> grid = *map.getMap();
+	const std::vector<Tile> grid = *map.getMap();
 	m_size = grid.size()/2;
 	if (!isValid(dest.first, dest.second))
 	{
@@ -204,7 +204,7 @@ void Pathfinding::aStarSearch(Map &map, Pair src, Pair dest)
 void Pathfinding::findAvailableTiles(Pair src, Map &map, int depth)
 {
 
-	std::vector<Tile> grid = *map.getMap();
+	const std::vector<Tile> grid = *map.getMap();
 	m_size = grid.size()/2;
 	int currentDepth = 0;
 	int i;
@@ -256,7 +256,7 @@ void Pathfinding::findAvailableTiles(Pair src, Map &map, int depth)
 
 			}
 
-			currentDepth++;
+			++currentDepth;
 		}
 	}
 }
