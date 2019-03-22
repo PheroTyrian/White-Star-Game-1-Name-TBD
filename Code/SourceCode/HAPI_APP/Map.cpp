@@ -121,23 +121,23 @@ std::vector<Tile*> Map::getAdjacentTiles(std::pair<int, int> coord)
 {
 	std::vector<Tile*> result;
 	result.reserve(size_t(6));
-	if (2 % coord.first == 1)//Is an odd tile
+	if (coord.first & 1)//Is an odd tile
 	{
-		result.push_back(getTile(std::pair<int, int>(coord.first, coord.second - 1)));//N
-		result.push_back(getTile(std::pair<int, int>(coord.first + 1, coord.second - 1)));//NE
-		result.push_back(getTile(std::pair<int, int>(coord.first + 1, coord.second)));//SE
-		result.push_back(getTile(std::pair<int, int>(coord.first, coord.second + 1)));//S
-		result.push_back(getTile(std::pair<int, int>(coord.first - 1, coord.second)));//SW
-		result.push_back(getTile(std::pair<int, int>(coord.first - 1, coord.second - 1)));//NW
+		result.push_back(getTile(std::pair<int, int>(coord.first, coord.second - 1)));		//N
+		result.push_back(getTile(std::pair<int, int>(coord.first + 1, coord.second - 1)));	//NE
+		result.push_back(getTile(std::pair<int, int>(coord.first + 1, coord.second)));		//SE
+		result.push_back(getTile(std::pair<int, int>(coord.first, coord.second + 1)));		//S
+		result.push_back(getTile(std::pair<int, int>(coord.first - 1, coord.second)));		//SW
+		result.push_back(getTile(std::pair<int, int>(coord.first - 1, coord.second - 1)));	//NW
 	}
 	else//Is even
 	{
-		result.push_back(getTile(std::pair<int, int>(coord.first, coord.second - 1)));//N
-		result.push_back(getTile(std::pair<int, int>(coord.first + 1, coord.second)));//NE
-		result.push_back(getTile(std::pair<int, int>(coord.first + 1, coord.second + 1)));//SE
-		result.push_back(getTile(std::pair<int, int>(coord.first, coord.second + 1)));//S
-		result.push_back(getTile(std::pair<int, int>(coord.first - 1, coord.second + 1)));//SW
-		result.push_back(getTile(std::pair<int, int>(coord.first - 1, coord.second)));//NW
+		result.push_back(getTile(std::pair<int, int>(coord.first, coord.second - 1)));		//N
+		result.push_back(getTile(std::pair<int, int>(coord.first + 1, coord.second)));		//NE
+		result.push_back(getTile(std::pair<int, int>(coord.first + 1, coord.second + 1)));	//SE
+		result.push_back(getTile(std::pair<int, int>(coord.first, coord.second + 1)));		//S
+		result.push_back(getTile(std::pair<int, int>(coord.first - 1, coord.second + 1)));	//SW
+		result.push_back(getTile(std::pair<int, int>(coord.first - 1, coord.second)));		//NW
 	}
 	return result;
 }
