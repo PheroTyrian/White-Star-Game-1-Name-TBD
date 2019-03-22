@@ -16,6 +16,11 @@ HAPISPACE::Sprite& Entity::getSprite() const
 	return *m_sprite;
 }
 
+std::shared_ptr<HAPISPACE::Sprite> Entity::getSpritePtr() const
+{
+	return std::shared_ptr<HAPISPACE::Sprite>(m_sprite);
+}
+
 void Entity::setAlive(bool alive)
 {
 	m_alive = alive;

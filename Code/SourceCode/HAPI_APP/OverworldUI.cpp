@@ -14,7 +14,7 @@ bool OverworldUIWIndowTest::Initialise()
 	//UI.OpenWindow("testWindow");
 
 	testBattleMapWindow = true;
-
+	
 	EnemyTerritoryHexSheet->GetTransformComp().SetPosition({ 100, 600 });
 	PlayButton->GetTransformComp().SetPosition({ 1150, 722 });
 	BackButton->GetTransformComp().SetPosition({ 185, 747 });
@@ -23,13 +23,13 @@ bool OverworldUIWIndowTest::Initialise()
 	{
 		difficultyColour = HAPISPACE::Colour255::GREEN;
 	}
-	else if (playerFleetPower < testHexDifficulty + hard && playerFleetPower > testHexDifficulty)
+	else if (playerFleetPower + hard > testHexDifficulty)
 	{
-		difficultyColour = HAPISPACE::Colour255::RED;
+		difficultyColour = HAPISPACE::Colour255::YELLOW;
 	}
 	else
 	{
-		difficultyColour = HAPISPACE::Colour255::YELLOW;
+		difficultyColour = HAPISPACE::Colour255::RED;
 	}
 
 	/*Entity newEntity("Data//thing.png");
@@ -49,6 +49,7 @@ bool OverworldUIWIndowTest::Initialise()
 	secondEntity.setMovementPoints(3);
 	secondEntity.addWeapon(newWeapon);
 	m_entityVector.push_back(secondEntity);*/
+
 	for (int i = 0; i < 20; i++)
 	{
 		Entity newEntity("Data\\thingy.xml");
@@ -71,7 +72,7 @@ void OverworldUIWIndowTest::Update()
 	BattleMapBackground->Render(SCREEN_SURFACE);
 	EnemyTerritoryHexSheet->Render(SCREEN_SURFACE);
 
-	if (EnemyTerritoryHexSheet->GetFrameNumber() == 0)
+	if (EnemyTerritoryHexSheet->GetFrameNumber() == 0)//only shows the difficulty number of the hex if the mouse isn't hovered over it
 	{
 		SCREEN_SURFACE->DrawText(HAPISPACE::VectorI(EnemyTerritoryHexSheet->GetTransformComp().GetPosition().x + EnemyTerritoryHexSheet->GetCurrentFrame().rect.right / 2.5, EnemyTerritoryHexSheet->GetTransformComp().GetPosition().y + EnemyTerritoryHexSheet->GetCurrentFrame().rect.bottom / 4), difficultyColour, std::to_string(testHexDifficulty), 90);
 	}
@@ -98,7 +99,6 @@ void OverworldUIWIndowTest::Run()
 	}
 }
 
-
 void OverworldUIWIndowTest::OnMouseEvent(EMouseEvent mouseEvent, const HAPI_TMouseData& mouseData)
 {
 	if (mouseEvent == EMouseEvent::eLeftButtonDown)
@@ -116,6 +116,7 @@ void OverworldUIWIndowTest::OnMouseEvent(EMouseEvent mouseEvent, const HAPI_TMou
 			if (PlayButton->GetSpritesheet()->GetFrameRect(0).Translated(PlayButton->GetTransformComp().GetPosition()).Contains(HAPISPACE::RectangleI(mouseData.x, mouseData.x, mouseData.y, mouseData.y)))
 			{
 				BattleSystem world;
+				UI.CloseWindow("testWindow");
 				world.run();
 			}
 			else if (BackButton->GetSpritesheet()->GetFrameRect(0).Translated(BackButton->GetTransformComp().GetPosition()).Contains(HAPISPACE::RectangleI(mouseData.x, mouseData.x, mouseData.y, mouseData.y)))
@@ -125,23 +126,19 @@ void OverworldUIWIndowTest::OnMouseEvent(EMouseEvent mouseEvent, const HAPI_TMou
 			}
 		}
 	}
-
-	if (mouseEvent == EMouseEvent::eLeftButtonUp)
-	{
-	}
 }
 
 void OverworldUIWIndowTest::OnMouseMove(const HAPI_TMouseData& mouseData)
 {
-	if (testBattleMapWindow && !testPrebattleWindow)
+	if (testBattleMapWindow && !testPrebattleWindow)//the battle map is active in the background of the prebattle so we need both checks
 	{
-		if (EnemyTerritoryHexSheet->GetSpritesheet()->GetFrameRect(0).Translated(EnemyTerritoryHexSheet->GetTransformComp().GetPosition()).Contains(HAPISPACE::RectangleI(mouseData.x, mouseData.x, mouseData.y, mouseData.y)))
+		if (EnemyTerritoryHexSheet->GetSpritesheet()->GetFrameRect(0).Translated(EnemyTerritoryHexSheet->GetTransformComp().GetPosition()).Contains(HAPISPACE::RectangleI(mouseData.x, mouseData.x, mouseData.y, mouseData.y)))//checks if mouse is over button
 		{
-			EnemyTerritoryHexSheet->SetFrameNumber(1);
+			EnemyTerritoryHexSheet->SetFrameNumber(1);//changes the buttons sprite to hover sprite
 		}
-		else if (EnemyTerritoryHexSheet->GetFrameNumber() != 0)
+		else if (EnemyTerritoryHexSheet->GetFrameNumber() != 0)//if mouse is not over the button and the button has the hover sprite
 		{
-			EnemyTerritoryHexSheet->SetFrameNumber(0);
+			EnemyTerritoryHexSheet->SetFrameNumber(0);// sets it to the default sprite
 		}
 	}
 	else if (testPrebattleWindow)
@@ -171,7 +168,7 @@ void OverworldUIWIndowTest::HandleCollision(Sprite & sprite, Sprite & collideWit
 
 }
 
-void OverworldUIWIndowTest::OnKeyEvent(EKeyEvent keyEvent, BYTE keyCode)
+void OverworldUIWIndowTest::OnKeyEvent(EKeyEvent keyEvent, BYTE keyCode)//leaving this in for testing
 {
 
 }
@@ -180,7 +177,7 @@ void OverworldUIWIndowTest::OnKeyEvent(EKeyEvent keyEvent, BYTE keyCode)
 	This function is called from the UI when a radio button in the window changes state (pressed or unpressed)
 	The userId is something that can be provided on creation but not used in this demo
 */
-void OverworldUIWIndowTest::UI_RadioButtonChangeState(UIWindow& window, const std::string& buttonName, bool pressed, int* userId)
+void OverworldUIWIndowTest::UI_RadioButtonChangeState(UIWindow& window, const std::string& buttonName, bool pressed, int* userId)//Leaving this in for now because might use it later. Not using it rn
 {
 	/*if (buttonName == "EnableCollisionInfo")
 	{

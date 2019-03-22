@@ -61,6 +61,7 @@ public:
 	Entity(std::string filename);
 	bool render();
 	HAPISPACE::Sprite& getSprite() const;
+	std::shared_ptr<HAPISPACE::Sprite> getSpritePtr() const;
 	void setAlive(bool alive);
 	void select();
 	void select(bool isSelected);
