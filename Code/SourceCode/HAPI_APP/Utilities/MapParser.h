@@ -7,4 +7,3 @@ namespace MapParser
 {
 	Map parseMap(const std::string& name);
 }
-

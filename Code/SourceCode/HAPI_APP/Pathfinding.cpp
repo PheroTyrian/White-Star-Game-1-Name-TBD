@@ -6,7 +6,6 @@ Pathfinding::Pathfinding()
 {
 }
 
-
 Pathfinding::~Pathfinding()
 {
 }
@@ -44,7 +43,6 @@ double Pathfinding::calculateHeuristicValue(int row, int col, Pair dest)const
 
 void Pathfinding::tracePath(const std::vector<std::vector<cell> >& cellDetails, Pair dest)
 {
-
 	int row = dest.first;
 	int col = dest.second;
 
@@ -59,15 +57,11 @@ void Pathfinding::tracePath(const std::vector<std::vector<cell> >& cellDetails, 
 		row = tempRow;
 		col = tempCol;
 	}
-
 	m_path.push_back(std::make_pair(row, col));
-	
-
 }
 
 void Pathfinding::aStarSearch(Map &map, Pair src, Pair dest)
 {
-	
 	const std::vector<Tile> grid = *map.getMap();
 	m_size = grid.size()/2;
 	if (!isValid(dest.first, dest.second))
@@ -88,23 +82,16 @@ void Pathfinding::aStarSearch(Map &map, Pair src, Pair dest)
 		return;
 	}
 
-
 	//bool closedList[m_size][m_size];
 	std::vector < std::vector<bool>> closedList;
 	closedList.resize(m_size);
 	for (int i = 0; i < closedList.size(); i++)
 		closedList[i].resize(m_size);
 	
-
-
-
 	std::vector<std::vector<cell> > cellDetails;
 	cellDetails.resize(m_size);
 	for (int i = 0; i < cellDetails.size(); i++)
 		cellDetails[i].resize(m_size);
-
-	
-
 
 	int i, j;
 
@@ -127,7 +114,6 @@ void Pathfinding::aStarSearch(Map &map, Pair src, Pair dest)
 	cellDetails[i][j].parent_i = i;
 	cellDetails[i][j].parent_j = j;
 
-
 	//open list contains pair <f,<i,j>>
 	//f = h+g
 	//i and j are the rows and cols
@@ -138,7 +124,6 @@ void Pathfinding::aStarSearch(Map &map, Pair src, Pair dest)
 
 	while (!openList.empty())
 	{
-
 		pPair p = *openList.begin();
 		openList.erase(openList.begin());
 
@@ -149,7 +134,6 @@ void Pathfinding::aStarSearch(Map &map, Pair src, Pair dest)
 		{
 			std::vector<Tile*> adjacentCells = map.getAdjacentTiles(Pair(i, j));
 
-
 			double sucG, sucH, sucF;
 
 			for (int cellIndex = 0; cellIndex < adjacentCells.size(); cellIndex++)
@@ -158,7 +142,6 @@ void Pathfinding::aStarSearch(Map &map, Pair src, Pair dest)
 				int y = adjacentCells[cellIndex]->m_tileCoordinate.second;
 				if (isValid(x, y))
 				{
-
 					if (isDestination(x, y, dest))
 					{
 						cellDetails[x][y].parent_i = i;
@@ -166,14 +149,12 @@ void Pathfinding::aStarSearch(Map &map, Pair src, Pair dest)
 						tracePath(cellDetails, dest);
 						destFound = true;
 						return;
-
 					}
 					else if (!closedList[x][y] && isUnBlocked(map, Pair(x, y)))
 					{
 						sucG = cellDetails[i][j].g + 1.0;
 						sucH = calculateHeuristicValue(x, y, dest);
 						sucF = sucG + sucH;
-
 
 						if (cellDetails[x][y].f == FLT_MAX || cellDetails[x][y].f > sucF)
 						{
@@ -184,26 +165,17 @@ void Pathfinding::aStarSearch(Map &map, Pair src, Pair dest)
 							cellDetails[x][y].parent_i = i;
 							cellDetails[x][y].parent_j = j;
 						}
-
 					}
 				}
 			}
-
-		
-
-
 		}
-		
 	}
 	if (!destFound)
 		std::cout << "Failed to find destination" << std::endl;
 }
 
-
-
 void Pathfinding::findAvailableTiles(Pair src, Map &map, int depth)
 {
-
 	const std::vector<Tile> grid = *map.getMap();
 	m_size = grid.size()/2;
 	int currentDepth = 0;
@@ -219,7 +191,6 @@ void Pathfinding::findAvailableTiles(Pair src, Map &map, int depth)
 
 	while (currentDepth < depth)
 	{
-
 		Pair p = *openList.begin();
 		openList.erase(openList.begin());
 
@@ -231,8 +202,6 @@ void Pathfinding::findAvailableTiles(Pair src, Map &map, int depth)
 		{
 			std::vector<Tile*> adjacentCells = map.getAdjacentTiles(Pair(i, j));
 
-
-
 			for (int cellIndex = 0; cellIndex < adjacentCells.size(); cellIndex++)
 			{
 				if (adjacentCells[cellIndex] != nullptr)
@@ -242,24 +211,16 @@ void Pathfinding::findAvailableTiles(Pair src, Map &map, int depth)
 
 					if (isValid(x, y))
 					{
-
 						if (!closedList[x][y] && isUnBlocked(map, Pair(x, y)))
 						{
-
 							openList.insert(std::make_pair(x, y));
 
 							m_range.push_back(std::make_pair(x, y));
 						}
 					}
 				}
-
-
 			}
-
 			++currentDepth;
 		}
 	}
 }
-
-
-

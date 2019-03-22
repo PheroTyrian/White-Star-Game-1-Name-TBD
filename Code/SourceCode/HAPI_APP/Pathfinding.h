@@ -35,6 +35,5 @@ private:
 	std::vector<Pair> m_path;
 	std::vector<Pair> m_range;
 	int m_size;
-	
 };
 
